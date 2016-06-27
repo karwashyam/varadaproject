@@ -31,6 +31,7 @@ public class UserSerivce {
 		return userModel;
 	}
 	
+	
 
 //	public AppUser getUserFromCredentialsForApi(String email, String password) {
 //
