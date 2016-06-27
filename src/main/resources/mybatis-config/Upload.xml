@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.UploadDao">
+	
+	
+	<insert id="addProducts" parameterType="AddProductModel" >
+		INSERT INTO products(
+            product_id, product_type, product_price, product_image, record_status, 
+            created_at, updated_at, quantity, weight,caption,product_url_thumb,product_url_original)
+	    VALUES 
+		<foreach collection="listAddProducts" item="AddProducts" separator=",">
+		(#{AddProducts.productNo}, #{AddProducts.productType}, #{AddProducts.price},  #{AddProducts.productPic}, 'A', 
+            #{AddProducts.createdAt}, #{AddProducts.createdAt}, #{AddProducts.quantity}, #{AddProducts.weight},#{AddProducts.caption},
+            #{productUrlThumb},#{productUrlOriginal})
+		</foreach>
+	</insert>
+	
+	<update id="updateProducts" parameterType="AddProductModel">
+		<foreach collection="listUpdateProducts" item="AddProducts" separator=";">
+		  UPDATE products
+  		  SET product_type=#{AddProducts.productType}, product_price= #{AddProducts.price}, 
+  		  <if test="AddProducts.productPic != null">
+  		     product_image=#{AddProducts.productPic}, product_url_thumb=#{productUrlThumb},product_url_original=#{productUrlOriginal},
+  		  </if>
+       		updated_at= #{AddProducts.createdAt}, quantity=#{AddProducts.quantity}, weight=#{AddProducts.weight},
+       		caption=#{AddProducts.caption}
+ 		  WHERE product_id=#{AddProducts.productNo} AND record_status='A'
+ 		</foreach>
+	</update>
+	<select id="checkProduct" resultType="boolean">
+		select count(*)>0 from products where product_id=#{product}
+	</select>
+	
+	<select id="fetchProductsName" resultType="String">
+		select product_id from products WHERE record_status='A'
+	</select>
+	
+	
+	<select id="getTagId" parameterType="String" resultType="String">
+		select tag_id from tags where tag_name=#{tag} AND record_status='A'
+	</select>
+	
+	<select id="fetchTags" resultType="TagModel">
+		select tag_id as tagId,tag_name as tagName from tags WHERE record_status='A'
+	</select>
+	
+	<insert id="addTag" parameterType="TagModel" >
+		INSERT INTO tags(
+            tag_id, tag_name, record_status)
+	    VALUES 
+			(#{tagId}, #{tagName}, 'A')
+	</insert>
+	
+	<insert id="addProductTag" parameterType="ProductTagModel" >
+		INSERT INTO product_tags(
+            product_tag_id, tag_id, product_id, record_status)
+	    VALUES 
+		<foreach collection="listProductTag" item="AddProducts" separator=",">
+		(#{AddProducts.productTagId}, #{AddProducts.tagId}, #{AddProducts.productId}, 'A')
+		</foreach>
+	</insert>
+	
+	<insert id="deleteProductTag" parameterType="String" >
+		DELETE FROM product_tags
+	    where product_id in (
+		<foreach collection="listProduct" item="product" separator=",">
+		#{product}
+		</foreach>
+		)
+	</insert>
+</mapper>

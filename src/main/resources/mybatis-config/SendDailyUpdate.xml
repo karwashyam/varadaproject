@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.SendDailyUpdateDao">
+	
+	
+	
+	<resultMap id="fnFMap" type="Map" >
+		<result property="user_id" column="user_id" />
+		<result property="user_name" column="user_name" />
+		<result property="user_full_name" column="user_full_name" />
+		<result property="user_city" column="user_city" />
+		<result property="email" column="email" />
+		<result property="saree" column="saree" />
+		<result property="gown" column="gown" />
+		<result property="kurti" column="kurti" />
+		<result property="price_range" column="price_range" />
+		<result property="product_type_id" column="product_type_id" />
+		<result property="count" column="count" />
+		<result property="lehenga" column="lehenga" />
+		<result property="dress_material" column="dress_material" />
+		<result property="catalogue_delivery" column="catalogue_delivery" />
+		<result property="update_frequency" column="update_frequency" />
+		<result property="product_type_name" column="product_type_name" />
+		<result property="product_id" column="product_id" />
+		<result property="product_type" column="product_type" />
+		<result property="product_price" column="product_price" />
+		<result property="product_image" column="product_image" />
+		<result property="price" column="price" />
+		<result property="quantity" column="quantity" />
+		<result property="weight" column="weight" />
+		<result property="phone" column="phone" />
+	</resultMap>
+	<select id="getProductNames" resultType="String">
+		select distinct p.product_type from products p
+		INNER JOIN product_tags ptags on ptags.product_id = p.product_id AND ptags.record_status='A'
+		INNER JOIN tags ON tags.tag_id=ptags.tag_id AND tags.record_status='A'
+		WHERE tags.tag_name=#{catalogueId} 
+		AND p.record_status='A' AND p.quantity>0
+	</select>
+	
+	<select id="getUserIdListForCategory" parameterType="String" resultType="String">
+		select user_id from users where record_status='A' 
+		<if test="productType==1">
+		and saree=true
+		</if>
+		<if test="productType==2">
+		and dress_material=true
+		</if>
+		<if test="productType==3">
+		and kurti=true
+		</if>
+		<if test="productType==4">
+		and lehenga=true
+		</if>
+		<if test="productType==5">
+		and gown=true
+		</if>
+	</select>
+	
+	<select id="getProductImagesForCatalogue" resultType="map">
+		select p.product_id,p.product_image from products p
+		INNER JOIN product_tags pta ON pta.product_id=p.product_id  AND pta.record_status='A'
+		INNER JOIN tags ON tags.tag_id=pta.tag_id AND tags.record_status='A'
+		WHERE tags.tag_name=#{catalogueId} AND p.record_status='A' AND p.quantity>0 AND p.product_type=#{productType}
+	</select>
+	
+	
+	
+	
+</mapper>

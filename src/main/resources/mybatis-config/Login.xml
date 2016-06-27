@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.LoginDao">
+
+	<select id="isValidLoginCredentials" parameterType="map" resultType="String">
+			SELECT user_id 
+			FROM users 
+			WHERE is_deleted = false AND active = true 
+			AND (lower(username) = #{lowerusername}  OR email LIKE #{username})
+			AND password = #{password}
+	</select>
+				
+	<delete id="deleteApiSessionsByDeviceUid" parameterType="String">
+		 DELETE FROM api_sessions WHERE device_uid=#{deviceUid}
+	</delete>
+		
+	<delete id="deleteApiSessionKey" parameterType="String">
+		 DELETE FROM api_sessions WHERE user_id=#{userId}
+	</delete>
+
+	<insert id="insertApiSessionKey" parameterType="map">
+		INSERT INTO	api_sessions
+		(api_session_id,user_id , device_uid, created_at)
+		VALUES
+		(#{apiSessionId},#{userId}, #{deviceUid}, #{createdAt})
+	</insert>
+	
+	<select id="isSessionExists" parameterType="String" resultType="String">
+		select user_id from api_sessions where api_session_id= #{apiSessionId}
+	</select>
+	
+	<select id="fetchUserBySessionKey" parameterType="String" resultType="UserModel">
+		select * from app_users where record_status='A' and user_id = (select user_id from api_sessions where api_session_id= #{sessionKey})
+	</select>
+	
+</mapper>

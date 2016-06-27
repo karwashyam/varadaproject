@@ -1,0 +1,74 @@
+package com.webapp.services;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.fnf.utils.EncryptionUtils;
+import com.webapp.daos.AppUserDao;
+import com.webapp.daos.UserDao;
+import com.webapp.models1.AppUser;
+import com.webapp.models1.User;
+
+@Service("userService")
+public class UserSerivce {
+
+	private static final Logger logger = Logger.getLogger(UserSerivce.class);
+
+	@Autowired
+	private UserDao userDao;
+	
+	@Autowired
+	private AppUserDao appUserDao;
+
+	public User getUserFromCredentials(String userName, String password) {
+
+		User userModel = null;
+
+		userModel = userDao.getUserAccountDetailsById(userName.toLowerCase());
+
+		if (userModel != null && !EncryptionUtils.isValidPassword(password, userModel.getPassword()) ) {
+			userModel = null;
+			logger.debug("invalid passsword>>>>>>>>>>>>>>>");
+		}
+
+		return userModel;
+	}
+	
+
+	public AppUser getUserFromCredentialsForApi(String email, String password) {
+
+		AppUser userModel = null;
+
+		userModel = appUserDao.getUserAccountDetailsByEmailIdAndPhone(email);
+
+		if (userModel != null && !EncryptionUtils.isValidPassword(password, userModel.getPassword()) ) {
+			userModel = null;
+			logger.debug("invalid passsword>>>>>>>>>>>>>>>");
+			
+		}else{
+			userModel.setPassword("");
+		}
+
+		return userModel;
+	}
+
+	public User getUserAccountDetailsById(String userId) {
+
+		User userModel = null;
+
+		userModel = userDao.getUserAccountDetailsById(userId);
+
+		return userModel;
+	}
+
+	public User getUserAccountDetailsByEmailId(String email) {
+
+		User userModel = null;
+
+		userModel = userDao.getUserAccountDetailsByEmailId(email.toLowerCase());
+
+		return userModel;
+	}
+
+}

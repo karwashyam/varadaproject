@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.SessionDao">
+	
+	<insert id="newSession" parameterType="map" useGeneratedKeys="false" >
+		INSERT INTO sessions 
+			(session_id, created_at, accessed_at)
+		VALUES 
+			( #{sessionId}, #{createdAt}, #{accessedAt} )
+	</insert>
+			
+	<update id="setSessionLastAccessedTimeStamp" >
+		UPDATE sessions 
+		SET 
+			accessed_at = #{accessedAt} 
+		WHERE 
+			session_id = #{sessionId}
+	</update>
+	
+	<select id="sessionExistsForKey" parameterType="String" resultType="boolean">
+		SELECT COUNT(*) 
+		FROM sessions 
+		WHERE session_id = #{sessionId}
+	</select>
+	
+	<select id="attributeExistsForSession" parameterType="map" resultType="String">
+		SELECT session_attribute_id FROM session_attributes WHERE session_id = #{sessionId} AND attribute = #{attribute}
+	</select>
+	
+	<select id="attributeValue" parameterType="map" resultType="String">
+		SELECT attribute_value FROM session_attributes WHERE session_id = #{sessionId} AND attribute = #{attribute}
+	</select>
+	
+	<insert id="insertAttributeForSession" keyColumn="session_attribute_id" useGeneratedKeys="true" parameterType="String">
+		INSERT INTO session_attributes 
+		(session_id, attribute, attribute_value)
+		VALUES 
+		( #{sessionId}, #{attribute}, #{attributeValue} )
+	</insert>
+	
+	<update id="updateAttribute" parameterType="String">
+		UPDATE session_attributes SET attribute_value = #{attributeValue} WHERE session_attribute_id = #{attributeId}
+	</update>
+
+	<delete id="removeAttributeForSession" parameterType="String" >
+		DELETE FROM session_attributes WHERE session_id = #{sessionId} AND attribute = #{attribute}
+	</delete>
+	
+	<delete id="destroySessionAttribute" parameterType="String" >
+		DELETE FROM session_attributes WHERE session_id = #{sessionId}
+	</delete>
+	
+	<delete id="destroySession" parameterType="String" >
+		DELETE FROM sessions WHERE session_id =  #{sessionId}
+	</delete>
+	
+	
+	<!-- remembered_login_sessions -->
+	<select id="getUserIdByRememberMeKeyId" parameterType="String" resultType="String">
+		SELECT user_id FROM remembered_login_sessions 
+		WHERE remembered_login_session_id = #{rememberedLoginId}
+	</select>
+	<insert id="addRememberMeKey">
+
+		INSERT INTO	remembered_login_sessions
+		(remembered_login_session_id,user_id,created_on)
+		VALUES
+		(#{rememberedLoginId},#{userId},#{createdAt})
+	</insert>
+	
+	<delete id="deleteRememberMeKey" parameterType="String">
+		 DELETE FROM remembered_login_sessions  WHERE user_id=#{userId}
+	</delete>
+	
+	
+	<!-- login_trails -->
+	<select id="isLoggedIn" parameterType="String" resultType="long">
+		SELECT count(login_trail_id) FROM login_trails 
+		WHERE user_id = #{userId} AND logged_out_at IS NULL
+	</select>
+
+	<update id="closeLoginTrail" parameterType="map">
+		UPDATE login_trails 
+		SET 
+			logged_out_at = #{loggedOutAt} 
+		WHERE 
+			logged_out_at IS NULL AND user_id = #{userId} AND session_id = #{sessionId}		
+	</update>
+
+	<insert id="addLoginTrail" parameterType="map">
+		INSERT INTO	login_trails
+		(login_trail_id, user_id, logged_in_at, session_id)
+		VALUES
+		(#{loginTrailId},#{userId},#{loggedInAt}, #{sessionId})
+	</insert>		
+</mapper> 

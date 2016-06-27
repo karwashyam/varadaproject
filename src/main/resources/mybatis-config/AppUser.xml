@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.AppUserDao">
+
+	<resultMap id="userResultMap" type="AppUser" >
+		<result property="userId" column="user_id" />
+		<result property="fullName" column="full_name" />
+		<result property="email" column="email" />
+		<result property="userName" column="user_name" />
+		<result property="password" column="password" />
+		<result property="referralCode" column="referral_code" />
+		<result property="passiveWalletBalance" column="passive_wallet_balance" />
+		<result property="walletBalance" column="wallet_balance" />
+		<result property="notificationOnEmail" column="notification_on_email" />
+		<result property="notification" column="notification" />
+		<result property="autoDeleteFromGallery" column="auto_delete_from_gallery" />
+		<result property="saveToGallery" column="save_to_gallery" />
+		<result property="birthDate" column="birth_date" />
+		<result property="city" column="city" />
+		<result property="phone" column="phone" />		
+		<result property="createdAt" column="created_at" />
+		<result property="createdBy" column="created_by" />
+		<result property="updatedBy" column="updated_by" />
+		<result property="updatedAt" column="updated_at" />
+		<result property="recordStatus" column="record_status" />
+	</resultMap>
+	
+	<select id="getUserAccountDetailsByEmailId" parameterType="String"	resultMap="userResultMap">
+		SELECT user_id, user_name, password, email, full_name, phone, city, 
+	       birth_date, save_to_gallery, auto_delete_from_gallery, notification, 
+	       notification_on_email, invited_by, invite_and_earn_id, wallet_balance, 
+	       passive_wallet_balance, first_time_shopping, created_by, updated_by, 
+	       created_at, updated_at, record_status, referral_code
+        FROM app_users 
+		WHERE email = #{email} AND record_status = 'A'
+	</select>
+	
+	<select id="getUserAccountDetailsByEmailIdAndPhone" parameterType="String"	resultMap="userResultMap">
+		SELECT user_id, user_name, password, email, full_name, phone, city, 
+	       birth_date, save_to_gallery, auto_delete_from_gallery, notification, 
+	       notification_on_email, invited_by, invite_and_earn_id, wallet_balance, 
+	       passive_wallet_balance, first_time_shopping, created_by, updated_by, 
+	       created_at, updated_at, record_status, referral_code
+        FROM app_users 
+		WHERE (email = #{email} OR phone=#{email}) AND record_status = 'A'
+	</select>
+	
+	<select id="getUserAccountDetailsByPhone" parameterType="String"	resultMap="userResultMap">
+		SELECT user_id, user_name, password, email, full_name, phone, city, 
+	       birth_date, save_to_gallery, auto_delete_from_gallery, notification, 
+	       notification_on_email, invited_by, invite_and_earn_id, wallet_balance, 
+	       passive_wallet_balance, first_time_shopping, created_by, updated_by, 
+	       created_at, updated_at, record_status, referral_code
+        FROM app_users 
+		WHERE phone = #{phone} AND record_status = 'A'
+	</select>
+	
+	<select id="getUserAccountDetailsById" parameterType="String"	resultMap="userResultMap">
+		SELECT user_id, user_name, password, email, full_name, phone, city, 
+	       birth_date, save_to_gallery, auto_delete_from_gallery, notification, 
+	       notification_on_email, invited_by, invite_and_earn_id, wallet_balance, 
+	       passive_wallet_balance, first_time_shopping, created_by, updated_by, 
+	       created_at, updated_at, record_status, referral_code
+        FROM app_users 
+		WHERE user_id = #{userId} AND record_status = 'A'
+	</select>
+	
+	<select id="getProfiles" resultMap="userResultMap">
+		SELECT user_id, user_name, password, email, full_name, phone, city, 
+	       birth_date, save_to_gallery, auto_delete_from_gallery, notification, 
+	       notification_on_email, invited_by, invite_and_earn_id, wallet_balance, 
+	       passive_wallet_balance, first_time_shopping, created_by, updated_by, 
+	       created_at, updated_at, record_status, referral_code
+        FROM app_users 
+		WHERE user_id = #{userId} AND updated_at &gt; #{updatedAt} AND record_status = 'A'
+	</select>
+	
+	<select id="isEmailIdExists" parameterType="String"	resultType="boolean">
+		SELECT count(*)>0 FROM app_users 
+		WHERE email = #{email}
+	</select>
+	
+	<select id="isEmailIdExistsForOtherUser" parameterType="String"	resultType="boolean">
+		SELECT count(*)>0 FROM app_users 
+		WHERE email = #{email} AND user_id!=#{userId}
+	</select>
+	
+	<select id="isPhoneExistsForOtherUser" parameterType="String"	resultType="boolean">
+		SELECT count(*)>0 FROM app_users 
+		WHERE phone = #{phone} AND user_id!=#{userId}
+	</select>
+	
+	<select id="isPhoneExists" parameterType="String"	resultType="boolean">
+		SELECT count(*)>0 FROM app_users 
+		WHERE phone = #{phone}
+	</select>
+	
+	<select id="fetchPassword" parameterType="String"	resultType="String">
+		SELECT password FROM app_users 
+		WHERE user_id = #{userId}
+	</select>
+	
+	
+	<insert id="addUser" parameterType="SignupModel">
+		INSERT INTO app_users(
+            user_id, password, email, full_name, phone, city, 
+            invited_by, invite_and_earn_id, wallet_balance,referral_code,
+            created_by, updated_by, created_at, updated_at, record_status)
+    	VALUES (#{userId}, #{password}, #{email}, #{fullName}, #{phone}, #{city}, 
+            #{invitedBy}, #{inviteAndEarnId}, #{walletBalance}, #{referralCode}, 
+            #{createdBy}, #{updatedBy}, #{createdAt}, #{updatedAt}, #{recordStatus})
+	</insert>
+	
+	<update id="setNewPassword" parameterType="AppUser">
+		UPDATE app_users 
+		SET password = #{password}, updated_at = #{updatedAt} 
+		WHERE email = #{email} AND record_status = 'A'
+	</update>
+	
+	<update id="setNewPasswordByPhone" parameterType="AppUser">
+		UPDATE app_users 
+		SET password = #{password}, updated_at = #{updatedAt} 
+		WHERE phone = #{phone} AND record_status = 'A'
+	</update>
+	
+	<update id="updatePassword" >
+		UPDATE app_users 
+		SET password = #{password}
+		WHERE user_id = #{userId} AND record_status = 'A'
+	</update>
+	
+	<update id="updateProfile" >
+		UPDATE app_users 
+		SET email=#{email}, full_name=#{fullName}, phone=#{phone}, 
+       		city=#{city}, birth_date=#{birthDate}, save_to_gallery=#{saveToGallery}, auto_delete_from_gallery=#{autoDeleteFromGallery}, 
+       		notification=#{notification}, notification_on_email=#{notificationOnEmail},updated_at=#{updatedAt},updated_by=#{updatedBy}
+		WHERE user_id = #{userId} AND record_status = 'A'
+	</update>
+	
+	
+</mapper> 

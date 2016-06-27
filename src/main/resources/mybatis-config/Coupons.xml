@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.CouponsDao">
+	
+	<resultMap id="couponsModelResultMap" type="CouponsModel" >
+		<result property="couponId" column="coupon_id" />
+		<result property="couponCode" column="coupon_code" />
+		<result property="startDate" column="start_date" />
+		<result property="endDate" column="end_date" />
+		<result property="discountInPercentage" column="discount_in_percentage" />
+		<result property="maximumTimeUsed" column="maximum_time_used" />
+		<result property="maxDisocunt" column="max_disocunt" />
+		<result property="canUsedWithReferral" column="can_used_with_referral" />
+		<result property="srNo" column="srNo" />
+		<result property="discountOnMinimumPayablePrice" column="discount_on_minimum_price" />
+		
+		<result property="recordStatus" column="record_status" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedAt" column="updated_at" />
+	</resultMap>
+	
+	<select id="fetchCouponsList" parameterType="JQTableUtils" resultMap="couponsModelResultMap">
+		SELECT 
+			ROW_NUMBER() OVER (ORDER BY coupon_id) srNo, coupon_id, coupon_code, start_date, end_date, discount_in_percentage, maximum_time_used,
+			max_disocunt, can_used_with_referral,discount_on_minimum_price
+  		FROM 
+  			coupons c
+		WHERE
+			c.record_status = 'A'
+		<if test="JQTableUtils.searchParams != ''">
+			AND
+			(
+				coupon_id ilike #{JQTableUtils.searchParams}
+				OR
+				coupon_code ilike #{JQTableUtils.searchParams}
+				OR
+				cast(discount_in_percentage as character varying(50)) ilike #{JQTableUtils.searchParams}
+				OR
+				cast(maximum_time_used as character varying(50)) ilike #{JQTableUtils.searchParams}
+				OR
+				cast(max_disocunt as character varying(50)) ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+		ORDER BY
+		<choose>
+			<when test="JQTableUtils.sortColumn == 0">
+				coupon_id
+			</when>
+			<when test="JQTableUtils.sortColumn == 1">
+				coupon_code
+			</when>
+			<when test="JQTableUtils.sortColumn == 2">
+				discount_in_percentage
+			</when>
+			<when test="JQTableUtils.sortColumn == 3">
+				maximum_time_used
+			</when>
+			<when test="JQTableUtils.sortColumn == 4">
+				max_disocunt
+			</when>
+		</choose>
+		<choose>
+			<when test="JQTableUtils.sortingDirection == 'asc'">
+				ASC
+			</when>
+			<otherwise>
+				DESC
+			</otherwise>
+		</choose> 
+
+		<if test="JQTableUtils.iDisplayLength != -1">
+			LIMIT #{JQTableUtils.iDisplayLength}
+			OFFSET #{JQTableUtils.iDisplayStart}
+		</if>
+	</select>
+	
+	<select id="fetchTotalCoupons" parameterType="JQTableUtils" resultType="long">
+		SELECT 
+			count(*)
+  		FROM 
+  			coupons c
+  		WHERE
+			c.record_status = 'A'
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+				coupon_id ilike #{JQTableUtils.searchParams}
+				OR
+				coupon_code ilike #{JQTableUtils.searchParams}
+				OR
+				cast(discount_in_percentage as character varying(50)) ilike #{JQTableUtils.searchParams}
+				OR
+				cast(maximum_time_used as character varying(50)) ilike #{JQTableUtils.searchParams}
+				OR
+				cast(max_disocunt as character varying(50)) ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+	</select>
+	
+	<select id="getCouponDetails" parameterType="String" resultMap="couponsModelResultMap">
+		SELECT 
+			coupon_code, start_date, end_date, discount_in_percentage, maximum_time_used,
+			max_disocunt, can_used_with_referral,discount_on_minimum_price
+  		FROM 
+  			coupons c
+		WHERE
+			c.record_status = 'A'
+		AND
+			c.coupon_id = #{couponId}
+	</select>
+	
+	<update id="updateCoupon" parameterType="CouponsModel">
+		UPDATE
+		 	coupons
+   		SET
+			coupon_code=#{couponCode}, start_date=#{startDate}, end_date=#{endDate},
+       		discount_in_percentage=#{discountInPercentage}, maximum_time_used=#{maximumTimeUsed},
+       		max_disocunt=#{maxDisocunt}, can_used_with_referral=#{canUsedWithReferral},
+       		updated_at=#{updatedAt},discount_on_minimum_price=#{discountOnMinimumPayablePrice}
+  		WHERE
+  			coupon_id = #{couponId}
+  	</update>
+  	
+  	<insert id="addCoupon" parameterType="CouponsModel" useGeneratedKeys="false">
+		INSERT INTO
+		 	coupons
+				(
+					coupon_id, coupon_code, start_date, end_date, discount_in_percentage, maximum_time_used,
+		       		max_disocunt, can_used_with_referral, created_at, updated_at, record_status,discount_on_minimum_price
+       			)
+       	VALUES
+       			(
+       				#{couponId}, #{couponCode}, #{startDate}, #{endDate}, #{discountInPercentage}, #{maximumTimeUsed},
+		       		#{maxDisocunt}, #{canUsedWithReferral}, #{createdAt}, #{updatedAt}, 'A',#{discountOnMinimumPayablePrice}
+				)
+  	</insert>
+	
+</mapper>

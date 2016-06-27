@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.ProductsDao">
+	
+	<resultMap id="productsResultMap" type="ProductsModel" >
+		<result property="productId" column="product_id" />
+		<result property="productTypeId" column="product_type" />
+		<result property="productTypeName" column="product_type_name" />
+		<result property="productPrice" column="product_price" />
+		<result property="productImage" column="product_image" />
+		<result property="quantity" column="quantity" />
+		<result property="weight" column="weight" />
+		<result property="caption" column="caption" />
+		<result property="recordStatus" column="record_status" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedAt" column="updated_at" />
+		<result property="tagName" column="tag_name" />
+		
+	</resultMap>
+	
+	<select id="fetchProductsList" parameterType="JQTableUtils" resultMap="productsResultMap">
+		SELECT 
+			p.product_id, product_type_name, product_price, product_image, quantity, weight, 
+			string_agg(t.tag_name, ', ') AS tag_name,p.caption
+  		FROM 
+  			products p
+  		INNER JOIN 
+       		product_type pt ON pt.product_type_id = p.product_type
+       	LEFT JOIN 
+       		product_tags ptag ON ptag.product_id = p.product_id
+       	LEFT JOIN 
+       		tags t ON t.tag_id = ptag.tag_id
+		WHERE
+			p.record_status = 'A'
+			
+		<if test="JQTableUtils.searchParams != ''">
+			AND
+			(
+				p.product_id ilike #{JQTableUtils.searchParams}
+				OR
+				product_type_name ilike #{JQTableUtils.searchParams}
+				OR
+				cast(product_price as character varying(50)) ilike #{JQTableUtils.searchParams}
+				OR
+				cast(quantity as character varying(50)) ilike #{JQTableUtils.searchParams}
+				OR
+				cast(weight as character varying(50)) ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+		GROUP BY p.product_id, product_type_name, product_price, product_image, quantity, weight
+		ORDER BY
+		<choose>
+			<when test="JQTableUtils.sortColumn == 0">
+				p.product_id
+			</when>
+			<when test="JQTableUtils.sortColumn == 1">
+				product_type_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 2">
+				product_price
+			</when>
+			<when test="JQTableUtils.sortColumn == 3">
+				quantity
+			</when>
+			<when test="JQTableUtils.sortColumn == 4">
+				weight
+			</when>
+		</choose>
+		<choose>
+			<when test="JQTableUtils.sortingDirection == 'asc'">
+				ASC
+			</when>
+			<otherwise>
+				DESC
+			</otherwise>
+		</choose> 
+
+		<if test="JQTableUtils.iDisplayLength != -1">
+			LIMIT #{JQTableUtils.iDisplayLength}
+			OFFSET #{JQTableUtils.iDisplayStart}
+		</if>
+	</select>
+	
+	<select id="fetchTotalProducts" parameterType="JQTableUtils" resultType="long">
+		SELECT 
+			count(*)
+  		FROM 
+  			products p
+  		INNER JOIN 
+       		product_type pt ON pt.product_type_id = p.product_type
+  		WHERE
+			p.record_status = 'A'
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+				product_id ilike #{JQTableUtils.searchParams}
+				OR
+				product_type_name ilike #{JQTableUtils.searchParams}
+				OR
+				cast(product_price as character varying(50)) ilike #{JQTableUtils.searchParams}
+				OR
+				cast(quantity as character varying(50)) ilike #{JQTableUtils.searchParams}
+				OR
+				cast(weight as character varying(50)) ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+	</select>
+	
+	
+	<resultMap id="productsResultMap2" type="ProductsModel" >
+		<result property="productId" column="product_id" />
+		<result property="productTypeId" column="product_type" />
+		<result property="productTypeName" column="product_type_name" />
+		<result property="productPrice" column="product_price" />
+		<result property="productImage" column="product_image" />
+		<result property="quantity" column="quantity" />
+		<result property="weight" column="weight" />
+		<result property="caption" column="caption" />
+		
+		<result property="recordStatus" column="record_status" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedAt" column="updated_at" />
+		
+		<collection property="tagNames" javaType="ArrayList" ofType="java.lang.String" >
+			<result javaType="String" column="tag_name" />
+		</collection>
+		
+<!-- 		<collection property="tagNames" column="tag_name" javaType="ArrayList" ofType="java.lang.String" /> -->
+	</resultMap>
+	<select id="getProductDetails" parameterType="String" resultMap="productsResultMap2">
+		SELECT 
+			p.product_id, p.product_type, product_type_name, product_price, product_image, quantity, weight,
+			t.tag_name,p.caption
+  		FROM 
+  			products p
+  		INNER JOIN 
+       		product_type pt ON pt.product_type_id = p.product_type
+       	LEFT JOIN 
+       		product_tags ptag ON ptag.product_id = p.product_id
+       	LEFT JOIN 
+       		tags t ON t.tag_id = ptag.tag_id
+		WHERE
+			p.record_status = 'A'
+		AND
+			p.product_id = #{productId}
+	</select>
+	
+	
+	<resultMap id="productTypeResultMap" type="map" >
+		<result property="productTypeId" column="product_type_id" />
+		<result property="productTypeName" column="product_type_name" />
+	</resultMap>
+	<select id="getAllProductTypes" parameterType="String" resultMap="productTypeResultMap">
+		SELECT 
+			product_type_id, product_type_name
+		FROM 
+			product_type
+		WHERE
+			record_status = 'A'
+		ORDER BY
+			product_type_name ASC
+	</select>
+	
+	<update id="updateProduct" parameterType="ProductsModel">
+		UPDATE 
+			products
+   		SET 
+			product_type=#{productTypeId}, product_price=#{productPrice},
+       		quantity=#{quantity}, weight=#{weight}, updated_at=#{updatedAt}, caption=#{caption}
+  		WHERE 
+  			product_id = #{productId}
+  	</update>
+	
+
+</mapper>

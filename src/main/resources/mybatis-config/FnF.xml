@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.FnFDao">
+	
+	
+	
+	<resultMap id="fnFMap" type="Map" >
+		<result property="user_id" column="user_id" />
+		<result property="user_name" column="user_name" />
+		<result property="user_full_name" column="user_full_name" />
+		<result property="user_city" column="user_city" />
+		<result property="email" column="email" />
+		<result property="saree" column="saree" />
+		<result property="gown" column="gown" />
+		<result property="kurti" column="kurti" />
+		<result property="price_range" column="price_range" />
+		<result property="product_type_id" column="product_type_id" />
+		<result property="count" column="count" />
+		<result property="lehenga" column="lehenga" />
+		<result property="dress_material" column="dress_material" />
+		<result property="catalogue_delivery" column="catalogue_delivery" />
+		<result property="update_frequency" column="update_frequency" />
+		<result property="product_type_name" column="product_type_name" />
+		<result property="product_id" column="product_id" />
+		<result property="product_type" column="product_type" />
+		<result property="product_price" column="product_price" />
+		<result property="product_image" column="product_image" />
+		<result property="referrer_coupon" column="referrer_coupon" />
+		<result property="price" column="price" />
+		<result property="quantity" column="quantity" />
+		<result property="weight" column="weight" />
+		<result property="phone" column="phone" />
+		<result property="caption" column="caption" />
+		<result property="referral_balance" column="referral_balance" />
+		<result property="courier_method" column="courier_method" />
+		<result property="payment_method" column="payment_method" />
+		<result property="cod_charge" column="cod_charge" />
+		<result property="cod_payment" column="cod_payment" />
+		<result property="internet_handling_charge" column="internet_handling_charge" />
+		<result property="online_payment" column="online_payment" />
+	</resultMap>
+	
+	<select id="getProductTypes" resultMap="fnFMap">
+		SELECT product_type_name
+	  	FROM product_type
+	  	WHERE record_status='A'
+	</select>
+	
+	<select id="fetchUserDetails" parameterType="String" resultMap="fnFMap">
+		SELECT *
+  		FROM users
+  		WHERE user_id=#{userId}
+
+	</select>
+	
+	<select id="isDeactivated" parameterType="String" resultType="boolean">
+		SELECT count(*)>0
+  		FROM users
+  		WHERE user_id=#{userId}
+  		AND record_status='D'
+	</select>
+	
+	<select id="getAllUserId" resultType="String">
+		SELECT user_id
+  		FROM users
+  		WHERE record_status='A'
+	</select>
+	
+	<select id="getAllPhone" resultType="String">
+		SELECT phone
+  		FROM users
+  		WHERE record_status='A'
+	</select>
+		
+	<insert id="addUserDetails" >
+		INSERT INTO users(
+            user_id, user_name, record_status, saree, gown, kurti, lehenga, dress_material,
+            created_at, updated_at)
+    	VALUES (#{userId}, #{firstName}, 'A', true,true,true,true,true,
+            	#{time}, #{time});
+
+	</insert>
+	
+	<update id="addFullName" >
+		UPDATE users
+   		SET user_full_name=#{fullName}
+ 		WHERE user_id=#{userId} AND record_status='A'
+	</update>
+	
+	<update id="unsubscribeDailyUpdate" >
+		UPDATE users
+   		SET saree=${saree}, gown=${gown}, 
+      		 kurti=${kurti}, lehenga=${lehenga}, dress_material=${dressMaterial}
+ 		WHERE user_id=#{userId} AND record_status='A'
+	</update>
+	
+	<update id="addPhone" >
+		UPDATE users
+   		SET phone=#{phone}
+ 		WHERE user_id=#{userId} AND record_status='A'
+	</update>
+	
+	<update id="addCity" >
+		UPDATE users
+   		SET user_city=#{city}
+ 		WHERE user_id=#{userId} AND record_status='A'
+	</update>
+	
+	<update id="updateReferralBalance" >
+		UPDATE users
+   		SET referral_balance=#{referral_balance}
+ 		WHERE user_id=#{userId} AND record_status='A'
+	</update>
+	
+	<update id="updateSaree" >
+		UPDATE users
+   		SET saree=#{b}
+ 		WHERE user_id=#{userId} AND record_status='A'
+	</update>
+	
+	<update id="updateCatalogueDelivery" >
+		UPDATE users
+   		SET catalogue_delivery=#{delivery}
+ 		WHERE user_id=#{userId} AND record_status='A'
+	</update>
+	<update id="updateUpdateFrequency" >
+		UPDATE users
+   		SET update_frequency=#{delivery}
+ 		WHERE user_id=#{userId} AND record_status='A'
+	</update>
+	<update id="updateGown" >
+		UPDATE users
+   		SET gown=#{b}
+ 		WHERE user_id=#{userId} AND record_status='A'
+	</update>
+	<update id="updateKurti" >
+		UPDATE users
+   		SET kurti=#{b}
+ 		WHERE user_id=#{userId} AND record_status='A'
+	</update>
+	<update id="updateLehenga" >
+		UPDATE users
+   		SET lehenga=#{b}
+ 		WHERE user_id=#{userId} AND record_status='A'
+	</update>
+	<update id="updatePriceRange" >
+		UPDATE users
+   		SET price_range=#{i}
+ 		WHERE user_id=#{userId} AND record_status='A'
+	</update>
+	
+	<update id="updateDressMaterial" >
+		UPDATE users
+   		SET dress_material=#{b}
+ 		WHERE user_id=#{userId} AND record_status='A'
+	</update>
+	
+	<insert id="addUserQueriesPrice" >
+		UPDATE user_queries
+		SET price_range=#{i}, count=#{count}
+ 		WHERE record_status='A' 
+ 		AND user_queries_id=(select user_queries_id from user_queries where user_id=#{userId} ORDER BY created_at desc LIMIT 1)
+        
+	</insert>
+	
+	<update id="addEmail" >
+		UPDATE users
+   		SET email=#{email}
+ 		WHERE user_id=#{userId} AND record_status='A'
+	</update>
+	
+	<update id="addReferralCodeAndWallet" >
+		UPDATE users
+   		SET referrer_coupon=#{refercode} , referral_balance=#{wallet}
+ 		WHERE user_id=#{userId} AND record_status='A'
+	</update>
+	
+	<select id="checkReferralCode" parameterType="String" resultType="boolean">
+		SELECT count(*)>0
+  		FROM users
+  		WHERE user_id iLike #{refercode} AND record_status='A'
+	</select>
+	<insert id="addReferralHistory" >
+		INSERT INTO referral_balance_history(
+            referral_balance_history_id, user_used, amount, order_id, user_id, 
+            history_note, record_status, created_at, updated_at)
+    	VALUES (#{id}, #{user_used}, #{amount}, #{order_id}, #{userId}, 
+            #{history_note}, 'A', #{time}, #{time})
+	</insert>
+	
+	<select id="getWalletHistory" parameterType="String" resultType="map">
+		SELECT referral_balance_history_id, user_used, amount, order_id, user_id, 
+       		history_note
+  		FROM referral_balance_history
+  		WHERE user_id=#{user_id} AND record_status='A'
+  		ORDER BY created_at DESC
+  		LIMIT 5
+	</select>
+	
+	<select id="checkUpdate" parameterType="String" resultType="String">
+		SELECT update_id
+  		FROM update_records
+  		WHERE update_id=#{update_id} AND record_status='A'
+	</select>
+	
+	<insert id="addUpdate" >
+		INSERT INTO update_records(
+            update_id, message, user_id, record_status, created_at, updated_at)
+    	VALUES (#{update_id}, #{message}, #{userId}, 'A', #{time}, #{time});
+	</insert>
+	
+	<insert id="addUserQueries" >
+		INSERT INTO user_queries(
+            user_queries_id, product_type_id, user_id, record_status, created_at)
+   		VALUES (#{id}, #{message}, #{userId}, 'A', #{time});
+	</insert>
+	
+	
+	
+	<select id="getProductCode" parameterType="String" resultMap="fnFMap">
+		SELECT product_type_id
+  		FROM product_type
+ 	 	WHERE record_status='A' AND 
+  		product_type_name=(SELECT product_type_id  FROM user_queries WHERE user_id=#{userId} 
+  		ORDER BY created_at desc LIMIT 1)
+  	</select>
+  	<select id="getUserQueries" parameterType="String" resultMap="fnFMap">
+		SELECT p.product_type_id,u.price_range,u.count  
+		FROM user_queries u
+		INNER JOIN product_type p ON p.product_type_name=u.product_type_id
+		WHERE u.user_id=#{userId} 
+  		ORDER BY u.created_at desc LIMIT 1
+  	</select>
+	
+	
+	<select id="getProductImage" resultMap="fnFMap">
+		SELECT product_id, product_type, product_price, product_image,caption
+  		FROM products
+  		WHERE record_status='A' AND product_type=#{productCode} AND product_price&lt;=#{priceRange} AND quantity&gt;0
+  		ORDER BY created_at DESC,product_price DESC
+  		LIMIT 50 offset #{offset}
+  	</select>
+  	<select id="getProductImagesHIgherPrice" resultMap="fnFMap">
+		SELECT product_id, product_type, product_price, product_image,caption
+  		FROM products
+  		WHERE record_status='A' AND product_type=#{productCode} AND product_price&gt;=5000 AND quantity&gt;0
+  		ORDER BY created_at DESC
+  		LIMIT 50 offset #{offset}
+  	</select>
+	
+	
+	
+	<insert id="addNewOrder" >
+		INSERT INTO orders(
+             user_id, active, record_status, 
+            created_at, updated_at)
+    	VALUES ( #{userId}, true, 'A', 
+            #{time}, #{time});
+	</insert>
+	
+	
+	<update id="cancelNewOrder" >
+		UPDATE orders
+   		SET active=false,updated_at=#{time},record_status='D'
+ 		WHERE order_id=(select order_id from orders where active=true and user_id=#{userId} ORDER BY created_at LIMIT 1)
+	</update>
+	
+	<update id="addOrderAddressToMobile" >
+		UPDATE orders
+   		SET updated_at=#{time},record_status='C',address=#{address}
+ 		WHERE order_id=(select order_id from orders where active=true and user_id=#{userId} ORDER BY created_at LIMIT 1)
+	</update>
+	<update id="addOrderMobile" >
+		UPDATE orders
+   		SET record_status='S',phone=#{phone}
+ 		WHERE order_id=(select order_id from orders where active=true and user_id=#{userId} ORDER BY created_at LIMIT 1)
+	</update>
+	<update id="addCourierMethod" >
+		UPDATE orders
+   		SET record_status='P',courier_method=#{courier_method}
+ 		WHERE order_id=(select order_id from orders where active=true and user_id=#{user_id} ORDER BY created_at LIMIT 1)
+	</update>
+	<update id="addPaymentMethod" >
+		UPDATE orders
+   		SET record_status='F',payment_method=#{payment_method}
+ 		WHERE order_id=(select order_id from orders where active=true and user_id=#{user_id} ORDER BY created_at LIMIT 1)
+	</update>
+	
+	<update id="addCouponCode" >
+		UPDATE orders
+   		SET record_status='F',coupon_id=#{coupon_id}
+ 		WHERE order_id=(select order_id from orders where active=true and user_id=#{userId} ORDER BY created_at LIMIT 1)
+	</update>
+	<update id="completeOrder" >
+		UPDATE orders
+   		SET created_at=#{time},updated_at=#{time},order_status='open', active=false, 
+       		total_price=#{total_price}, total_discounted_price=#{total_discounted_price}, total_courier=#{total_courier_charge}, 
+       		total=#{total}, record_status='A',coupon_discount=#{coupon_discount}, referral_wallet_discount=#{referral_discount},adjustment_amount=0,
+       		internet_handling_charge=#{internet_handling_charge},online_payment=#{online_payment},
+			cod_payment=#{cod_payment},cod_charge=#{cod_charge},courier_method=#{courier_method},payment_method=#{payment_method}
+ 		WHERE order_id=#{order_id}
+	</update>
+	<select id="getOrderPrice" resultType="map">
+ 		SELECT o.order_id,sum(price) as total_price, sum(discounted_price) as total_discounted_price, 
+       			sum(weight) as total_weight,o.coupon_id,o.courier_method,o.payment_method
+  		FROM order_products op
+  		INNER JOIN orders o ON o.order_id=op.order_id and user_id=#{userId} AND active=true
+ 		GROUP BY o.order_id
+ 		ORDER BY created_at DESC
+ 		LIMIT 1
+	</select>
+	
+	<select id="getOrderHistory" resultType="map">
+		select order_id, address, phone,  
+       			total_price, total_discounted_price, total_courier, total ,referral_wallet_discount,
+       			coupon_discount,order_status,cod_charge,cod_payment ,internet_handling_charge,online_payment,payment_method
+       	from orders 
+		where  user_id=#{userId} AND record_status='A' 
+		ORDER BY created_at DESC
+		LIMIT 5
+ 		
+	</select>
+	<select id="getOrderProducts" resultType="map">
+		SELECT order_product_id, product_id, price, discounted_price
+  		FROM order_products
+  		WHERE order_id=#{order_id}
+	</select>
+	
+	<update id="addAddress" >
+		UPDATE orders
+   		SET updated_at=#{time},record_status='B'
+ 		WHERE order_id=(select order_id from orders where active=true and user_id=#{userId} ORDER BY created_at LIMIT 1)
+	</update>
+	
+	<update id="backToMobile" >
+		UPDATE orders
+   		SET record_status='C'
+ 		WHERE order_id=(select order_id from orders where active=true and user_id=#{user_id} ORDER BY created_at LIMIT 1)
+	</update>
+	
+	<update id="addCouponRecordStatus" >
+		UPDATE orders
+   		SET updated_at=#{time},record_status='G'
+ 		WHERE order_id=(select order_id from orders where active=true and user_id=#{userId} ORDER BY created_at LIMIT 1)
+	</update>
+	
+	<update id="confirmProducts" >
+		UPDATE orders
+   		SET record_status='E'
+ 		WHERE order_id=(select order_id from orders where active=true and user_id=#{userId} ORDER BY created_at LIMIT 1)
+	</update>
+	<select id="getRecordStatus" parameterType="String" resultType="String">
+		select record_status from orders where active=true and user_id=#{userId} AND record_status!='D' ORDER BY created_at LIMIT 1
+	</select>
+	
+	<select id="getActiveOrderStatus" resultType="boolean">
+		select count(*)>0 from orders where user_id=#{userId} AND active=true AND record_status!='D'
+	</select>
+	<select id="getProductDetails" resultMap="fnFMap">
+		select quantity,product_id,product_price,product_image,weight,caption from products where product_id=#{product} AND quantity&gt;0
+	</select>
+	<select id="checkProduct" resultType="boolean">
+		select count(*)>0 from products where product_id=#{product}
+	</select>
+	
+	<select id="getOrderId" resultType="String">
+		select order_id from orders where active=true and user_id=#{userId} AND record_status!='D' ORDER BY created_at LIMIT 1
+	</select>
+	<insert id="addOrderProducts" >
+		INSERT INTO order_products(
+             product_id, order_id, price, discounted_price,weight)
+    	VALUES ( #{productId}, #{orderId}, #{price}, #{discountedPrice},#{weight})
+	</insert>
+	<select id="getCourierCharge" resultType="int">
+		SELECT  courier_charge
+ 		 FROM delivery_rates
+  		WHERE weight_grams=#{total_weight}
+	</select>
+	<select id="getActiveCouponWithReferral" resultType="map">
+		SELECT coupon_id, coupon_code, start_date, end_date, discount_in_percentage, 
+       		maximum_time_used, max_disocunt,discount_on_minimum_price
+  		FROM coupons
+  		WHERE record_status='A' AND end_date &gt; #{time} AND can_used_with_referral=true
+	</select>
+	<select id="getAllActiveCoupon" resultType="map">
+		SELECT coupon_id, coupon_code, start_date, end_date, discount_in_percentage, 
+       		maximum_time_used, max_disocunt,discount_on_minimum_price
+  		FROM coupons
+  		WHERE record_status='A' AND end_date &gt; #{time}
+	</select>
+	<select id="getCouponDetailsFromCouponCode" resultType="map">
+		SELECT coupon_id, coupon_code, start_date, end_date, discount_in_percentage, 
+       		maximum_time_used, max_disocunt,discount_on_minimum_price,
+       		(select sum(op.discounted_price) from order_products op inner join orders o ON op.order_id=o.order_id AND o.active=true and o.user_id=#{user_id} GROUP BY o.created_at ORDER BY o.created_at LIMIT 1) as total_discounted_price 
+  		FROM coupons
+  		WHERE record_status='A' AND end_date &gt; #{time} AND coupon_code iLike #{coupon} 
+  		LIMIT 1
+	</select>
+	<select id="getCouponDetailsFromCouponId" resultType="map">
+		SELECT coupon_id, coupon_code, start_date, end_date, discount_in_percentage, 
+       		maximum_time_used, max_disocunt
+  		FROM coupons
+  		WHERE record_status='A' AND coupon_id = #{coupon_id} 
+	</select>
+	<select id="noOfTimesUsed" resultType="Integer">
+		SELECT count(*)
+  		FROM orders
+  		WHERE record_status='A' AND user_id = #{user_id} AND coupon_id = #{coupon_id} 
+	</select>
+	<select id="isCouponBlocked" resultType="Boolean">
+		SELECT count(*)>0
+  		FROM coupons_disabled
+  		WHERE user_id = #{user_id} AND coupon_id = #{coupon_id} 
+	</select>
+</mapper>
