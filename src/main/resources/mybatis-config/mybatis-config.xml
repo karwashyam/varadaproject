@@ -6,42 +6,15 @@
 		<setting name="useGeneratedKeys" value="true" />
 	</settings>
 	<typeAliases>
-		<typeAlias alias="AddProductModel" type="com.webapp.models.AddProductModel" />
-		<typeAlias alias="TagModel" type="com.webapp.models.TagModel" />
-		<typeAlias alias="ProductTagModel" type="com.webapp.models.ProductTagModel" />
-		<typeAlias alias="OrderModel" type="com.webapp.models.OrderModel" />
-		<typeAlias alias="SubOrderModel" type="com.webapp.models.SubOrderModel" />
 		<typeAlias alias="UserModel" type="com.webapp.models1.User" />
-		<typeAlias alias="OrderJsonDto" type="com.webapp.dto.OrderJsonDto" />
-		<typeAlias alias="UsersJsonDto" type="com.webapp.dto.UsersJsonDto" />
-		<typeAlias alias="SubOrderJsonDto" type="com.webapp.dto.SubOrderJsonDto" />
 		<typeAlias alias="JQTableUtils" type="com.fnf.utils.JQTableUtils" />
-		<typeAlias alias="ProductsModel" type="com.webapp.models1.Products" /> 
-  		<typeAlias alias="CouponsModel" type="com.webapp.models1.Coupons" /> 
-  		<typeAlias alias="UserReferralHistory" type="com.webapp.models1.UserReferralHistory" />
-  		<typeAlias alias="OrdersHistoryModel" type="com.webapp.models1.OrdersHistory" />
-  		<typeAlias alias="LeadModel" type="com.webapp.models1.LeadModel" />
-  		<typeAlias alias="SignupModel" type="com.webapp.models1.SignupModel" />
-  		<typeAlias alias="LeadJsonDto" type="com.webapp.dto.LeadJsonDto" />
-  		<typeAlias alias="DripMarkettingDto" type="com.webapp.dto.DripMarkettingDto" />
-  		<typeAlias alias="AppUser" type="com.webapp.models1.AppUser" />
   		
 	</typeAliases>
 
 	<mappers>
 		
-		<mapper resource="mybatis-config/FnF.xml" />
 		<mapper resource="mybatis-config/User.xml" /> 
 		<mapper resource="mybatis-config/Session.xml" />
-		<mapper resource="mybatis-config/Order.xml" />
-		<mapper resource="mybatis-config/Upload.xml" />  
-		<mapper resource="mybatis-config/SendDailyUpdate.xml" />  
-		<mapper resource="mybatis-config/Users.xml" />
-		<mapper resource="mybatis-config/Products.xml" /> 
-  		<mapper resource="mybatis-config/Coupons.xml" /> 
-  		<mapper resource="mybatis-config/Notification.xml" />
-  		<mapper resource="mybatis-config/LeadFrom.xml" />
-  		<mapper resource="mybatis-config/AppUser.xml" /> 
   		<mapper resource="mybatis-config/Login.xml" />
 	</mappers>
 </configuration>
