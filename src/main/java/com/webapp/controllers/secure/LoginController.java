@@ -31,9 +31,9 @@ import com.webapp.validator.LoginValidator;
 
 @Controller
 @RequestMapping(value = "/login")
-public class FnFLoginController extends BusinessController {
+public class LoginController extends BusinessController {
 
-	private static final Logger logger = Logger.getLogger(FnFLoginController.class);
+	private static final Logger logger = Logger.getLogger(LoginController.class);
 
 	private static final String LOGIN = "login";
 

@@ -24,65 +24,49 @@
 	</insert>
 	
 	<select id="getUserAccountDetailsByEmailId" parameterType="String"	resultMap="userResultMap">
-		SELECT * FROM admin_users 
+		SELECT * FROM users 
 		WHERE email = #{emailId} AND record_status = 'A'
 	</select>
 			
 	<select id="getUserAccountDetailsById" parameterType="String"	resultMap="userResultMap">
-		SELECT * FROM admin_users 
+		SELECT * FROM users 
 		WHERE user_name = #{userId} AND record_status = 'A'
 	</select>
 		
 	<update id="updatePassword" parameterType="UserModel" >
-		UPDATE admin_users SET password = #{password}, updated_at = #{updatedAt}
+		UPDATE users SET password = #{password}, updated_at = #{updatedAt}
 		WHERE  user_id = #{userId} AND record_status = 'A'
 	</update>
 	
 	<select id="isEmailIdExists" parameterType="String"	resultType="boolean">
-		SELECT (count(*)>0) FROM admin_users 
+		SELECT (count(*)>0) FROM users 
 		WHERE email = #{emailId} AND record_status = 'A'
 	</select>
 	
 	<update id="deleteUserById" parameterType="UserModel" >
-		UPDATE admin_users SET record_status = 'D', updated_at = #{updatedAt}
+		UPDATE users SET record_status = 'D', updated_at = #{updatedAt}
 		WHERE  user_id = #{userId} AND record_status = 'A'
 	</update>
 		
 	<select id="getUserModelById" parameterType="String" resultMap="userResultMap">
-		SELECT * FROM admin_users 
+		SELECT * FROM users 
 		WHERE user_id = #{userId} AND record_status = 'A'
 	</select>
 		
 	<update id="editUser" parameterType="UserModel">
-		UPDATE admin_users SET user_name = #{userName}, password = #{password}, email = #{email}, updated_by = #{updatedBy}, updated_at = #{updatedAt}
+		UPDATE users SET user_name = #{userName}, password = #{password}, email = #{email}, updated_by = #{updatedBy}, updated_at = #{updatedAt}
 		WHERE  user_id = #{userId} AND record_status = 'A'
 	</update>
 
 	<select id="getUserModel" parameterType="map" resultMap="userResultMap">
-		SELECT * FROM admin_users 
+		SELECT * FROM users 
 		WHERE user_name = #{userName} AND password = #{password} AND record_status = 'A'
 	</select>
 	
 	
 	<select id="checkLoginCredentials" parameterType="UserModel"	resultType="String"> 		
-		SELECT user_id FROM admin_users WHERE password=#{password} AND  record_status = 'A' AND  user_name=#{userName}   
+		SELECT user_id FROM users WHERE password=#{password} AND  record_status = 'A' AND  user_name=#{userName}   
 	</select>
 	
-	<select id="getUserIdFromTwitterId" parameterType="String" resultType="String">
-		select user_id from admin_users where twitter_id= #{twitterId} AND record_status ='A'
-	</select>
 	
-	<select id="getUserIdFromGoogleId" parameterType="String" resultType="String">
-		select user_id from admin_users where google_id= #{googleId} AND record_status ='A'
-	</select>
-	
-	<update id="updateGoogleIdIfNotExists" parameterType="map" >
-		UPDATE admin_users SET google_id = #{googleId}, updated_at = #{updatedAt}
-		WHERE  user_id = #{userId} AND record_status = 'A' AND ( google_id = '' OR google_id IS NULL)
-	</update>
-	
-	<update id="updateFacebookIdIfNotExists" parameterType="map" >
-		UPDATE admin_users SET facebook_id = #{facebookId}, updated_at = #{updatedAt}
-		WHERE  user_id = #{userId} AND record_status = 'A' AND ( facebook_id = '' OR facebook_id IS NULL)
-	</update>
 </mapper> 

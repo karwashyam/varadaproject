@@ -15,10 +15,6 @@ public interface UserDao {
 
 	boolean isEmailIdExists(String emailId);
 
-	String getUserIdFromTwitterId(String twitterId);
-
-	String getUserIdFromGoogleId(String googleId);
-
 	int addUser(User userModel);
 
 	boolean deleteUserById(User userModel);
@@ -28,10 +24,6 @@ public interface UserDao {
 	boolean editUser(User userModel);
 
 	public User getUserModel(Map<String, String> map);
-
-	public int updateGoogleIdIfNotExists(Map<String, Object> map);
-
-	public int updateFacebookIdIfNotExists(Map<String, Object> map);
 
 	User getUserAccountDetailsByUsername(String username);
 

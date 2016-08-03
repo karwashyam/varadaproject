@@ -29,6 +29,10 @@
     <servlet-name>dispatcher</servlet-name>
     <url-pattern>*.do</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>dispatcher</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
  <!--  <error-page>
     <error-code>500</error-code>
     <location>/WEB-INF/views/errorPages/internal-server.jsp</location>

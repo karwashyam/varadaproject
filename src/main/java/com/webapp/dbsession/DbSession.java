@@ -117,8 +117,8 @@ public class DbSession {
 
 		String url = null;
 		url = defaultDashBoardURL;
-		session.setAttribute(DASHBOARD_URL, url, sessionService);
-		session.setAttribute(USER_FULL_NAME, userModel.getUserName(), sessionService);
+//		session.setAttribute(DASHBOARD_URL, url, sessionService);
+//		session.setAttribute(USER_FULL_NAME, userModel.getUserName(), sessionService);
 		/*List<UserRole> roles = userModel.getUserRoles();
 
 		if (roles != null && !roles.isEmpty()) {
