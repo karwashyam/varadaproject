@@ -37,7 +37,7 @@ public class LogoutController extends BusinessController {
 			}
 
 		}
-		return "redirect:/login.do";
+		return "redirect:/login";
 
 	}
 
