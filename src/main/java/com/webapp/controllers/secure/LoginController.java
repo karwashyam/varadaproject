@@ -150,5 +150,7 @@ public class LoginController extends BusinessController {
 	public String getMessage(FieldError field) {
 		return messageSource.getMessage(field, null);
 	}
+	
+	
 
 }
