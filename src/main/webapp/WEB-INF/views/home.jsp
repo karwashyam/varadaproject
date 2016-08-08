@@ -35,11 +35,10 @@
             </div>
 
             <div class="clearfix"></div>
-            <div class="row">
-              <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-6 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Button Example <small>Users</small></h2>
+                    <h2>Form Basic Elements <small>different form elements</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -58,131 +57,352 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <p class="text-muted font-13 m-b-30">
-                      The Buttons extension for DataTables provides a common set of options, API methods and styling to display buttons on a page that will interact with a DataTable. The core library provides the based framework upon which plug-ins can built.
-                    </p>
-                    <table id="datatable-buttons" class="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Position</th>
-                          <th>Office</th>
-                          <th>Age</th>
-                          <th>Start date</th>
-                          <th>Salary</th>
-                        </tr>
-                      </thead>
+                    <br />
+                    <form class="form-horizontal form-label-left">
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Default Input</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" class="form-control" placeholder="Default Input">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Disabled Input </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" class="form-control" disabled="disabled" placeholder="Disabled Input">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Read-Only Input</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" class="form-control" readonly="readonly" placeholder="Read-Only Input">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Date Of Birth <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Password</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="password" class="form-control" value="passwordonetwo">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">AutoComplete</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" name="country" id="autocomplete-custom-append" class="form-control col-md-10"/>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Select</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <select class="form-control">
+                            <option>Choose option</option>
+                            <option>Option one</option>
+                            <option>Option two</option>
+                            <option>Option three</option>
+                            <option>Option four</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Custom</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <select class="select2_single form-control" tabindex="-1">
+                            <option></option>
+                            <option value="AK">Alaska</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="CA">California</option>
+                            <option value="NV">Nevada</option>
+                            <option value="OR">Oregon</option>
+                            <option value="WA">Washington</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="CO">Colorado</option>
+                            <option value="ID">Idaho</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="UT">Utah</option>
+                            <option value="WY">Wyoming</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TX">Texas</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Grouped</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <select class="select2_group form-control">
+                            <optgroup label="Alaskan/Hawaiian Time Zone">
+                              <option value="AK">Alaska</option>
+                              <option value="HI">Hawaii</option>
+                            </optgroup>
+                            <optgroup label="Pacific Time Zone">
+                              <option value="CA">California</option>
+                              <option value="NV">Nevada</option>
+                              <option value="OR">Oregon</option>
+                              <option value="WA">Washington</option>
+                            </optgroup>
+                            <optgroup label="Mountain Time Zone">
+                              <option value="AZ">Arizona</option>
+                              <option value="CO">Colorado</option>
+                              <option value="ID">Idaho</option>
+                              <option value="MT">Montana</option>
+                              <option value="NE">Nebraska</option>
+                              <option value="NM">New Mexico</option>
+                              <option value="ND">North Dakota</option>
+                              <option value="UT">Utah</option>
+                              <option value="WY">Wyoming</option>
+                            </optgroup>
+                            <optgroup label="Central Time Zone">
+                              <option value="AL">Alabama</option>
+                              <option value="AR">Arkansas</option>
+                              <option value="IL">Illinois</option>
+                              <option value="IA">Iowa</option>
+                              <option value="KS">Kansas</option>
+                              <option value="KY">Kentucky</option>
+                              <option value="LA">Louisiana</option>
+                              <option value="MN">Minnesota</option>
+                              <option value="MS">Mississippi</option>
+                              <option value="MO">Missouri</option>
+                              <option value="OK">Oklahoma</option>
+                              <option value="SD">South Dakota</option>
+                              <option value="TX">Texas</option>
+                              <option value="TN">Tennessee</option>
+                              <option value="WI">Wisconsin</option>
+                            </optgroup>
+                            <optgroup label="Eastern Time Zone">
+                              <option value="CT">Connecticut</option>
+                              <option value="DE">Delaware</option>
+                              <option value="FL">Florida</option>
+                              <option value="GA">Georgia</option>
+                              <option value="IN">Indiana</option>
+                              <option value="ME">Maine</option>
+                              <option value="MD">Maryland</option>
+                              <option value="MA">Massachusetts</option>
+                              <option value="MI">Michigan</option>
+                              <option value="NH">New Hampshire</option>
+                              <option value="NJ">New Jersey</option>
+                              <option value="NY">New York</option>
+                              <option value="NC">North Carolina</option>
+                              <option value="OH">Ohio</option>
+                              <option value="PA">Pennsylvania</option>
+                              <option value="RI">Rhode Island</option>
+                              <option value="SC">South Carolina</option>
+                              <option value="VT">Vermont</option>
+                              <option value="VA">Virginia</option>
+                              <option value="WV">West Virginia</option>
+                            </optgroup>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Multiple</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <select class="select2_multiple form-control" multiple="multiple">
+                            <option>Choose option</option>
+                            <option>Option one</option>
+                            <option>Option two</option>
+                            <option>Option three</option>
+                            <option>Option four</option>
+                            <option>Option five</option>
+                            <option>Option six</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="control-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Input Tags</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input id="tags_1" type="text" class="tags form-control" value="social, adverts, sales" />
+                          <div id="suggestions-container" style="position: relative; float: left; width: 250px; margin: 10px;"></div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-3 col-sm-3 col-xs-12 control-label">Checkboxes and radios
+                          <br>
+                          <small class="text-navy">Normal Bootstrap elements</small>
+                        </label>
+
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" value=""> Option one. select more than one options
+                            </label>
+                          </div>
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" value=""> Option two. select more than one options
+                            </label>
+                          </div>
+                          <div class="radio">
+                            <label>
+                              <input type="radio" checked="" value="option1" id="optionsRadios1" name="optionsRadios"> Option one. only select one option
+                            </label>
+                          </div>
+                          <div class="radio">
+                            <label>
+                              <input type="radio" value="option2" id="optionsRadios2" name="optionsRadios"> Option two. only select one option
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-md-3 col-sm-3 col-xs-12 control-label">Checkboxes and radios
+                          <br>
+                          <small class="text-navy">Normal Bootstrap elements</small>
+                        </label>
+
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" class="flat" checked="checked"> Checked
+                            </label>
+                          </div>
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" class="flat"> Unchecked
+                            </label>
+                          </div>
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" class="flat" disabled="disabled"> Disabled
+                            </label>
+                          </div>
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" class="flat" disabled="disabled" checked="checked"> Disabled & checked
+                            </label>
+                          </div>
+                          <div class="radio">
+                            <label>
+                              <input type="radio" class="flat" checked name="iCheck"> Checked
+                            </label>
+                          </div>
+                          <div class="radio">
+                            <label>
+                              <input type="radio" class="flat" name="iCheck"> Unchecked
+                            </label>
+                          </div>
+                          <div class="radio">
+                            <label>
+                              <input type="radio" class="flat" name="iCheck" disabled="disabled"> Disabled
+                            </label>
+                          </div>
+                          <div class="radio">
+                            <label>
+                              <input type="radio" class="flat" name="iCheck3" disabled="disabled" checked> Disabled & Checked
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      
 
 
-                      <tbody>
-                        <tr>
-                          <td>Tiger Nixon</td>
-                          <td>System Architect</td>
-                          <td>Edinburgh</td>
-                          <td>61</td>
-                          <td>2011/04/25</td>
-                          <td>$320,800</td>
-                        </tr>
-                        
-                        <tr>
-                          <td>Cedric Kelly</td>
-                          <td>Senior Javascript Developer</td>
-                          <td>Edinburgh</td>
-                          <td>22</td>
-                          <td>2012/03/29</td>
-                          <td>$433,060</td>
-                        </tr>
-                        <tr>
-                          <td>Airi Satou</td>
-                          <td>Accountant</td>
-                          <td>Tokyo</td>
-                          <td>33</td>
-                          <td>2008/11/28</td>
-                          <td>$162,700</td>
-                        </tr>
-                        <tr>
-                          <td>Brielle Williamson</td>
-                          <td>Integration Specialist</td>
-                          <td>New York</td>
-                          <td>61</td>
-                          <td>2012/12/02</td>
-                          <td>$372,000</td>
-                        </tr>
-                        <tr>
-                          <td>Herrod Chandler</td>
-                          <td>Sales Assistant</td>
-                          <td>San Francisco</td>
-                          <td>59</td>
-                          <td>2012/08/06</td>
-                          <td>$137,500</td>
-                        </tr>
-                        
-                        <tr>
-                          <td>Jennifer Acosta</td>
-                          <td>Junior Javascript Developer</td>
-                          <td>Edinburgh</td>
-                          <td>43</td>
-                          <td>2013/02/01</td>
-                          <td>$75,650</td>
-                        </tr>
-                        <tr>
-                          <td>Cara Stevens</td>
-                          <td>Sales Assistant</td>
-                          <td>New York</td>
-                          <td>46</td>
-                          <td>2011/12/06</td>
-                          <td>$145,600</td>
-                        </tr>
-                        <tr>
-                          <td>Hermione Butler</td>
-                          <td>Regional Director</td>
-                          <td>London</td>
-                          <td>47</td>
-                          <td>2011/03/21</td>
-                          <td>$356,250</td>
-                        </tr>
-                        <tr>
-                          <td>Lael Greer</td>
-                          <td>Systems Administrator</td>
-                          <td>London</td>
-                          <td>21</td>
-                          <td>2009/02/27</td>
-                          <td>$103,500</td>
-                        </tr>
-                        <tr>
-                          <td>Jonas Alexander</td>
-                          <td>Developer</td>
-                          <td>San Francisco</td>
-                          <td>30</td>
-                          <td>2010/07/14</td>
-                          <td>$86,500</td>
-                        </tr>
-                        <tr>
-                          <td>Shad Decker</td>
-                          <td>Regional Director</td>
-                          <td>Edinburgh</td>
-                          <td>51</td>
-                          <td>2008/11/13</td>
-                          <td>$183,000</td>
-                        </tr>
-                        <tr>
-                          <td>Michael Bruce</td>
-                          <td>Javascript Developer</td>
-                          <td>Singapore</td>
-                          <td>29</td>
-                          <td>2011/06/27</td>
-                          <td>$183,000</td>
-                        </tr>
-                        <tr>
-                          <td>Donna Snider</td>
-                          <td>Customer Support</td>
-                          <td>New York</td>
-                          <td>27</td>
-                          <td>2011/01/25</td>
-                          <td>$112,000</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                          <button type="submit" class="btn btn-primary">Cancel</button>
+                          <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+             <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Form Design <small>different form elements</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">First Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Last Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Middle Name / Initial</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="middle-name">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <div id="gender" class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                              <input type="radio" name="gender" value="male"> &nbsp; Male &nbsp;
+                            </label>
+                            <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                              <input type="radio" name="gender" value="female"> Female
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Date Of Birth <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                        </div>
+                      </div>
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button type="submit" class="btn btn-primary">Cancel</button>
+                          <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                      </div>
+
+                    </form>
                   </div>
                 </div>
               </div>

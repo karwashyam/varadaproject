@@ -118,15 +118,15 @@ public class BusinessController extends BaseController {
 	}
 
 	private String[] commonCss() {
-		return new String[] { "css/bootstrap.min.css","css/font-awesome.min.css","css/dataTables.bootstrap.min.css",
+		return new String[] { "css/bootstrap.min.css","css/font-awesome.min.css",
 				"css/buttons.bootstrap.min.css","css/custom.min.css"};
 	}
 
 	private String[] commonJs() {
 		return new String[] {
 			        "js/vendor/jquery-1.11.1.min.js", "js/vendor/bootstrap.min.js", 
-			      "js/vendor/jquery-ui.js","js/vendor/jquery.dataTables.min.js","js/vendor/dataTables.bootstrap.min.js",
-			      "js/vendor/custom.min.js"
+			      "js/vendor/jquery-ui.js","js/vendor/jquery.dataTables.min.js",
+			      "js/vendor/icheck.min.js","js/vendor/daterangepicker.js","js/vendor/custom.min.js","js/main.js"
 		};
 	}
 
