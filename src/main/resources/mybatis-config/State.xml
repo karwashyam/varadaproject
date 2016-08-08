@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.StateDao">
+
+	<resultMap id="stateResultMap" type="State" >
+		<result property="stateId" column="state_id" />
+		<result property="stateName" column="state_name" />
+		<result property="countryId" column="country_id" />
+		<result property="createdBy" column="created_by" />
+		<result property="createdAt" column="created_at" />
+				<result property="updatedBy" column="updated_by" />
+		
+		<result property="updatedAt" column="updated_at" />
+		<result property="recordStatus" column="record_status" />
+	</resultMap>
+	
+	
+	<resultMap id="statesResultListMap" type="Map" >
+			<result property="stateId" column="state_id" />
+		<result property="stateName" column="state_name" />
+		<result property="countryId" column="country_id" />
+				<result property="countryName" column="country_name" />
+		
+	</resultMap>
+	<insert id="addState" parameterType="State" useGeneratedKeys="false">
+		INSERT INTO state(
+            state_id, state_name, country_id, created_by, created_at, updated_by, 
+            updated_at, record_status)
+		VALUES(#{stateId},#{stateName},#{countryId},#{createdBy},#{createdAt},#{updatedBy},
+			#{updatedAt},'A')
+	</insert>
+	
+	<select id="getStateDetailsById" parameterType="String"	resultMap="stateResultMap">
+		SELECT * FROM state 
+		WHERE state_id = #{stateId} AND record_status = 'A'
+	</select>
+			
+			
+	<select id="fetchStatesList" parameterType="Map" resultMap="statesResultListMap">
+		SELECT 
+        	st.state_id, st.state_name, ctr.country_name
+        FROM
+                state st
+                INNER JOIN country ctr ON ctr.country_id = st.country_id
+		 WHERE
+        		st.record_status = 'A'
+        		
+       <if test="sSearch!='%%'">
+       	AND st.state_name iLIKE #{sSearch}
+       </if>  		
+        
+       <choose>
+		    <when test="columnName != ''">
+		      ORDER BY ${columnName}  ${sSortDir}
+		    </when>
+		    <otherwise>
+		      ORDER BY st.created_at DESC
+		    </otherwise>
+  		</choose>
+        LIMIT ${iDisplayLength}  OFFSET  ${iDisplayStart}
+      
+        
+       
+	</select>
+	
+	
+	<update id="editState" parameterType="State">
+		
+	   UPDATE 
+			state
+  	   SET 
+  		 	 state_name=#{stateName}, country_id=#{countryId},updated_by=#{updatedBy}, updated_at=#{updatedAt}
+       WHERE 
+      		state_id=#{stateId}
+		AND 
+			record_status = 'A'
+	</update>
+</mapper> 

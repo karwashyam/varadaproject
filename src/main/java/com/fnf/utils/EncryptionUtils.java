@@ -20,5 +20,7 @@ public class EncryptionUtils
  
   public static void main(String[] args) {
 	  System.out.println(encryptPassword("1234"));
+	  
+	  System.out.println(EncryptionUtils.isValidPassword("1234", "$2a$31$FwUZuCNCTo/mQi3Bp0pwf.xkDMUhDnHbEIcEn1TvA4we6v431DpPW"));
 }
 }

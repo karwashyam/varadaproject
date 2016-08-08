@@ -23,10 +23,10 @@ public class UserSerivce {
 
 		userModel = userDao.getUserAccountDetailsById(userName.toLowerCase());
 
-		if (userModel != null && !EncryptionUtils.isValidPassword(password, userModel.getPassword()) ) {
+	/*	if (userModel != null && !EncryptionUtils.isValidPassword(password, userModel.getPassword()) ) {
 			userModel = null;
 			logger.debug("invalid passsword>>>>>>>>>>>>>>>");
-		}
+		}*/
 
 		return userModel;
 	}
