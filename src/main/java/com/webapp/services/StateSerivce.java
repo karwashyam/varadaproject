@@ -44,7 +44,6 @@ public class StateSerivce {
 		State stateModel=new State();
 		stateModel.setStateId(stateId);
 		stateModel.setStateName(stateDto.getStateName());
-		stateModel.setCountryId(stateDto.getCountryId());
 		
 		
 		
@@ -72,6 +71,7 @@ public class StateSerivce {
 
 
 		List<Map<String, Object> > resultList = stateDao.fetchStatesList(inputMap);
+		System.out.println("\n\t resultList==>"+resultList.size());
 		for (Map<String, Object> map : resultList) {
 			map.put("srNo", serialNo++);
 		}
@@ -90,7 +90,6 @@ public class StateSerivce {
 		State stateModel=new State();
 		stateModel.setStateId(stateDto.getStateId());
 		stateModel.setStateName(stateDto.getStateName());
-		stateModel.setCountryId(stateDto.getCountryId());
 		
 		
 		

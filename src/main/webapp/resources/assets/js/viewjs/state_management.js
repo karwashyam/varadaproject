@@ -18,19 +18,17 @@ jQuery(document).ready(function() {
 		$("#addState").prop("disabled", true);
 	}
 
-	webApp.datatables();
+//	webApp.datatables();
 	
 	stateManagement();
     
 
 	jQuery("#addState").click(function() {
-		document.location = basePath + "/secure/add-state.do";
+		document.location = basePath + "/add-state.do";
 	});
 });
 
 function stateManagement() {
-	
-
 	
 	
 	oTable = $('#stateManageTable')
@@ -49,7 +47,7 @@ function stateManagement() {
 						"bLengthChange" : false,
 						"fnServerData" : fnServerData,
 						"sAjaxSource" : basePath
-								+ "/ajax/secure/states.json",
+								+ "/ajax/states.json",
 
 
 						"aoColumnDefs" : [
@@ -104,7 +102,7 @@ function stateManagement() {
 										return actionsLinks;
 									},
 
-									"aTargets" : [ 3 ]
+									"aTargets" : [ 2 ]
 								}, ],
 
 						"aoColumns" : [
@@ -124,14 +122,7 @@ function stateManagement() {
 							"sClass" : "center"
 						}, // userName
 
-						
-						{
-							"sTitle" : "Country",
-							"mData" : "countryName",
-							"sWidth" : "15%",
-							"bSortable" : true,
-							"sClass" : "center"
-						},
+					
 						
 						{
 							"sTitle" : "Action",
@@ -278,8 +269,8 @@ function deactivateState(lessonId, active){
 								$(".errorMessage").html("");
 	
 								BootstrapDialog.alert("state "+activeStatus+" successfully.");
-								var table = $('#lessonManageTable').DataTable();
-								$('#lessonManageTable').dataTable().fnDraw();
+								var table = $('#stateManageTable').DataTable();
+								$('#stateManageTable').dataTable().fnDraw();
 								dialogItself.close();
 	
 							} else if(response.error){

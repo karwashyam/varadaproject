@@ -33,18 +33,17 @@ public class StateManagementAjaxController extends BusinessApiController {
 	@Autowired
 	private StateSerivce stateSerivce;
 
-	@RequestMapping(value = "/ajax/secure/states", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/ajax/states", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody DatatableModel<Map<String, Object> > fetchLessons(@RequestParam int iDisplayStart,
 	                                                                       @RequestParam int iDisplayLength,
 	                                                                       @RequestParam int sEcho,
 	                                                                       @RequestParam String sSearch, HttpServletRequest req, HttpServletResponse res){
 
 
-		System.out.println("\n\t state ajax call");
 		int serialNo = iDisplayStart + 1;
 		int colNo;
 		String iSortCol, columnName = null, sSortDir = null;
-		String cols[] = { "", "st.state_name", "ctr.country_name"};
+		String cols[] = { "", "st.state_name"};
 
 		sSearch = "%" + sSearch + "%";
 
@@ -67,7 +66,6 @@ public class StateManagementAjaxController extends BusinessApiController {
 		DatatableModel<Map<String, Object> > dtData = new DatatableModel<Map<String, Object> >();
 		dtData.setAaData(stateSerivce.fetchStatesList(iDisplayLength, iDisplayStart, serialNo, sSortDir, columnName, sSearch));
 		
-		System.out.println("\n\t state ajax call data ="+dtData.getiTotalDisplayRecords());
 
 		dtData.setiTotalDisplayRecords(10);
 		dtData.setiTotalRecords(10);

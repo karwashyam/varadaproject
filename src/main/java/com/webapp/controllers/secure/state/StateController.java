@@ -21,7 +21,6 @@ import com.webapp.models1.State;
 import com.webapp.services.StateSerivce;
 
 @Controller
-@RequestMapping("/secure")
 public class StateController extends BusinessController{
 
 
@@ -71,7 +70,7 @@ System.out.println("\t\t after preprocessreq");
 
 		stateService.addState(stateDto);
 
-		return pageRedirect("/secure/states.do");
+		return pageRedirect("/states.do");
 	}
 	
 	@RequestMapping(value = "/edit-state/{stateId}", method = RequestMethod.GET)
@@ -92,12 +91,10 @@ System.out.println("\t\t after preprocessreq");
 		StateDto stateDto=new StateDto();
 		stateDto.setStateName(stateModel.getStateName());
 		stateDto.setStateId(stateModel.getStateId());
-		stateDto.setCountryId(stateModel.getCountryId());
 		model.addAttribute("editstateFrm", stateDto);
 		
 		model.addAttribute("stateName", stateDto.getStateName());
 		model.addAttribute("stateId", stateDto.getStateId());
-		model.addAttribute("countryId", stateDto.getCountryId());
 		
 		return "/secure/master/edit-state";
 	}
@@ -114,7 +111,7 @@ System.out.println("\t\t after preprocessreq");
 
 		stateService.editState(stateDto);
 
-		return pageRedirect("/secure/states.do");
+		return pageRedirect("/states.do");
 	}
 	
 	@Override
