@@ -20,7 +20,7 @@ var webApp = function() {
     var sScrollHeight = $(window).height() - 51;
 
     /* Initialization UI Code */
-    	new function() {//NOSONAR
+    var uiInit = function() {
 
         // Add the correct copyright year at the footer
         var yearCopy = $('#year-copy'), d = new Date();
@@ -30,20 +30,12 @@ var webApp = function() {
         } else {
             yearCopy.html('2013-' + d.getFullYear());
         }
+
         // Add opacity to the header when scrolling (you can comment/remove the following line if you prefer a solid header)
-        $(window).scroll(function(){
-        	if ($(this).scrollTop() > 60) {
-        		header.addClass('add-opacity');
-        		} else {
-        			header.removeClass('add-opacity');
-       			}
-        });
+        $(window).scroll(function() { if ($(this).scrollTop() > 60) { header.addClass('add-opacity'); } else { header.removeClass('add-opacity'); } });
 
         // Initialize tabs
-        $('[data-toggle="tabs"] a, .enable-tabs a').click(function(e){
-        	e.preventDefault();
-        	$(this).tab('show');
-        });
+        $('[data-toggle="tabs"] a, .enable-tabs a').click(function(e){ e.preventDefault(); $(this).tab('show'); });
 
         // Initialize Tooltips
         $('[data-toggle="tooltip"], .enable-tooltip').tooltip({container: 'body', animation: false});
@@ -97,7 +89,7 @@ var webApp = function() {
     };
 
     /* Sidebar Navigation functionality */
-    new function() {//NOSONAR
+    var handleNav = function() {
 
         // Animation Speed, change the values for different results
         var upSpeed = 250;
@@ -155,14 +147,14 @@ var webApp = function() {
 
             // Init Swipe Functionality
             $('.sidebars-swipe').swipe({
-                swipeRight: function() {
+                swipeRight: function(event, direction, distance, duration, fingerCount) {
                     if (body.hasClass('sidebar-right-open')) {
                         handleSidebars('close-right');
                     } else {
                         handleSidebars('open-left');
                     }
                 },
-                swipeLeft: function() {
+                swipeLeft: function(event, direction, distance, duration, fingerCount) {
                     if (body.hasClass('sidebar-left-open')) {
                         handleSidebars('close-left');
                     } else {
@@ -171,51 +163,45 @@ var webApp = function() {
                 }
             });
         }
-     // Resize Scroll Height
-        else if (mode === 'resize-scroll'){
+        else if (mode === 'resize-scroll') { // Resize Scroll Height
+
             // 50 is the height of .sidebar-search and .user-info in pixels
             sLScroll.add(sRScroll).css('height', $(window).height() - 51);
         }
-     // Open Left Sidebar
-        else if (mode === 'open-left'){
+        else if (mode === 'open-left') { // Open Left Sidebar
 
             body.removeClass('sidebar-right-open').addClass('sidebar-left-open');
 
             sLToggle.parent('li').addClass('active');
             sRToggle.parent('li').removeClass('active');
         }
-     // Close Left Sidebar
-        else if (mode === 'close-left'){
+        else if (mode === 'close-left') { // Close Left Sidebar
 
             body.removeClass('sidebar-left-open');
 
             sLToggle.parent('li').removeClass('active');
         }
-     // Toggle Left Sidebar
-        else if (mode === 'toggle-left'){
+        else if (mode === 'toggle-left') { // Toggle Left Sidebar
 
             body.removeClass('sidebar-right-open').toggleClass('sidebar-left-open');
 
             sLToggle.parent('li').toggleClass('active');
             sRToggle.parent('li').removeClass('active');
         }
-     // Open Right Sidebar
-        else if (mode === 'open-right'){
+        else if (mode === 'open-right') { // Open Right Sidebar
 
             body.removeClass('sidebar-left-open').addClass('sidebar-right-open');
 
             sRToggle.parent('li').addClass('active');
             sLToggle.parent('li').removeClass('active');
         }
-     // Close Right Sidebar
-        else if (mode === 'close-right') {
+        else if (mode === 'close-right') { // Close Right Sidebar
 
             body.removeClass('sidebar-right-open');
 
             sRToggle.parent('li').removeClass('active');
         }
-     // Toggle Left Sidebar
-        else if (mode === 'toggle-right') {
+        else if (mode === 'toggle-right') { // Toggle Left Sidebar
 
             body.removeClass('sidebar-left-open').toggleClass('sidebar-right-open');
 
@@ -225,7 +211,7 @@ var webApp = function() {
     };
 
     /* Scroll to top functionality */
-     new function() {//NOSONAR
+    var scrollToTop = function() {
 
         // Get link
         var link = $('#to-top');
@@ -247,7 +233,7 @@ var webApp = function() {
     };
 
     /* Template Options, change features functionality */
-     new function() {//NOSONAR
+    var templateOptions = function() {
 
         /*
          * Color Themes
@@ -263,7 +249,7 @@ var webApp = function() {
             $('a[data-theme="' + theme + '"]', colorList).parent('li').addClass('active');
         }
 
-        $('a', colorList).click(function(){
+        $('a', colorList).click(function(e){
             // Get theme name
             theme = $(this).data('theme');
 
@@ -428,7 +414,7 @@ var webApp = function() {
     };
 
     /* Input placeholder for older browsers */
-     new function() {//NOSONAR
+    var oldiePlaceholder = function() {
 
         // Check if placeholder feature is supported by the browser
         if (!Modernizr.input.placeholder) {
@@ -457,11 +443,11 @@ var webApp = function() {
     };
 
     /* Datatables Bootstrap integration */
-    new function() {//NOSONAR
+    var dtIntegration = function() {
 
         // Set the defaults for DataTables initialization
         $.extend(true, $.fn.dataTable.defaults, {
-            "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-5'i><'col-md-7'p>>",
+            "sDom": "<'row'<'col-md-6'l><'col-md-2'f>r>t<'row'<'col-md-5'i><'col-md-7'p>>",
             "sPaginationType": "bootstrap",
             "oLanguage": {
                 "sLengthMenu": "_MENU_",
@@ -507,88 +493,92 @@ var webApp = function() {
 
                     $(nPaging).append(
                         '<ul class="pagination pagination-sm remove-margin">' +
+                        '<li class="first disabled"><a href="javascript:void(0)">' + oLang.sFirst + '</a></li>' +
                         '<li class="prev disabled"><a href="javascript:void(0)"><i class="icon-chevron-left"></i> ' + oLang.sPrevious + '</a></li>' +
                         '<li class="next disabled"><a href="javascript:void(0)">' + oLang.sNext + ' <i class="icon-chevron-right"></i></a></li>' +
+                        '<li class="last disabled"><a href="javascript:void(0)">' + oLang.sLast + '</a></li>' +
                         '</ul>'
                         );
                     var els = $('a', nPaging);
-                    $(els[0]).bind('click.DT', {action: "previous"}, fnClickHandler);
-                    $(els[1]).bind('click.DT', {action: "next"}, fnClickHandler);
+                    $(els[0]).bind('click.DT', {action: "first"}, fnClickHandler);
+                    $(els[1]).bind('click.DT', {action: "previous"}, fnClickHandler);
+                    $(els[2]).bind('click.DT', {action: "next"}, fnClickHandler);
+                    $(els[3]).bind('click.DT', {action: "last"}, fnClickHandler);
                 },
-                "fnUpdate": function(oSettings) {
-                    var iListLength = 5;
-                    var oPaging = oSettings.oInstance.fnPagingInfo();
-                    var an = oSettings.aanFeatures.p;
-                    var i, j, sClass, iStart, iEnd, iHalf = Math.floor(iListLength / 2);
 
-                    if (oPaging.iTotalPages < iListLength) {
-                        iStart = 1;
-                        iEnd = oPaging.iTotalPages;
-                    }
-                    else if (oPaging.iPage <= iHalf) {
-                        iStart = 1;
-                        iEnd = iListLength;
-                    } else if (oPaging.iPage >= (oPaging.iTotalPages - iHalf)) {
-                        iStart = oPaging.iTotalPages - iListLength + 1;
-                        iEnd = oPaging.iTotalPages;
-                    } else {
-                        iStart = oPaging.iPage - iHalf + 1;
-                        iEnd = iStart + iListLength - 1;
-                    }
-                    var iLen;
-                    for (i = 0, iLen = an.length; i < iLen; i++) {
-                        // Remove the middle elements
-                        $('li:gt(0)', an[i]).filter(':not(:last)').remove();
-
-                        // Add the new list items and their event handlers
-                        for (j = iStart; j <= iEnd; j++) {
-                            sClass = (j === oPaging.iPage + 1) ? 'class="active"' : '';
-                            $('<li ' + sClass + '><a href="javascript:void(0)">' + j + '</a></li>')
-                                .insertBefore($('li:last', an[i])[0])
-                                .bind('click', bindRowEvent(oSettings, oPaging));
+                "fnUpdate": function ( oSettings,fnDraw ) {
+                        var iListLength = 5;
+                        var oPaging = oSettings.oInstance.fnPagingInfo();
+                        var an = oSettings.aanFeatures.p;
+                        var i, j, sClass, iStart, iEnd, iHalf=Math.floor(iListLength/2);
+ 
+                        if ( oPaging.iTotalPages < iListLength) {
+                                iStart = 1;
+                                iEnd = oPaging.iTotalPages;
                         }
-                        // Add / remove disabled classes from the static elements
-                        if (oPaging.iPage === 0) {
-                            $('li:first', an[i]).addClass('disabled');
+                        else if ( oPaging.iPage <= iHalf ) {
+                                iStart = 1;
+                                iEnd = iListLength;
+                        } else if ( oPaging.iPage >= (oPaging.iTotalPages-iHalf) ) {
+                                iStart = oPaging.iTotalPages - iListLength + 1;
+                                iEnd = oPaging.iTotalPages;
                         } else {
-                            $('li:first', an[i]).removeClass('disabled');
+                                iStart = oPaging.iPage - iHalf + 1;
+                                iEnd = iStart + iListLength - 1;
                         }
-
-                        if (oPaging.iPage === oPaging.iTotalPages - 1 || oPaging.iTotalPages === 0) {
-                            $('li:last', an[i]).addClass('disabled');
-                        } else {
-                            $('li:last', an[i]).removeClass('disabled');
+ 
+                        for ( i=0, iLen=an.length ; i<iLen ; i++ ) {
+                                // Remove the middle elements
+                                $('li:gt(1)', an[i]).filter(':not(.next,.last)').remove();
+ 
+                                // Add the new list items and their event handlers
+                                for ( j=iStart ; j<=iEnd ; j++ ) {
+                                       sClass = (j==oPaging.iPage+1) ? 'class="active"' : '';
+                                        $('<li '+sClass+'><a href="#">'+j+'</a></li>')
+                                                .insertBefore( $('.next,.last', an[i])[0] )
+                                                .bind('click', function (e) {
+                                                        e.preventDefault();
+                                                        oSettings._iDisplayStart = (parseInt($('a', this).text(),10)-1) * oPaging.iLength;
+                                                        fnDraw( oSettings );
+                                                } );
+                                }
+ 
+                                // Add / remove disabled classes from the static elements
+                                if ( oPaging.iPage === 0 ) {
+                                        $('.first,.prev', an[i]).addClass('disabled');
+                                } else {
+                                        $('.first,.prev', an[i]).removeClass('disabled');
+                                }
+ 
+                                if ( oPaging.iPage === oPaging.iTotalPages-1 || oPaging.iTotalPages === 0 ) {
+                                        $('.next,.last', an[i]).addClass('disabled');
+                                } else {
+                                        $('.next,.last', an[i]).removeClass('disabled');
+                                }
                         }
-                    }
                 }
             }
         });
     };
+
+
     return {
         init: function() {
             //uiInit(); // Initialize UI Code
-        	// Initialize Sidebars Functionality
-            handleSidebars('init');
+            handleSidebars('init'); // Initialize Sidebars Functionality
             //handleNav(); // Sidebar Navigation functionality
             //scrollToTop(); // Scroll to top functionality
             //templateOptions(); // Template Options, change features
             //oldiePlaceholder(); // Make input placeholder work in older browsers
         },
         sidebars: function(mode) {
-        	// Handle Sidebars Functionality
-            handleSidebars(mode);
+            handleSidebars(mode); // Handle Sidebars Functionality
         },
         datatables: function() {
-        	// Datatables Bootstrap integration
-            dtIntegration();
+            dtIntegration(); // Datatables Bootstrap integration
         }
     };
 }();
-function bindRowEvent(oSettings, oPaging) {
-    e.preventDefault();
-    oSettings._iDisplayStart = (parseInt($('a', this).text(), 10) - 1) * oPaging.iLength;
-    fnDraw(oSettings);
-}
 
 /* Initialize WebApp when page loads */
 $(function() { webApp.init(); });

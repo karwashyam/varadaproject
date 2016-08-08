@@ -10,7 +10,9 @@ import java.util.Map;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import javaxt.io.Image;
+import com.utils.constant.ProjectConstant;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,6 @@ import com.fnf.utils.FileUtils;
 import com.fnf.utils.StringUtils;
 import com.fnf.utils.UUIDGenerator;
 import com.utils.constant.ImageUtils;
-import com.utils.constant.ProjectConstant;
 import com.webapp.controllers.BusinessController;
 import com.webapp.dto.FileDto;
 import com.webapp.validator.FileValidator;

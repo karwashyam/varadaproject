@@ -8,6 +8,7 @@
 	<typeAliases>
 		<typeAlias alias="UserModel" type="com.webapp.models1.User" />
 		<typeAlias alias="JQTableUtils" type="com.fnf.utils.JQTableUtils" />
+  		<typeAlias alias="State" type="com.webapp.models1.State" />
   		
 	</typeAliases>
 
@@ -16,5 +17,6 @@
 		<mapper resource="mybatis-config/User.xml" /> 
 		<mapper resource="mybatis-config/Session.xml" />
   		<mapper resource="mybatis-config/Login.xml" />
+  			<mapper resource="mybatis-config/State.xml" />
 	</mappers>
 </configuration>
