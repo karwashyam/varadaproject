@@ -1,5 +1,7 @@
 package com.webapp.controllers.secure.ajax.state;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.webapp.controllers.BusinessApiController;
+import com.webapp.dbsession.DbSession;
 import com.webapp.models.DatatableModel;
 import com.webapp.services.SessionService;
 import com.webapp.services.StateSerivce;
@@ -51,8 +55,6 @@ public class StateManagementAjaxController extends BusinessApiController {
 			sSortDir = req.getParameter("sSortDir_0");
 		}
 
-
-
 		if (req.getParameter("iSortCol_0") != null) {
 			iSortCol = req.getParameter("iSortCol_0");
 			if (!iSortCol.trim().equalsIgnoreCase("")) {
@@ -63,16 +65,38 @@ public class StateManagementAjaxController extends BusinessApiController {
 			}
 		}
 
+		List<Map<String, Object> > aDData=stateSerivce.fetchStatesList(iDisplayLength, iDisplayStart, serialNo, sSortDir, columnName, sSearch);
 		DatatableModel<Map<String, Object> > dtData = new DatatableModel<Map<String, Object> >();
-		dtData.setAaData(stateSerivce.fetchStatesList(iDisplayLength, iDisplayStart, serialNo, sSortDir, columnName, sSearch));
+		dtData.setAaData(aDData);
 		
 
-		dtData.setiTotalDisplayRecords(10);
-		dtData.setiTotalRecords(10);
+		dtData.setiTotalDisplayRecords(aDData.size());
+		dtData.setiTotalRecords(Integer.valueOf(stateSerivce.fetchTotalStatesListCount().toString()));
 		dtData.setsEcho(sEcho);
 		return dtData;
 	}
+	
 
+	@RequestMapping(value = "/ajax/state/delete", method = RequestMethod.DELETE)
+	public @ResponseBody ModelAndView deleteLesson(@RequestParam("stateId") String stateId, HttpServletRequest req, HttpServletResponse res){
 
+		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 
+		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
+
+		Map<String, Object> outputFinalMap= new HashMap<String,Object>();
+
+		int status = stateSerivce.deleteStateById(stateId, userId);
+
+		if (status ==0) {
+
+			outputFinalMap.put("error", "done");
+		} else {
+
+			outputFinalMap.put("success", "done");
+		}
+
+		return getOutputResponse(outputFinalMap );
+
+	}
 }

@@ -71,7 +71,6 @@ public class StateSerivce {
 
 
 		List<Map<String, Object> > resultList = stateDao.fetchStatesList(inputMap);
-		System.out.println("\n\t resultList==>"+resultList.size());
 		for (Map<String, Object> map : resultList) {
 			map.put("srNo", serialNo++);
 		}
@@ -79,7 +78,16 @@ public class StateSerivce {
 
 		return resultList;
 	}
-
+	public Long fetchTotalStatesListCount(){
+		Long count=0l;
+		count=stateDao.fetchTotalStatesListCount();
+		if(count!=null){
+			return count;
+		}else{
+			return 0l;
+		}
+		
+	}
 
 	public void editState(StateDto stateDto) {
 		
@@ -100,6 +108,17 @@ public class StateSerivce {
 		
 		stateDao.editState(stateModel);
 		
+	}
+
+
+	public int deleteStateById(String stateId, String userId) {
+		int status=-1;
+		State stateModel=new State();
+		stateModel.setStateId(stateId);
+		stateModel.setUpdatedBy(userId);
+		status=stateDao.deleteStateById(stateModel);
+		
+		return status;
 	}
 
 

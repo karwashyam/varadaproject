@@ -65,7 +65,7 @@
 	<update id="editState" parameterType="State">
 		
 	   UPDATE 
-			state
+			states
   	   SET 
   		 	 state_name=#{stateName}, updated_by=#{updatedBy}, updated_at=#{updatedAt}
        WHERE 
@@ -73,4 +73,19 @@
 		AND 
 			record_status = 'A'
 	</update>
+	
+	<update id="deleteStateById" parameterType="Map" >
+		UPDATE states SET record_status = 'D', updated_at = #{updatedAt}, updated_by = #{updatedBy}
+		WHERE  state_id = #{stateId} AND record_status = 'A'
+	</update>
+	<select id="fetchTotalStatesListCount" resultType="Long">
+		 SELECT 
+				 count(st.state_id) 
+			 FROM 
+				states st
+			 WHERE 
+			
+        		st.record_status = 'A'
+	</select>
+	
 </mapper> 

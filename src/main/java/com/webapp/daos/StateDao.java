@@ -16,4 +16,9 @@ public interface StateDao {
 
 	void editState(State stateModel);
 
+	int deleteStateById(State stateModel);
+
+
+	Long fetchTotalStatesListCount();
+
 }

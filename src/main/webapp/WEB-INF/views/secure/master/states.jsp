@@ -68,21 +68,7 @@
 		
 			            	<div style="float:left; width: 100%;">
 			            	<%-- <form method="POST" name="addlessfrm" id="addlessfrm" action="${pageContext.request.contextPath}/secure/lesson.do"> --%>
-			            	<div style="float:left;  padding-bottom: 5px; padding-top: 15px;  width: 100%;">
-			            	<div style="float:right;">
-			            		<button type="button" id="addState" class="btn btn-lg btn-primary border-radius">Add State</button>
-<%-- 			            		<a href="${pageContext.request.contextPath}/secure/add-lesson.do"  class="btn btn-primary border-radius"  >Add Lesson</a> --%>
-			            	</div>
-			            	<div style="float:right; margin-right: 5%;">
-			            	
-			            <!-- 	<select id="instrutype" name="instrutype" class="form-control"  onchange="loadTable();" style="width: 125px;" >
-									<option value="2">Guitar</option>
-									<option value="1">Piano</option>
-						    </select> 
-			            	 -->
-			            	</div>
-			            	
-			            	</div>
+			            
 			            	<!-- </form> -->
 			            	</div>
 		

@@ -21,6 +21,7 @@ jQuery(document).ready(function() {
 //	webApp.datatables();
 	
 	stateManagement();
+	$('#stateManageTable_wrapper').prepend('<a href="' + basePath + '/add-state.do' + '" class="actionbtn" style="float:right;">New State</a>');
     
 
 	jQuery("#addState").click(function() {
@@ -69,31 +70,11 @@ function stateManagement() {
 										
 										if(isEditAccess === "true"){
 											actionsLinks += '<a href="javascript:void(0);" '+' onclick="editState('+"'" + data+"'" + ');">'
-									        	+'Edit'+'</a>&nbsp &nbsp';
+									        	+'Edit'+'</a>&nbsp; &nbsp;&nbsp;<i class="fa fa-edit font-size-17px"></i></a>&nbsp;&nbsp;&nbsp;Delete&nbsp;<a href="javascript:void(0);" '+' onclick="deleteState('+"'" + data+"'" + ');"> <i class="fa fa-trash font-size-17px"></i>';
 										}else{
 											actionsLinks += '<a class="disabled" href="javascript:void(0);" '+' onclick="editState('+"'" + data+"'" + ');">'
 								        	+'Edit'+'</a>&nbsp &nbsp';
 										}
-										
-										/*if(isDeleteAccess === "true"){
-											actionsLinks += '<a href="javascript:void(0);" '+' onclick="deleteStates('+"'" + data+"'" + ');">'
-										        +'Delete'
-										        +'</a>&nbsp &nbsp';
-										        
-										        
-										    actionsLinks += '<a href="javascript:void(0);" '+' onclick="deactivateLesson('+"'" + data+"'" + ', '+"'" + row['active']+"'" + ');">'
-										        + active
-										        +'</a>';
-										}else{
-											actionsLinks += '<a class="disabled" href="javascript:void(0);" '+' onclick="deleteState('+"'" + data+"'" + ');">'
-										        +'Delete'
-										        +'</a>&nbsp &nbsp';
-											
-											
-											actionsLinks += '<a class="disabled" href="javascript:void(0);" '+' onclick="deactivateState('+"'" + data+"'" + ', '+"'" + row['active']+"'" + ');">'
-										        + active
-										        +'</a>';
-										}*/
 										
 										
 										actionsLinks += '</div>';
@@ -183,14 +164,14 @@ function handleAjaxError(xhr, textStatus, error) {
 
 function editState(lessonId){
 	if(isEditAccess === "true"){
-		document.location = basePath + "/secure/edit-state/" + lessonId + ".do";
+		document.location = basePath + "/edit-state/" + lessonId + ".do";
 	}
 }
 
-function deleteState(lessonId){
+function deleteState(stateId){
 	if(isDeleteAccess === "true"){
 		BootstrapDialog.show({
-			message: 'Are you sure you want to delete this Lesson ?',
+			message: 'Are you sure you want to delete this State ?',
 			title: 'Alert',
 			buttons: [{
 				label: 'YES',
@@ -198,7 +179,7 @@ function deleteState(lessonId){
 					$.ajax({
 	
 						type: "DELETE",
-						url: basePath +"/ajax/secure/state-management.json?stateId="+lessonId,
+						url: basePath +"/ajax/state/delete.json?stateId="+stateId,
 	
 						dataType :'json',
 						contentType: 'application/json',
@@ -215,66 +196,6 @@ function deleteState(lessonId){
 	
 							} else if(response.error){
 								BootstrapDialog.alert("Error! could not delete the selected State.");
-								dialogItself.close();
-	
-							}
-							dialogItself.close();
-	
-						},
-						error : function() {
-							dialogItself.close();
-							return false;
-						}
-					})
-				}
-			}, {
-				label: 'NO',
-				action: function(dialogItself) {
-					dialogItself.close();
-				}
-			}]
-		});
-	}
-}
-
-function deactivateState(lessonId, active){
-	
-	var activeStatus = 'deactivate';
-	
-	if(isDeleteAccess === "true"){
-		if(active == 'false'){
-			activeStatus = 'activate';
-		}else{
-			activeStatus = 'deactivate';
-			
-		}
-		
-		BootstrapDialog.show({
-			message: 'Are you sure you want to '+activeStatus+' this State ?',
-			title: 'Alert',
-			buttons: [{
-				label: 'YES',
-				action: function(dialogItself) {
-					$.ajax({
-	
-						type: "PUT",
-						url: basePath +"/ajax/secure/state/active.json?stateId="+lessonId+"&active="+active,
-	
-						dataType :'json',
-						contentType: 'application/json',
-						mimeType: 'application/json',
-	
-						success: function( response ) {
-							if(response.success){
-								$(".errorMessage").html("");
-	
-								BootstrapDialog.alert("state "+activeStatus+" successfully.");
-								var table = $('#stateManageTable').DataTable();
-								$('#stateManageTable').dataTable().fnDraw();
-								dialogItself.close();
-	
-							} else if(response.error){
-								BootstrapDialog.alert("Error! could not "+activeStatus+" the selected State.");
 								dialogItself.close();
 	
 							}
