@@ -39,7 +39,6 @@
                       <li><a href="${pageContext.request.contextPath}/project">List Projects</a></li>
                       <li><a href="${pageContext.request.contextPath}/add-project">Add Project</a></li>
                       <li><a href="${pageContext.request.contextPath}/payment-scheme">Payment Scheme</a></li>
-                      <li><a href="${pageContext.request.contextPath}/member-commission">Member Commission</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-users"></i> Franchisee <span class="fa fa-chevron-down"></span></a>
@@ -69,9 +68,7 @@
                   <li><a><i class="fa fa-sitemap"></i> Others <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="${pageContext.request.contextPath}/franchisee-commission">Franchisee Commission</a></li>
-                      <li><a href="${pageContext.request.contextPath}/member-commission">Member Commision</a></li>
-                      <li><a href="${pageContext.request.contextPath}/add-franchisee-commission">Add Franchisee Commission</a></li>
-                      <li><a href="${pageContext.request.contextPath}/add-member-commission">Add Member Commision</a></li>
+                      <li><a href="${pageContext.request.contextPath}/add-franchisee-commission">Pay Franchisee Commission</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-bar-chart-o"></i> Reports <span class="fa fa-chevron-down"></span></a>
