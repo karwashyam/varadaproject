@@ -59,7 +59,7 @@ public class CityController extends BusinessController{
 //		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
 		List<CityDto> accts = cityService.fetchCityList(tableUtils);
 		for (CityDto cityDto : accts) {
-			cityDto.setAction("<a href='"+req.getContextPath()+"/city/edit.do?cityId="+cityDto.getCityId()+"'><i class='fa fa-edit font-size-17px'></i></a>  <i class='fa fa-trash font-size-17px' onClick='deleteCity("+cityDto.getCityId()+")'></i>");
+			cityDto.setAction("<a href='"+req.getContextPath()+"/city/edit.do?cityId="+cityDto.getCityId()+"'>Edit&nbsp;<i class='fa fa-edit font-size-17px'></i></a>&nbsp;&nbsp;&nbsp;Delete&nbsp;<i class='fa fa-trash font-size-17px' onClick='deleteCity("+cityDto.getCityId()+")'></i>");
 		}
 		long count =  cityService.fetchTotalCityList(tableUtils);
 		dt.setAaData(accts); // this is the dataset reponse to client

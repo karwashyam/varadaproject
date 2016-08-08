@@ -17,9 +17,9 @@
 	<!-- page content -->
         <div class="right_col" role="main">
           <div class="">
-            <div class="page-title">
+            <!-- <div class="page-title">
               <div class="title_left">
-                <h3>Users <small>Some examples to get you started</small></h3>
+                <h3>Cities</small></h3>
               </div>
 
               <div class="title_right">
@@ -32,7 +32,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <div class="clearfix"></div>
             <div class="row">
@@ -58,9 +58,6 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <p class="text-muted font-13 m-b-30">
-                     
-                    </p>
                     <table id="city-datatable" class="table table-striped table-bordered">
                       <thead>
                         <tr>
