@@ -3,7 +3,7 @@ package com.webapp.daos;
 import java.util.List;
 import java.util.Map;
 
-import com.webapp.models1.State;
+import com.webapp.models.State;
 
 public interface StateDao {
 

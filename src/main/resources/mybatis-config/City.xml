@@ -67,4 +67,14 @@
 		
 	</select>
 	
+	
+	<insert id="postAddCity" parameterType="CityModel">
+		INSERT INTO cities(
+	            city_id, city_name, state_id, created_by, updated_by, created_at, 
+	            updated_at, record_status)
+	    VALUES (#{cityId}, #{cityName}, #{stateId}, #{createdBy}, #{updatedBy}, #{createdAt}, 
+	            #{updatedAt}, #{recordStatus});
+		
+	</insert>
+	
 </mapper> 

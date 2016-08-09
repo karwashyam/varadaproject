@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import com.fnf.utils.CookieUtils;
 import com.fnf.utils.DateUtils;
 import com.fnf.utils.UUIDGenerator;
-import com.webapp.models1.User;
+import com.webapp.models.User;
 import com.webapp.services.SessionService;
 
 public class DbSession {

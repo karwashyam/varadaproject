@@ -1,4 +1,4 @@
-package com.webapp.models1;
+package com.webapp.models;
 
 
 public class State extends AbstractModel {

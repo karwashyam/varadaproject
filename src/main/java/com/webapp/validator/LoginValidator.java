@@ -7,7 +7,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.webapp.dto.Login;
-import com.webapp.models1.User;
+import com.webapp.models.User;
 import com.webapp.services.UserSerivce;
 
 @Component

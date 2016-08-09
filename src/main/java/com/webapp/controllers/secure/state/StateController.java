@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.webapp.controllers.BusinessController;
 import com.webapp.dto.StateDto;
-import com.webapp.models1.State;
+import com.webapp.models.State;
 import com.webapp.services.StateSerivce;
 
 @Controller

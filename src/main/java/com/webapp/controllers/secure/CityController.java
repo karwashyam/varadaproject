@@ -11,18 +11,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fnf.utils.DateUtils;
 import com.fnf.utils.JQTableUtils;
 import com.webapp.controllers.BusinessController;
 import com.webapp.controllers.DataTablesTO;
 import com.webapp.dbsession.DbSession;
 import com.webapp.dto.CityDto;
+import com.webapp.models.CityModel;
 import com.webapp.services.CityService;
+import com.webapp.validator.CityValidator;
 
 @Controller
 @RequestMapping("/city")
@@ -38,12 +43,59 @@ public class CityController extends BusinessController{
 	@Autowired
 	private CityService cityService;
 	
+	@Autowired
+	private CityValidator cityValidator;
+	
+	@InitBinder
+	private void initBinder(WebDataBinder binder) {
+		binder.setValidator(cityValidator);
+	}
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public String initForm(Model model, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		preprocessRequest(model, req, res);
 		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
-			String url = "/login.do";
+			String url = "/login";
 			return "redirect:" + url;
+		}
+		return "city";
+	}
+	
+	@RequestMapping(value = "/add",method = RequestMethod.GET)
+	public String addCity(Model model, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		preprocessRequest(model, req, res);
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url = "/login";
+			return "redirect:" + url;
+		}
+		CityModel cityModel= new CityModel();
+		model.addAttribute("cityModel",cityModel);
+		
+		return "add-city";
+	}
+	
+	@RequestMapping(value = "/add",method = RequestMethod.POST)
+	public String postAddCity(Model model,@Validated CityModel cityModel,BindingResult result,
+			 HttpServletRequest req,HttpServletResponse res) throws ServletException, IOException {
+
+		preprocessRequest(model, req, res);
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url = "/login";
+			return "redirect:" + url;
+		}
+		
+		if (result.hasErrors()) {
+			model.addAttribute("cityModel",cityModel);
+			return "add-city";
+		}
+		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
+		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
+		
+		int status =cityService.postAddCity(cityModel,userId);
+		if(status>0){
+				model.addAttribute("msg", "Daily Update sent successfully");
+		}else{
+			model.addAttribute("msg", "Failed to send updates");
 		}
 		return "city";
 	}

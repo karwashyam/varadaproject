@@ -25,7 +25,7 @@ import com.fnf.utils.CookieUtils;
 import com.webapp.controllers.BusinessController;
 import com.webapp.dbsession.DbSession;
 import com.webapp.dto.Login;
-import com.webapp.models1.User;
+import com.webapp.models.User;
 import com.webapp.services.UserSerivce;
 import com.webapp.validator.LoginValidator;
 
@@ -42,6 +42,11 @@ public class LoginController extends BusinessController {
 
 	@Autowired
 	private LoginValidator loginValidator;
+	
+	@InitBinder
+	private void initBinder(WebDataBinder binder) {
+		binder.setValidator(loginValidator);
+	}
 
 	@Value("${DefaultDashBoardURL}")
 	private String defaultDashboardUrl;
@@ -49,10 +54,7 @@ public class LoginController extends BusinessController {
 	@Autowired
 	private MessageSource messageSource;
 
-	@InitBinder
-	private void initBinder(WebDataBinder binder) {
-		binder.setValidator(loginValidator);
-	}
+	
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String initForm(Model model, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

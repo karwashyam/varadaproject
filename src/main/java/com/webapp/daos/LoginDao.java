@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.webapp.models1.User;
+import com.webapp.models.User;
 
 public interface LoginDao {
 

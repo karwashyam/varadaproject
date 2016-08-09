@@ -24,12 +24,12 @@
 					<form:form class="form-signin" method="POST"  action="${pageContext.request.contextPath}/login.do" commandName="login">
 					
 					<form:input path="userName" class="form-control" placeholder="username" />
-					<form:errors path="userName" cssStyle="color: #ff0000;" />
+					<form:errors path="userName" style="color: #ff0000;" />
 							
 					<form:password path="password" class="form-control" placeholder="Password"/>
 					
-					<form:errors path="password" cssStyle="color: #ff0000;"  />
-					<form:errors path="validLogin" cssStyle="color: #ff0000;"  /> 			
+					<form:errors path="password" style="color: #ff0000;"  />
+					<form:errors path="validLogin" style="color: #ff0000;"  /> 			
 					
 					<input class="btn btn-lg btn-primary btn-block" type="submit" name="Sign in" value="Sign in">
 						

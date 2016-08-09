@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.webapp.daos.LoginDao;
 import com.fnf.utils.ErrorMessage;
+import com.webapp.daos.LoginDao;
 import com.webapp.exceptions.HttpUnauthorizedException;
-import com.webapp.models1.User;
+import com.webapp.models.User;
 
 public class BusinessApiController extends BaseApiController {
 

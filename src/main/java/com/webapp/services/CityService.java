@@ -7,9 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fnf.utils.DateUtils;
 import com.fnf.utils.JQTableUtils;
+import com.fnf.utils.UUIDGenerator;
+import com.utils.constant.ProjectConstant;
 import com.webapp.daos.CityDao;
 import com.webapp.dto.CityDto;
+import com.webapp.models.CityModel;
 
 @Service("cityService")
 public class CityService {
@@ -28,6 +32,18 @@ public class CityService {
 
 	public long fetchTotalCityList(JQTableUtils tableUtils) {
 		return cityDao.fetchTotalCityList(tableUtils);
+	}
+
+
+	public int postAddCity(CityModel cityModel, String userId) {
+		long time=DateUtils.nowAsGmtMillisec();
+		cityModel.setCityId(UUIDGenerator.generateUUID());
+		cityModel.setCreatedBy(userId);
+		cityModel.setUpdatedBy(userId);
+		cityModel.setCreatedAt(time);
+		cityModel.setUpdatedAt(time);
+		cityModel.setRecordStatus(ProjectConstant.ACTIVE_RECORD_STATUS);
+		return cityDao.postAddCity(cityModel);
 	}
 	
 	

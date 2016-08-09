@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.fnf.utils.JQTableUtils;
 import com.webapp.dto.CityDto;
+import com.webapp.models.CityModel;
 
 
 public interface CityDao {
@@ -13,6 +14,8 @@ public interface CityDao {
 	List<CityDto> fetchCityList(@Param("JQTableUtils") JQTableUtils tableUtils);
 
 	long fetchTotalCityList(@Param("JQTableUtils") JQTableUtils tableUtils);
+
+	int postAddCity(CityModel cityModel);
 
 	
 }

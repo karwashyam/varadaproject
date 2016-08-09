@@ -13,7 +13,7 @@ import com.fnf.utils.UUIDGenerator;
 import com.utils.constant.ProjectConstant;
 import com.webapp.daos.StateDao;
 import com.webapp.dto.StateDto;
-import com.webapp.models1.State;
+import com.webapp.models.State;
 
 @Service("stateService")
 public class StateSerivce {
