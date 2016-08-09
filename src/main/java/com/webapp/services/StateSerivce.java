@@ -44,7 +44,6 @@ public class StateSerivce {
 		State stateModel=new State();
 		stateModel.setStateId(stateId);
 		stateModel.setStateName(stateDto.getStateName());
-		stateModel.setCountryId(stateDto.getCountryId());
 		
 		
 		
@@ -79,7 +78,16 @@ public class StateSerivce {
 
 		return resultList;
 	}
-
+	public Long fetchTotalStatesListCount(){
+		Long count=0l;
+		count=stateDao.fetchTotalStatesListCount();
+		if(count!=null){
+			return count;
+		}else{
+			return 0l;
+		}
+		
+	}
 
 	public void editState(StateDto stateDto) {
 		
@@ -90,7 +98,6 @@ public class StateSerivce {
 		State stateModel=new State();
 		stateModel.setStateId(stateDto.getStateId());
 		stateModel.setStateName(stateDto.getStateName());
-		stateModel.setCountryId(stateDto.getCountryId());
 		
 		
 		
@@ -101,6 +108,17 @@ public class StateSerivce {
 		
 		stateDao.editState(stateModel);
 		
+	}
+
+
+	public int deleteStateById(String stateId, String userId) {
+		int status=-1;
+		State stateModel=new State();
+		stateModel.setStateId(stateId);
+		stateModel.setUpdatedBy(userId);
+		status=stateDao.deleteStateById(stateModel);
+		
+		return status;
 	}
 
 

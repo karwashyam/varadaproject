@@ -17,7 +17,7 @@ import com.webapp.controllers.BusinessController;
 
 
 @Controller
-@RequestMapping(value = "/secure/states")
+@RequestMapping(value = "/states")
 public class StateManagementController extends BusinessController {
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -36,7 +36,6 @@ public class StateManagementController extends BusinessController {
 			return "redirect:" + url;
 		}
 */
-		System.out.println("\n\t state management ctroller");
 		req.setAttribute("title", "State Management");
 
 		req.setAttribute("isAddAccess", true);

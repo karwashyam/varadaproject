@@ -35,33 +35,15 @@ $(document).ready(function(){
             submitFlag=true;
         },
        rules: {
-        	
-    	   /*	instruType: {
-                required:  function(element){
-                    if ($("#lessonId").val() == '') {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            },*/
         	stateName: {
                 required: true,
                 maxlength:50
-            },
-         
-            countryId: {
-                required: true
             }
         },
         messages: {
         
         	stateName: {
                 required: 'Please enter State Name'
-            },
-        	
-            countryId: {
-                required: 'Please select country'
             }
         }
     });

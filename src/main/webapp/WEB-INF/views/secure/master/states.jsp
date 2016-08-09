@@ -18,234 +18,45 @@
 	<%@ include file="/WEB-INF/views/includes/content-header.jsp"%>
 	<!-- Login Container -->
 	${jsFile}
-	<script>
-$(document).ready(function(){
-	$("#master1").hide();
-	$("#company1").hide();
-    $("#project1").hide();
-    $("#franchise1").hide();
-    $("#booking1").hide();
-    $("#member1").hide();
-    $("#booking_login1").hide();
-    $("#payment1").hide();
-    
-	$("#other1").hide();	
-	$("#expenses1").hide();
-	$("#commission1").hide();
-	$("#upload_commission1").hide();
-	$("#pay_commision1").hide();
-	$("#ecs_remider1").hide();
 	
-    $("#reports1").hide();
-    $("#inquiry1").hide();
-	
-  $("#master").hover(function(){
-	$("#master1").show();
-	$("#company1").hide();
-    $("#project1").hide();
-    $("#franchise1").hide();
-    $("#booking1").hide();
-    $("#member1").hide();
-    $("#booking_login1").hide();
-    $("#payment1").hide();
-    $("#other1").hide();
-    $("#reports1").hide();
-    $("#inquiry1").hide();
-  });  
-    
-  $("#company").hover(function(){
-	$("#master1").hide();
-	$("#company1").show();
-    $("#project1").hide();
-    $("#franchise1").hide();
-    $("#booking1").hide();
-    $("#member1").hide();
-    $("#booking_login1").hide();
-    $("#payment1").hide();
-    $("#other1").hide();
-    $("#reports1").hide();
-    $("#inquiry1").hide();
-  });  
-  
-  $("#project").hover(function(){
-	$("#master1").hide();
-	$("#company1").hide();
-    $("#project1").show();
-    $("#franchise1").hide();
-    $("#booking1").hide();
-    $("#member1").hide();
-    $("#booking_login1").hide();
-    $("#payment1").hide();
-    $("#other1").hide();
-    $("#reports1").hide();
-    $("#inquiry1").hide();
-  });  
-  
-  
-  $("#franchise").hover(function(){
-	$("#master1").hide();
-	$("#company1").hide();
-    $("#project1").hide();
-    $("#franchise1").show();
-    $("#booking1").hide();
-    $("#member1").hide();
-    $("#booking_login1").hide();
-    $("#payment1").hide();
-    $("#other1").hide();
-    $("#reports1").hide();
-    $("#inquiry1").hide();
-  });  
-  
-  
-  $("#booking1").hover(function(){
-	$("#master1").hide();
-	$("#company1").hide();
-    $("#project1").hide();
-    $("#franchise1").hide();
-    $("#booking1").show();
-    $("#member1").hide();
-    $("#booking_login1").hide();
-    $("#payment1").hide();
-    $("#other1").hide();
-    $("#reports1").hide();
-    $("#inquiry1").hide();
-  });  
-  
-  
-  $("#member").hover(function(){
-	$("#master1").hide();
-	$("#company1").hide();
-    $("#project1").hide();
-    $("#franchise1").hide();
-    $("#booking1").hide();
-    $("#member1").show();
-    $("#booking_login1").hide();
-    $("#payment1").hide();
-    $("#other1").hide();
-    $("#reports1").hide();
-    $("#inquiry1").hide();
-  });  
-  
-  
-  $("#booking_login").hover(function(){
-	$("#master1").hide();
-	$("#company1").hide();
-    $("#project1").hide();
-    $("#franchise1").hide();
-    $("#booking1").hide();
-    $("#member1").hide();
-    $("#booking_login1").show();
-    $("#payment1").hide();
-    $("#other1").hide();
-    $("#reports1").hide();
-    $("#inquiry1").hide();
-  });  
-  
-  $("#payment").hover(function(){
-	$("#master1").hide();
-	$("#company1").hide();
-    $("#project1").hide();
-    $("#franchise1").hide();
-    $("#booking1").hide();
-    $("#member1").hide();
-    $("#booking_login1").hide();
-    $("#payment1").show();
-    $("#other1").hide();
-    $("#reports1").hide();
-    $("#inquiry1").hide();
-  });  
-<!-- Other Tab Start-->  
-  $("#other").hover(function(){
-	$("#master1").hide();
-	$("#company1").hide();
-    $("#project1").hide();
-    $("#franchise1").hide();
-    $("#booking1").hide();
-    $("#member1").hide();
-    $("#booking_login1").hide();
-    $("#payment1").hide();
-    $("#other1").show();
-    $("#reports1").hide();
-    $("#inquiry1").hide();
-  });  
-  
-  <!-- Other Sub Tab Start-->
-  $("#expenses").hover(function(){
-    $("#expenses1").show(); 
-	$("#commission1").hide();
-	$("#upload_commission1").hide();
-	$("#pay_commision1").hide();
-	$("#ecs_remider1").hide();    
-  }); 
-  
-  $("#commission").hover(function(){
-    $("#expenses1").hide(); 
-	$("#commission1").show();
-	$("#upload_commission1").hide();
-	$("#pay_commision1").hide();
-	$("#ecs_remider1").hide();    
-  }); 
-  
-  $("#upload_commission").hover(function(){
-    $("#expenses1").hide(); 
-	$("#commission1").hide();
-	$("#upload_commission1").show();
-	$("#pay_commision1").hide();
-	$("#ecs_remider1").hide();    
-  }); 
-  
-  $("#pay_commision").hover(function(){
-    $("#expenses1").hide(); 
-	$("#commission1").hide();
-	$("#upload_commission1").hide();
-	$("#pay_commision1").show();
-	$("#ecs_remider1").hide();    
-  }); 
-  
-  $("#ecs_remider").hover(function(){
-    $("#expenses1").hide(); 
-	$("#commission1").hide();
-	$("#upload_commission1").hide();
-	$("#pay_commision1").hide();
-	$("#ecs_remider1").show();    
-  });  
-  
-  $("#reports").hover(function(){
-	$("#master1").hide();
-	$("#company1").hide();
-    $("#project1").hide();
-    $("#franchise1").hide();
-    $("#booking1").hide();
-    $("#member1").hide();
-    $("#booking_login1").hide();
-    $("#payment1").hide();
-    $("#other1").hide();
-    $("#reports1").show();
-    $("#inquiry1").hide();
-  }); 
-	<!-- Other Sub Tab End--> 	
-<!-- Other Tab End--> 
- 
-  $("#inquiry").hover(function(){
-	$("#master1").hide();
-	$("#company1").hide();
-    $("#project1").hide();
-    $("#franchise1").hide();
-    $("#booking1").hide();
-    $("#member1").hide();
-    $("#booking_login1").hide();
-    $("#payment1").hide();
-    $("#other1").hide();
-    $("#reports1").hide();
-    $("#inquiry1").show();
-  });  
-  
-});
-
-</script>
 	
 		<!-- Page content -->
+      <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>States <small></small></h3>
+              </div>
 
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>States</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">
+                     
+                    </p>
 
 		<!-- START Content -->
 		<div style="border: 1px solid; height: 100%;" class="block" id="page-content">
@@ -257,21 +68,7 @@ $(document).ready(function(){
 		
 			            	<div style="float:left; width: 100%;">
 			            	<%-- <form method="POST" name="addlessfrm" id="addlessfrm" action="${pageContext.request.contextPath}/secure/lesson.do"> --%>
-			            	<div style="float:left;  padding-bottom: 5px; padding-top: 15px;  width: 100%;">
-			            	<div style="float:right;">
-			            		<button type="button" id="addState" class="btn btn-lg btn-primary border-radius">Add State</button>
-<%-- 			            		<a href="${pageContext.request.contextPath}/secure/add-lesson.do"  class="btn btn-primary border-radius"  >Add Lesson</a> --%>
-			            	</div>
-			            	<div style="float:right; margin-right: 5%;">
-			            	
-			            <!-- 	<select id="instrutype" name="instrutype" class="form-control"  onchange="loadTable();" style="width: 125px;" >
-									<option value="2">Guitar</option>
-									<option value="1">Piano</option>
-						    </select> 
-			            	 -->
-			            	</div>
-			            	
-			            	</div>
+			            
 			            	<!-- </form> -->
 			            	</div>
 		
@@ -285,7 +82,6 @@ $(document).ready(function(){
 											
 											<th class="text-center">Sr. No</th>
 											<th class="text-center">State Name</th>
-											<th class="text-center">Country</th>
 											<th class="text-center">Action</th>
 										
 										</tr>
@@ -294,6 +90,13 @@ $(document).ready(function(){
 
 									</tbody>
 								</table>
+								 </div>
+                </div>
+              </div>
+            </div>
+           </div>
+        </div>
+	
 							</div>
 </div>
 

@@ -6,7 +6,6 @@
 	<resultMap id="stateResultMap" type="State" >
 		<result property="stateId" column="state_id" />
 		<result property="stateName" column="state_name" />
-		<result property="countryId" column="country_id" />
 		<result property="createdBy" column="created_by" />
 		<result property="createdAt" column="created_at" />
 				<result property="updatedBy" column="updated_by" />
@@ -19,30 +18,28 @@
 	<resultMap id="statesResultListMap" type="Map" >
 			<result property="stateId" column="state_id" />
 		<result property="stateName" column="state_name" />
-		<result property="countryId" column="country_id" />
 				<result property="countryName" column="country_name" />
 		
 	</resultMap>
 	<insert id="addState" parameterType="State" useGeneratedKeys="false">
-		INSERT INTO state(
-            state_id, state_name, country_id, created_by, created_at, updated_by, 
+		INSERT INTO states(
+            state_id, state_name, created_by, created_at, updated_by, 
             updated_at, record_status)
-		VALUES(#{stateId},#{stateName},#{countryId},#{createdBy},#{createdAt},#{updatedBy},
+		VALUES(#{stateId},#{stateName},#{createdBy},#{createdAt},#{updatedBy},
 			#{updatedAt},'A')
 	</insert>
 	
 	<select id="getStateDetailsById" parameterType="String"	resultMap="stateResultMap">
-		SELECT * FROM state 
+		SELECT * FROM states
 		WHERE state_id = #{stateId} AND record_status = 'A'
 	</select>
 			
 			
 	<select id="fetchStatesList" parameterType="Map" resultMap="statesResultListMap">
 		SELECT 
-        	st.state_id, st.state_name, ctr.country_name
+        	st.state_id, st.state_name
         FROM
-                state st
-                INNER JOIN country ctr ON ctr.country_id = st.country_id
+                states st
 		 WHERE
         		st.record_status = 'A'
         		
@@ -68,12 +65,27 @@
 	<update id="editState" parameterType="State">
 		
 	   UPDATE 
-			state
+			states
   	   SET 
-  		 	 state_name=#{stateName}, country_id=#{countryId},updated_by=#{updatedBy}, updated_at=#{updatedAt}
+  		 	 state_name=#{stateName}, updated_by=#{updatedBy}, updated_at=#{updatedAt}
        WHERE 
       		state_id=#{stateId}
 		AND 
 			record_status = 'A'
 	</update>
+	
+	<update id="deleteStateById" parameterType="Map" >
+		UPDATE states SET record_status = 'D', updated_at = #{updatedAt}, updated_by = #{updatedBy}
+		WHERE  state_id = #{stateId} AND record_status = 'A'
+	</update>
+	<select id="fetchTotalStatesListCount" resultType="Long">
+		 SELECT 
+				 count(st.state_id) 
+			 FROM 
+				states st
+			 WHERE 
+			
+        		st.record_status = 'A'
+	</select>
+	
 </mapper> 

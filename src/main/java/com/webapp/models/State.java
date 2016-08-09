@@ -5,7 +5,6 @@ public class State extends AbstractModel {
 
 	private String stateId;
 	private String stateName;
-	private String countryId;
 	public String getStateId() {
 		return stateId;
 	}
@@ -18,13 +17,7 @@ public class State extends AbstractModel {
 	public void setStateName(String stateName) {
 		this.stateName = stateName;
 	}
-	public String getCountryId() {
-		return countryId;
-	}
-	public void setCountryId(String countryId) {
-		this.countryId = countryId;
-	}
-	
+
 
 
 }
