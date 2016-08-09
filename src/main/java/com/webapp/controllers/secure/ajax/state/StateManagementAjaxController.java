@@ -69,9 +69,9 @@ public class StateManagementAjaxController extends BusinessApiController {
 		DatatableModel<Map<String, Object> > dtData = new DatatableModel<Map<String, Object> >();
 		dtData.setAaData(aDData);
 		
-
-		dtData.setiTotalDisplayRecords(aDData.size());
-		dtData.setiTotalRecords(Integer.valueOf(stateSerivce.fetchTotalStatesListCount().toString()));
+		int totalRecords= Integer.valueOf(stateSerivce.fetchTotalStatesListCount().toString());
+		dtData.setiTotalDisplayRecords(totalRecords);
+		dtData.setiTotalRecords(totalRecords);
 		dtData.setsEcho(sEcho);
 		return dtData;
 	}

@@ -51,7 +51,6 @@ public class StateController extends BusinessController{
 	public String addLesson(Model model, StateDto stateDto, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		preprocessRequest(model, req, res);
-System.out.println("\t\t after preprocessreq");
 
 
 		/*	if (!DbSession.isValidLogin(getDbSession(), sessionService)) {

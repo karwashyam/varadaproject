@@ -1,16 +1,10 @@
-
-
 var isEditAccess;
 var isDeleteAccess;
-
-
-
 
 
 jQuery(document).ready(function() {
 	
 	var isAddAccess = jQuery("#isAddAccess").val();
-	
 	isEditAccess = jQuery("#isEditAccess").val();
 	isDeleteAccess = jQuery("#isDeleteAccess").val();
 	
@@ -21,7 +15,7 @@ jQuery(document).ready(function() {
 //	webApp.datatables();
 	
 	stateManagement();
-	$('#stateManageTable_wrapper').prepend('<a href="' + basePath + '/add-state.do' + '" class="actionbtn" style="float:right;">New State</a>');
+	$('#stateManageTable_wrapper').prepend('<a href="' + basePath + '/add-state.do' + '" class="actionbtn" style="float:right;"><button type="button" class="btn btn-round btn-primary">New State</button></a>');
     
 
 	jQuery("#addState").click(function() {
@@ -49,28 +43,18 @@ function stateManagement() {
 						"fnServerData" : fnServerData,
 						"sAjaxSource" : basePath
 								+ "/ajax/states.json",
-
-
 						"aoColumnDefs" : [
 								{
 									"mRender" : function(data, type, row) {
-										
-										
 										var active = 'Deactivate';
-										
 										if(row['active'] == false){
-											
 											active = 'Activate';
 										}
-										
 //										 console.log(row['active']);
-										
-										
 										var actionsLinks = '<div style="">'; 
-										
 										if(isEditAccess === "true"){
 											actionsLinks += '<a href="javascript:void(0);" '+' onclick="editState('+"'" + data+"'" + ');">'
-									        	+'Edit'+'</a>&nbsp; &nbsp;&nbsp;<i class="fa fa-edit font-size-17px"></i></a>&nbsp;&nbsp;&nbsp;Delete&nbsp;<a href="javascript:void(0);" '+' onclick="deleteState('+"'" + data+"'" + ');"> <i class="fa fa-trash font-size-17px"></i>';
+									        	+'Edit'+'&nbsp; <i class="fa fa-edit font-size-17px"></i></a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" '+' onclick="deleteState('+"'" + data+"'" + ');">Delete&nbsp; <i class="fa fa-trash font-size-17px"></i></a>';
 										}else{
 											actionsLinks += '<a class="disabled" href="javascript:void(0);" '+' onclick="editState('+"'" + data+"'" + ');">'
 								        	+'Edit'+'</a>&nbsp &nbsp';
@@ -102,9 +86,6 @@ function stateManagement() {
 							"bSortable" : true,
 							"sClass" : "center"
 						}, // userName
-
-					
-						
 						{
 							"sTitle" : "Action",
 							"mData" : "stateId",
