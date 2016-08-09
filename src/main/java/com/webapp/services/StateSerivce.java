@@ -35,7 +35,7 @@ public class StateSerivce {
 
 
 	@Transactional
-	public void addState(StateDto stateDto) {
+	public void addState(StateDto stateDto, String userId) {
 		
 		long currentTime = new Date().getTime();
 		String stateId = UUIDGenerator.generateUUID();
@@ -48,11 +48,10 @@ public class StateSerivce {
 		
 		
 		stateModel.setRecordStatus(ProjectConstant.ACTIVE_RECORD_STATUS);
-		stateModel.setCreatedBy("1");
+		stateModel.setCreatedBy(userId);
 		stateModel.setCreatedAt(currentTime);
-		stateModel.setUpdatedBy("1");
+		stateModel.setUpdatedBy(userId);
 		stateModel.setUpdatedAt(currentTime);
-		System.out.println("\t\t after serv -"+stateDto.getStateName());
 
 		
 		stateDao.addState(stateModel);
@@ -89,7 +88,7 @@ public class StateSerivce {
 		
 	}
 
-	public void editState(StateDto stateDto) {
+	public void editState(StateDto stateDto, String userId) {
 		
 		
 		long currentTime = new Date().getTime();
@@ -102,9 +101,8 @@ public class StateSerivce {
 		
 		
 		stateModel.setRecordStatus(ProjectConstant.ACTIVE_RECORD_STATUS);
-		stateModel.setUpdatedBy("1");
+		stateModel.setUpdatedBy(userId);
 		stateModel.setUpdatedAt(currentTime);
-		System.out.println("\t\t after serv -"+stateDto.getStateName());
 		
 		stateDao.editState(stateModel);
 		
@@ -119,6 +117,13 @@ public class StateSerivce {
 		status=stateDao.deleteStateById(stateModel);
 		
 		return status;
+	}
+
+
+	public boolean isStateNameExists(String stateName) {
+		boolean isExists=false;
+		isExists=stateDao.isStateNameExists(stateName);
+		return isExists;
 	}
 
 

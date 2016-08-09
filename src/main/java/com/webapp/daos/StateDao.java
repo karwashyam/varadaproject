@@ -21,4 +21,6 @@ public interface StateDao {
 
 	Long fetchTotalStatesListCount();
 
+	boolean isStateNameExists(String stateName);
+
 }

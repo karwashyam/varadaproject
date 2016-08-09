@@ -9,6 +9,8 @@
 		<typeAlias alias="UserModel" type="com.webapp.models.User" />
 		<typeAlias alias="JQTableUtils" type="com.fnf.utils.JQTableUtils" />
   		<typeAlias alias="State" type="com.webapp.models.State" />
+  		<typeAlias alias="StateDto" type="com.webapp.dto.StateDto" />
+  		
 		<typeAlias alias="CityDto" type="com.webapp.dto.CityDto" />
 		<typeAlias alias="CityModel" type="com.webapp.models.CityModel" />
   		
