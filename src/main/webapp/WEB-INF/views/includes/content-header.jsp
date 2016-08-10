@@ -36,8 +36,8 @@
                   </li>
                   <li><a><i class="fa fa-table"></i> Projects <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="${pageContext.request.contextPath}/project">List Projects</a></li>
-                      <li><a href="${pageContext.request.contextPath}/add-project">Add Project</a></li>
+                      <li><a href="${pageContext.request.contextPath}/projects">List Projects</a></li>
+                      <li><a href="${pageContext.request.contextPath}/project/add">Add Project</a></li>
                       <li><a href="${pageContext.request.contextPath}/payment-scheme">Payment Scheme</a></li>
                     </ul>
                   </li>
