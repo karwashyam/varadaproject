@@ -10,6 +10,15 @@ public class CityModel extends AbstractModel{
 
 	private String stateId;
 	
+	private String validCity;
+
+	public String getValidCity() {
+		return validCity;
+	}
+
+	public void setValidCity(String validCity) {
+		this.validCity = validCity;
+	}
 
 	public String getCityId() {
 		return cityId;

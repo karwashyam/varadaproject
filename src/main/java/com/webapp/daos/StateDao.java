@@ -18,8 +18,9 @@ public interface StateDao {
 
 	int deleteStateById(State stateModel);
 
-
 	Long fetchTotalStatesListCount();
+	
+	List<State> fetchAllStateList();
 
 	boolean isStateNameExists(String stateName);
 

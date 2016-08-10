@@ -119,6 +119,9 @@ public class StateSerivce {
 		return status;
 	}
 
+	public List<State> fetchAllStateList(){
+		return stateDao.fetchAllStateList();
+	}
 
 	public boolean isStateNameExists(String stateName) {
 		boolean isExists=false;

@@ -30,14 +30,22 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form:form class="form-horizontal form-label-left" method="POST" action="${pageContext.request.contextPath}/city/add" commandName="cityModel">
+                    <form:form class="form-horizontal form-label-left" method="POST" action="${pageContext.request.contextPath}/city/edit-city" commandName="cityModel">
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Select State</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           <select name="stateId" class="form-control">
                             <c:forEach items="${stateModel}" var="state" >
-							<option value="${state['stateId']}">${state['stateName']}</option></c:forEach>
+                            <c:choose>
+							  <c:when test="${state['stateId'] == stateId}">
+							  <option value="${state['stateId']}" selected ="selected">${state['stateName']}</option>
+							  </c:when>
+							  <c:otherwise>
+							  <option value="${state['stateId']}">${state['stateName']}</option>
+							  </c:otherwise>
+							</c:choose>
+							</c:forEach>
                           </select>
                           <form:errors path="stateId" style="color: #ff0000;" />
                         </div>
@@ -50,12 +58,12 @@
                           <form:errors path="validCity" style="color: #ff0000;" />
                         </div>
                       </div>
-
+						<form:hidden path="cityId"  />
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                        <a href="${pageContext.request.contextPath}/city" class="btn btn-primary" id="btnCancel" name= "btnCancel" >Cancel</a>
-                          <button type="submit" class="btn btn-success">Save</button>
+                        <a href="${pageContext.request.contextPath}/city" class="btn btn-primary"  id="btnCancel" name= "btnCancel" >Cancel</a>
+                          <button type="submit" class="btn btn-success">Update</button>
                         </div>
                       </div>
 

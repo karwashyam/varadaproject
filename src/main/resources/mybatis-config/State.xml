@@ -8,8 +8,7 @@
 		<result property="stateName" column="state_name" />
 		<result property="createdBy" column="created_by" />
 		<result property="createdAt" column="created_at" />
-				<result property="updatedBy" column="updated_by" />
-		
+		<result property="updatedBy" column="updated_by" />
 		<result property="updatedAt" column="updated_at" />
 		<result property="recordStatus" column="record_status" />
 	</resultMap>
@@ -17,10 +16,10 @@
 	
 	<resultMap id="statesResultListMap" type="Map" >
 			<result property="stateId" column="state_id" />
-		<result property="stateName" column="state_name" />
-				<result property="countryName" column="country_name" />
-		
+			<result property="stateName" column="state_name" />
+			<result property="countryName" column="country_name" />
 	</resultMap>
+	
 	<insert id="addState" parameterType="State" useGeneratedKeys="false">
 		INSERT INTO states(
             state_id, state_name, created_by, created_at, updated_by, 
@@ -61,6 +60,11 @@
        
 	</select>
 	
+	<select id="fetchAllStateList" resultMap="stateResultMap">
+		SELECT state_id,state_name
+			 FROM states
+			 WHERE record_status = 'A'
+	</select>
 	
 	<update id="editState" parameterType="State">
 		
@@ -102,4 +106,5 @@
 		SELECT (count(*)>0) FROM states 
 		WHERE state_name = #{stateName} AND record_status = 'A'
 	</select>
+
 </mapper> 

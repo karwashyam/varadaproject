@@ -16,6 +16,13 @@ public interface CityDao {
 	long fetchTotalCityList(@Param("JQTableUtils") JQTableUtils tableUtils);
 
 	int postAddCity(CityModel cityModel);
-
+	
+	boolean fetchCityByName(CityModel cityModel);
+	
+	CityModel fetchCityDetailsById(String cityId);
+	
+	void editCity(CityModel cityModel);
+	
+	int deleteCityById(CityModel cityModel);
 	
 }
