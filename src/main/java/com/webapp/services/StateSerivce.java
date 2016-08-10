@@ -121,5 +121,8 @@ public class StateSerivce {
 		return status;
 	}
 
+	public List<State> fetchAllStateList(){
+		return stateDao.fetchAllStateList();
+	}
 
 }

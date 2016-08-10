@@ -40,6 +40,9 @@
                     </ul>
                     <div class="clearfix"></div>
                   </div>
+                	<input type="hidden" name="isAddAccess" id="isAddAccess" value="${isAddAccess}" />
+					<input type="hidden" name="isEditAccess" id="isEditAccess" value="${isEditAccess}" />
+					<input type="hidden" name="isDeleteAccess" id="isDeleteAccess" value="${isDeleteAccess}" />
                   <div class="x_content">
                     <table id="city-datatable" class="table table-striped table-bordered">
                       <thead>

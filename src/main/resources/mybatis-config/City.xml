@@ -10,6 +10,11 @@
 		<result property="stateId" column="state_id" />
 	</resultMap>
 	
+	<resultMap type="CityModel" id="CityMapModel">
+		<result property="cityId" column="city_id" />
+		<result property="cityName" column="city_name" />
+		<result property="stateId" column="state_id" />
+	</resultMap>
 	
 	<select id="fetchCityList" parameterType="JQTableUtils" resultMap="CityMap">
 		SELECT c.city_id, c.city_name, s.state_id,s.state_name
@@ -76,5 +81,33 @@
 	            #{updatedAt}, #{recordStatus});
 		
 	</insert>
+	
+	<select id="fetchCityByName" parameterType="CityModel" resultType="boolean">
+		SELECT count(city_id)>0 
+				FROM cities 
+				WHERE city_name=#{cityName} AND state_id=#{stateId}	
+				AND (city_id!=#{cityId}) AND record_status = 'A'	
+	</select>
+	
+	<select id="fetchCityDetailsById" parameterType="String" resultMap="CityMapModel">
+		SELECT city_id, city_name, state_id, created_by, updated_by, created_at,
+				updated_at, record_status
+				FROM cities
+				WHERE city_id=#{cityId} and record_status = 'A'		
+	</select>
+	
+	<update id="editCity" parameterType="CityModel">
+		UPDATE cities
+			SET city_name=#{cityName},state_id=#{stateId}, updated_by=#{updatedBy}, updated_at=#{updatedAt}
+			WHERE city_id=#{cityId}
+				AND record_status = 'A'
+	</update>
+	
+	<update id="deleteCityById" parameterType="CityModel">
+		UPDATE cities
+			SET record_status='D', updated_by=#{updatedBy}, updated_at=#{updatedAt}
+			WHERE city_id=#{cityId}
+				AND record_status = 'A'
+	</update>
 	
 </mapper> 

@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +27,9 @@ import com.webapp.controllers.DataTablesTO;
 import com.webapp.dbsession.DbSession;
 import com.webapp.dto.CityDto;
 import com.webapp.models.CityModel;
+import com.webapp.models.State;
 import com.webapp.services.CityService;
+import com.webapp.services.StateSerivce;
 import com.webapp.validator.CityValidator;
 
 @Controller
@@ -44,6 +47,9 @@ public class CityController extends BusinessController{
 	private CityService cityService;
 	
 	@Autowired
+	private StateSerivce stateService;
+		
+	@Autowired
 	private CityValidator cityValidator;
 	
 	@InitBinder
@@ -58,6 +64,9 @@ public class CityController extends BusinessController{
 			String url = "/login";
 			return "redirect:" + url;
 		}
+		req.setAttribute("isAddAccess", true);
+		req.setAttribute("isEditAccess", true);
+		req.setAttribute("isDeleteAccess", true);
 		return "city";
 	}
 	
@@ -70,7 +79,8 @@ public class CityController extends BusinessController{
 		}
 		CityModel cityModel= new CityModel();
 		model.addAttribute("cityModel",cityModel);
-		
+		List<State> stateList = stateService.fetchAllStateList();
+		model.addAttribute("stateModel", stateList);
 		return "add-city";
 	}
 	
@@ -86,11 +96,12 @@ public class CityController extends BusinessController{
 		
 		if (result.hasErrors()) {
 			model.addAttribute("cityModel",cityModel);
+			List<State> stateList = stateService.fetchAllStateList();
+			model.addAttribute("stateModel", stateList);
 			return "add-city";
 		}
 		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
-		
 		int status =cityService.postAddCity(cityModel,userId);
 		if(status>0){
 				model.addAttribute("msg", "Daily Update sent successfully");
@@ -110,9 +121,7 @@ public class CityController extends BusinessController{
 		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 //		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
 		List<CityDto> accts = cityService.fetchCityList(tableUtils);
-		for (CityDto cityDto : accts) {
-			cityDto.setAction("<a href='"+req.getContextPath()+"/city/edit.do?cityId="+cityDto.getCityId()+"'>Edit&nbsp;<i class='fa fa-edit font-size-17px'></i></a>&nbsp;&nbsp;&nbsp;Delete&nbsp;<i class='fa fa-trash font-size-17px' onClick='deleteCity("+cityDto.getCityId()+")'></i>");
-		}
+
 		long count =  cityService.fetchTotalCityList(tableUtils);
 		dt.setAaData(accts); // this is the dataset reponse to client
 		dt.setiTotalDisplayRecords(Integer.valueOf(String.valueOf(count))); // // the total data in db
@@ -121,9 +130,54 @@ public class CityController extends BusinessController{
 		return dt;
 	}
 	
+	@RequestMapping(value = "/edit-city/{cityId}", method = RequestMethod.GET)
+	public String editState(Model model, @PathVariable("cityId") String cityId, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
+		preprocessRequest(model, req, res);
+
+		
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url ="/login.do";
+			return "redirect:" + url;
+		}
+
+
+		CityModel cityModel = cityService.fetchCityDetailsById(cityId);
+		
+		model.addAttribute("cityModel", cityModel);
+		
+		model.addAttribute("stateId", cityModel.getStateId());
+		List<State> stateList = stateService.fetchAllStateList();
+		model.addAttribute("stateModel", stateList);
+		return "/edit-city";
+	}
+	
+	@RequestMapping(value = "/edit-city", method = RequestMethod.POST)
+	public String editStatePost(Model model, @Validated CityModel cityModel, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
+		preprocessRequest(model, req, res);
+		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
+		if (!dbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url ="/login.do";
+			return "redirect:" + url;
+		}
+		if (result.hasErrors()) {
+			model.addAttribute("cityModel",cityModel);
+			model.addAttribute("stateId", cityModel.getStateId());
+			List<State> stateList = stateService.fetchAllStateList();
+			model.addAttribute("stateModel", stateList);
+			return "edit-city";
+		}
+		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
+		cityService.editCity(cityModel,userId);
+
+		return pageRedirect("/city");
+	}
+	
 	@Override
 	protected String[] requiredJs() {
-		return new String[] { "js/viewjs/city.js" };
+		return new String[] {"js/bootstrap/bootstrap-dialog.js", "js/viewjs/city.js" };
+		//return new String[] { "js/viewjs/city.js" };
 	}
 
 	
