@@ -82,7 +82,7 @@
 		UPDATE states SET record_status = 'D', updated_at = #{updatedAt}, updated_by = #{updatedBy}
 		WHERE  state_id = #{stateId} AND record_status = 'A'
 	</update>
-	<select id="fetchTotalStatesListCount" resultType="Long">
+<!-- 	<select id="fetchTotalStatesListCount" resultType="Long">
 		 SELECT 
 				 count(st.state_id) 
 			 FROM 
@@ -91,7 +91,20 @@
 			
         		st.record_status = 'A'
 	</select>
-	
-	
-	
+	 -->
+	<select id="fetchTotalStatesListCount" resultType="Long">
+		 SELECT 
+				 st.state_id
+			 FROM 
+				states st
+			 WHERE 
+				st.state_name=#{stateName}
+				AND
+        		st.record_status = 'A'
+	</select>
+	<select id="isStateNameExists" parameterType="String"	resultType="boolean">
+		SELECT (count(*)>0) FROM states 
+		WHERE state_name = #{stateName} AND record_status = 'A'
+	</select>
+
 </mapper> 

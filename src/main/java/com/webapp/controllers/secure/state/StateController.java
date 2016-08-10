@@ -11,19 +11,26 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.webapp.controllers.BusinessController;
+import com.webapp.dbsession.DbSession;
 import com.webapp.dto.StateDto;
 import com.webapp.models.State;
 import com.webapp.services.StateSerivce;
+import com.webapp.validator.StateValidator;
 
 @Controller
 public class StateController extends BusinessController{
 
-
+	@Autowired
+	private StateValidator stateValidator;
+	
 	@Value("${tempDirName}")
 	private String tempDirName;
 	
@@ -33,14 +40,18 @@ public class StateController extends BusinessController{
 	@Autowired
 	StateSerivce stateService;
 	
+	@InitBinder
+	private void initBinder(WebDataBinder binder) {
+		binder.setValidator(stateValidator);
+	}
 	@RequestMapping(value="/add-state", method = RequestMethod.GET)
 	public String initForm(Model model, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		System.out.println("in state controller ---");
 		preprocessRequest(model, req, res);
-	/*	if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
 			String url = "/login.do";
 			return "redirect:" + url;
-		}*/
+		}
 		StateDto stateDto=new StateDto();
 		
 		model.addAttribute("stateFrm", stateDto);
@@ -48,26 +59,27 @@ public class StateController extends BusinessController{
 	}
 
 	@RequestMapping(value = "/add-state", method = RequestMethod.POST)
-	public String addLesson(Model model, StateDto stateDto, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	public String addLesson(Model model, @Validated StateDto stateDto, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		preprocessRequest(model, req, res);
 
 
-		/*	if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
 			String url ="/login.do";
 			return "redirect:" + url;
 		}
 
 		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
-*/
 
-		/*if (!dbSession.checkUrlAccess(sessionService, roleAccessService, FunctionConstant.LESSONS_ADD)) {
-			String url = "/access-denied.do";
-			return "redirect:" + url;
-		}*/
+		model.addAttribute("stateFrm",stateDto);
+		System.out.println("\n\t\t =========result.hasErrors()=======>"+result.hasErrors());
+		if (result.hasErrors()) {
+			model.addAttribute("stateFrm",stateDto);
+			return "secure/master/state";
+		}
 
-		stateService.addState(stateDto);
+		stateService.addState(stateDto,userId);
 
 		return pageRedirect("/states.do");
 	}
@@ -77,10 +89,10 @@ public class StateController extends BusinessController{
 
 		preprocessRequest(model, req, res);
 
-		/*if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
 			String url ="/login.do";
 			return "redirect:" + url;
-		}*/
+		}
 
 
 		State stateModel = stateService.getStateDetailsById(stateId);
@@ -108,7 +120,10 @@ public class StateController extends BusinessController{
 			return "redirect:" + url;
 		}*/
 
-		stateService.editState(stateDto);
+		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
+		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
+
+		stateService.editState(stateDto,userId);
 
 		return pageRedirect("/states.do");
 	}

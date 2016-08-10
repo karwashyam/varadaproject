@@ -37,7 +37,9 @@
                         </label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                          <form:input path="stateName"  class="form-control border-radius" id="stateName" name="stateName"  style="font-size: 15px;"  maxlength="50"/>
-            	 	<form:errors path="stateName" cssStyle="color: #ff0000;"/>
+            	 					<form:errors path="stateName" cssStyle="color: #ff0000;"/>
+            	 						<form:errors path="stateExists" style="color: #ff0000;"  /> 			
+            	 	
                         </div>
                       </div>
                     
