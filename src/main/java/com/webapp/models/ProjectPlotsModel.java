@@ -6,7 +6,6 @@ public class ProjectPlotsModel extends AbstractModel{
 	private String projectId;
 	private String plotName;
 	private Long plotSize;
-	private Integer plotNo;
 	
 	
 	public String getProjectPlotId() {
@@ -32,12 +31,6 @@ public class ProjectPlotsModel extends AbstractModel{
 	}
 	public void setPlotSize(Long plotSize) {
 		this.plotSize = plotSize;
-	}
-	public Integer getPlotNo() {
-		return plotNo;
-	}
-	public void setPlotNo(Integer plotNo) {
-		this.plotNo = plotNo;
 	}
 
 }

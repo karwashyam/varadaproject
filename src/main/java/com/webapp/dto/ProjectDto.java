@@ -1,19 +1,29 @@
-package com.webapp.models;
+package com.webapp.dto;
 
-public class ProjectModel extends AbstractModel{
+import org.springframework.web.multipart.MultipartFile;
+
+public class ProjectDto{
 
 	private String projectId;
 	private String title;
 	private String bookingPrefix;
 	private String projectOverview;
 	private Integer totalPlots;
+	private String completionDate;
 	private Integer superBuildupPercentage;
-	private Long completionDate;
 	private String projectExists;
+//	private String excelFile;
+	private MultipartFile excelFile;
+
 	
 	
 	
-	
+	public MultipartFile getExcelFile() {
+		return excelFile;
+	}
+	public void setExcelFile(MultipartFile excelFile) {
+		this.excelFile = excelFile;
+	}
 	public String getProjectExists() {
 		return projectExists;
 	}
@@ -50,18 +60,19 @@ public class ProjectModel extends AbstractModel{
 	public void setTotalPlots(Integer totalPlots) {
 		this.totalPlots = totalPlots;
 	}
-	public Long getCompletionDate() {
-		return completionDate;
-	}
-	public void setCompletionDate(Long completionDate) {
-		this.completionDate = completionDate;
-	}
+	
+	
 	public Integer getSuperBuildupPercentage() {
 		return superBuildupPercentage;
 	}
 	public void setSuperBuildupPercentage(Integer superBuildupPercentage) {
 		this.superBuildupPercentage = superBuildupPercentage;
 	}
-	
+	public String getCompletionDate() {
+		return completionDate;
+	}
+	public void setCompletionDate(String completionDate) {
+		this.completionDate = completionDate;
+	}
 
 }

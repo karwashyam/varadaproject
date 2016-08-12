@@ -5,6 +5,10 @@
 <%@ page session="false"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Varada Home</title>
+<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" /> -->
+<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" /> -->
+
+
 <script type="text/javascript">
 	var basePath = '${pageContext.request.contextPath}';
 </script> 
@@ -30,7 +34,7 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form:form name="projectFrm" id="projectFrm" class="form-horizontal form-label-left" method="POST" action="${pageContext.request.contextPath}/project/add" commandName="projectModel">
+                    <form:form name="projectFrm" id="projectFrm" class="form-horizontal form-label-left" method="POST" action="${pageContext.request.contextPath}/project/add" commandName="projectModel" enctype="multipart/form-data">
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Project Name</label>
@@ -38,12 +42,10 @@
                           <form:input path="title" class="form-control" placeholder="Enter Project Heading" />
                           <form:errors path="title" style="color: #ff0000;" />
                           <form:errors path="projectExists" style="color: #ff0000;" />
-                          
-                          
                         </div>
                       </div>
                       
-                        <div class="form-group">
+                      <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Booking Prefix</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           <form:input path="bookingPrefix" class="form-control" placeholder="Enter Project Heading" />
@@ -69,15 +71,45 @@
                         </div>
                       </div>
 
-					<div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Plot Size</label>
+					
+                        	<div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Build Up Percentage</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
-                          <form:input path="plotSize" class="form-control" placeholder="Enter Plot Size" />
-                          <form:errors path="plotSize" style="color: #ff0000;" />
+                          <form:input path="superBuildupPercentage" class="form-control" placeholder="Enter Build up percentage" />
+                          <form:errors path="superBuildupPercentage" style="color: #ff0000;" />
                         </div>
                       </div>
-                      
-                      <div class="ln_solid"></div>
+						<div class="form-group">
+							<label class="col-xs-3 control-label">Completion Date</label>
+							<div class="col-xs-3 date">
+								<div class="input-group input-append date" id="datePicker">
+								  <form:input path="completionDate" id="completionDate" name="completionDate" class="form-control" placeholder="Select date" />
+									<span class="input-group-addon add-on"><span
+										class="glyphicon glyphicon-calendar"></span></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-xs-3 control-label">Select File</label>
+							<div class="col-xs-4">
+								<form:input path="excelFile" name="excelFile" id="excelFile"
+									type="file" class="filestyle" data-icon="false" />
+							</div>
+						</div>
+						<%-- 	<div class="form-group">
+							<div class="fileinput fileinput-new" data-provides="fileinput">
+								<span class="btn btn-default btn-file"> <span>
+										Choose file</span> <form:input type="file" path="excelFile"
+										name="excelFile" id="excelFile" /></span> <span
+									class="fileinput-filename"></span> <span class="fileinput-new">No
+									file chosen</span>
+							</div>
+
+						</div> --%>
+
+
+						<div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                           <button type="submit" class="btn btn-success">Save</button>

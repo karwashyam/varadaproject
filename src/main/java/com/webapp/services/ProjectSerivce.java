@@ -97,13 +97,10 @@ public class ProjectSerivce {
 	}
 
 	@Transactional
-	public void addProject(ProjectModel projectModel, String userId) {
+	public void addProject(ProjectModel projectModel, String userId,List<ProjectPlotsModel> projectPlotsModels) {
 		
-		ProjectPlotsModel projectPlotsModel=null;
 		long currentTime = new Date().getTime();
-		String projectId = UUIDGenerator.generateUUID();
 
-		projectModel.setProjectId(projectId);		
 		projectModel.setRecordStatus(ProjectConstant.ACTIVE_RECORD_STATUS);
 		projectModel.setCreatedBy(userId);
 		projectModel.setCreatedAt(currentTime);
@@ -112,17 +109,14 @@ public class ProjectSerivce {
 
 		projectDao.addProject(projectModel);
 		
-		List<ProjectPlotsModel> projectPlotsModels=new ArrayList<ProjectPlotsModel>();
-
 		
-		for(int i=1;i<=projectModel.getTotalPlots();i++){
+		/*for(int i=1;i<=projectModel.getTotalPlots();i++){
 			projectPlotsModel=new ProjectPlotsModel();
 
 			projectPlotsModel.setProjectPlotId(UUIDGenerator.generateUUID());
-			projectPlotsModel.setPlotNo(i);
-			projectPlotsModel.setPlotName("Default_PlotName");
+			projectPlotsModel.setPlotName(String.valueOf(i));
 			projectPlotsModel.setProjectId(projectId);
-			projectPlotsModel.setPlotSize(projectModel.getPlotSize());
+//			projectPlotsModel.setPlotSize(projectModel.getPlotSize());
 			projectPlotsModel.setCreatedAt(projectModel.getCreatedAt());
 			projectPlotsModel.setCreatedBy(projectModel.getCreatedBy());
 			projectPlotsModel.setUpdatedAt(projectModel.getUpdatedAt());
@@ -131,7 +125,7 @@ public class ProjectSerivce {
 
 			projectPlotsModels.add(projectPlotsModel);
 		}
-		
+		*/
 		projectDao.addProjectPlots(projectPlotsModels);
 		
 		

@@ -32,6 +32,8 @@
       <property name="order" value="1" />
       <property name="mediaTypes">
         <map>
+         	<entry key="file" value="multipart/form-data"/>
+           <entry key="html" value="text/html"/>
            <entry key="json" value="application/json" />
            <entry key="xml" value="application/xml" />
         </map>

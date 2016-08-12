@@ -8,6 +8,7 @@
 
 
 $(document).ready(function(){
+	var today = new Date();
 /*    
 	if($("#stateId").val() != ""){
 		
@@ -15,6 +16,17 @@ $(document).ready(function(){
 		
 	}
 	*/
+	
+	  $('#completionDate')
+      .datepicker({
+    	  autoclose: true,  
+    	  maxDate : today,
+          format: 'mm/dd/yyyy'
+      })
+      .on('changeDate', function(e) {
+          // Revalidate the date field
+//          $('#projectFrm').validate('revalidateField', 'date');
+      });
 	
     $('#projectFrm').validate({
     	errorClass: 'help-block', // You can add help-inline instead of help-block if you like validation messages to the right of the inputs
@@ -50,7 +62,13 @@ $(document).ready(function(){
             projectOverview: {
                 required: true,
                 maxlength:50
+            },
+            completionDate:{
+            	required: true,
+            	 date : true
+            	
             }
+            
         },
         messages: {
         
@@ -65,6 +83,12 @@ $(document).ready(function(){
             },
             projectOverview: {
                 required: 'Please enter Project Overview'
+            },
+            completionDate: {
+            	
+                required: 'Please select Completion date',
+               	 date : "Please enter valid date"
+
             }
       
         }
