@@ -164,7 +164,6 @@ public class ProjectController extends BusinessController{
 	public String editForm(Model model, @PathVariable("projectId") String projectId, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		preprocessRequest(model, req, res);
-
 		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
 			String url ="/login.do";
 			return "redirect:" + url;
@@ -173,15 +172,25 @@ public class ProjectController extends BusinessController{
 
 		ProjectModel projectModel = projectSerivce.getProjectDetailsById(projectId);
 
-		
-		
-		model.addAttribute("editProjectFrm", projectModel);
+		ProjectDto projectModelDto=new ProjectDto();
+		projectModelDto.setProjectId(projectId);
+		projectModelDto.setTitle(projectModel.getTitle());
+		projectModelDto.setProjectOverview(projectModel.getProjectOverview());
+		projectModelDto.setBookingPrefix(projectModel.getBookingPrefix());
+		projectModelDto.setTotalPlots(projectModel.getTotalPlots());
+		projectModelDto.setCompletionDate(DateUtils.fetchDateStrFromMilisec(projectModel.getCompletionDate(), DateUtils.GMT, DateUtils.SiMPLE_DATE_FORMAT));
+		projectModelDto.setSuperBuildupPercentage(projectModel.getSuperBuildupPercentage());
+
+		model.addAttribute("editProjectFrm", projectModelDto);
 		
 		model.addAttribute("title", projectModel.getTitle());
 		model.addAttribute("projectId", projectModel.getProjectId());
 		model.addAttribute("bookingPrefix", projectModel.getBookingPrefix());
 		model.addAttribute("projectOverview", projectModel.getProjectOverview());
 		model.addAttribute("totalPlots", projectModel.getTotalPlots());
+		model.addAttribute("completionDate", projectModel.getCompletionDate());
+
+		model.addAttribute("superBuildupPercentage", projectModel.getSuperBuildupPercentage());
 
 		
 		return "edit-project";
@@ -207,7 +216,8 @@ public class ProjectController extends BusinessController{
 	
 	@Override
 	protected String[] requiredJs() {
-		return new String[] {"js/vendor/jquery.validation.min.js", "js/vendor/addition-medthods-min.js", "js/viewjs/add-project.js","js/vendor/bootstrap-filestyle.min.js" };
+		return new String[] {"js/vendor/jquery.validation.min.js", "js/vendor/addition-medthods-min.js", "js/viewjs/add-project.js","js/vendor/bootstrap-filestyle.min.js",
+				"js/vendor/dataTables.editor.min.js","dataTables.select.min.js"};
 	}
 
 

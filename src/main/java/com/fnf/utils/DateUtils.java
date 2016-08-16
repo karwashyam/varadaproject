@@ -17,6 +17,17 @@ public class DateUtils {
 	  public static final String ONLY_DATE_FORMAT_STR = "yyyy-MM-dd";
 	  public static final String ONLY_TIME_FORMAT_STR = "HH:mm:ss";
 	  
+	  
+	  public static String fetchDateStrFromMilisec(long milisec, String timezone, String dateFormat) {
+
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+			simpleDateFormat.setTimeZone(TimeZone.getTimeZone(timezone));
+
+			Date dateObject = new Date(milisec);
+			String dateStr = simpleDateFormat.format(dateObject);
+
+			return dateStr;
+		}
 	  public static String gmtTimeStampStr(Date date)
 	  {
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss a");

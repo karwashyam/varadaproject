@@ -33,6 +33,18 @@
 		<result property="recordStatus" column="record_status" />
 	</resultMap>
 	
+	<resultMap id="projectPlotListResultMap" type="Map" >
+		<result property="projectId" column="project_id" />
+		<result property="projectPlotId" column="project_plot_id" />
+		<result property="plotName" column="plot_name" />
+		<result property="plotSize" column="plot_size" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedAt" column="updated_at" />
+		<result property="createdBy" column="created_by" />
+		<result property="updatedBy" column="updated_by" />
+		<result property="recordStatus" column="record_status" />
+	</resultMap>
+	
 	
 	
 	<resultMap id="projectsResultListMap" type="Map" >
@@ -104,9 +116,6 @@
 		    </otherwise>
   		</choose>
         LIMIT ${iDisplayLength}  OFFSET  ${iDisplayStart}
-      
-        
-       
 	</select>
 	
 	
@@ -140,5 +149,53 @@
 	<select id="isProjectNameExists" parameterType="String"	resultType="boolean">
 		SELECT (count(*)>0) FROM projects 
 		WHERE title = #{title} AND record_status = 'A'
+	</select>
+	
+	
+	
+	<select id="fetchProjectPlotsList" parameterType="Map" resultMap="projectPlotListResultMap">
+		SELECT 
+			p.project_id, pp.project_plot_id, pp.plot_name, pp.plot_size
+	    FROM
+                projects p
+        INNER JOIN 
+        		project_plots pp
+        	ON p.project_id=pp.project_id
+		WHERE
+        		p.record_status = 'A'
+        AND
+        	p.project_id=#{projectId}
+        	
+       <if test="sSearch!='%%'">
+       	AND pp.plot_name iLIKE #{sSearch}
+       </if>  		
+        
+       <choose>
+		    <when test="columnName != ''">
+		      ORDER BY ${columnName}  ${sSortDir}
+		    </when>
+		    <otherwise>
+		      ORDER BY p.created_at DESC
+		    </otherwise>
+  		</choose>
+        LIMIT ${iDisplayLength}  OFFSET  ${iDisplayStart}
+	</select>
+	
+	
+	
+	<select id="fetchTotalProjectPlotsListCount" resultType="Long">
+		 SELECT 
+				 pp.project_plot_id
+			 FROM 
+				projects p
+		INNER JOIN 
+        		project_plots pp
+        ON 		p.project_id=pp.project_id
+		WHERE 
+				pp.plot_name=#{plotName}
+		AND
+        		pp.record_status = 'A'
+       AND
+        		p.record_status = 'A'
 	</select>
 </mapper> 

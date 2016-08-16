@@ -5,10 +5,11 @@
 /**
  * 
  */
-
-
+var editor; 
+var oTable;
 $(document).ready(function(){
 	var today = new Date();
+	var projectId;
 /*    
 	if($("#stateId").val() != ""){
 		
@@ -16,7 +17,9 @@ $(document).ready(function(){
 		
 	}
 	*/
+	projectId=$('#projectId').val();
 	
+	console.log("\n\n\t =========projectId===>"+projectId);
 	  $('#completionDate')
       .datepicker({
     	  autoclose: true,  
@@ -110,5 +113,164 @@ $(document).ready(function(){
     	}
     });
     
-   
+	projectPlotsManagement(projectId);
+
+	
+	
+	 editor = new $.fn.dataTable.Editor( {
+	        ajax:basePath
+			+ "/ajax/projectplots.json?projectId="+projectId,
+	        table: "#projectPlotsDatatable",
+	        fields: [ {
+	                label: "Plot No",
+	                name: "plotName"
+	            }, {
+	                label: "Plot Size",
+	                name: "plotSize"
+	            }, {
+	                label: "Plot Id:",
+	                name: "projectPlotId"
+	            }
+	        ]
+	    } );
 });
+
+
+
+function projectPlotsManagement(projectId) {
+	
+	console.log("\n\n\t =========projectId1===>"+projectId);
+
+	oTable = $('#projectPlotsDatatable')
+			.dataTable(
+					{
+
+						//"aaSorting" : [ [ 1, "desc" ] ],
+						"bProcessing" : true,
+						"bServerSide" : true,
+						"bPaginate" : true,
+						"iDisplayStart" : 0,
+						"iDisplayLength" : 10,
+						"bRetrieve" : true,
+						"bSort" : true,
+						"bFilter" : true,
+						"bLengthChange" : false,
+						"fnServerData" : fnServerData,
+						"sAjaxSource" : basePath
+								+ "/ajax/projectplots.json?projectId="+projectId,
+						"aoColumnDefs" : [
+								{
+									"mRender" : function(data, type, row) {
+										var active = 'Deactivate';
+										if(row['active'] == false){
+											active = 'Activate';
+										}
+//										 console.log(row['active']);
+										var actionsLinks = '<div style="">'; 
+											actionsLinks += '<a href="javascript:void(0);" '+' onclick="editProjectPlot('+"'" + data+"'" + ');">'
+									        	+'Edit'+'&nbsp; <i class="fa fa-edit font-size-17px"></i></a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" '+' onclick="deleteProjectPlot('+"'" + data+"'" + ');">Delete&nbsp; <i class="fa fa-trash font-size-17px"></i></a>';
+										
+										
+										actionsLinks += '</div>';
+										
+										
+										return actionsLinks;
+									},
+
+									"aTargets" : [ 3 ]
+								}, ],
+
+						"aoColumns" : [
+
+						{
+							"sTitle" : "Sr. No",
+							"mData" : "srNo",
+							"sWidth" : "15%",
+							"bSortable" : false,
+							"sClass" : "center"
+						}, // Sr.No
+			/*			{
+							"sTitle" : "Project Name",
+							"mData" : "title",
+							"sWidth" : "15%",
+							"bSortable" : true,
+							"sClass" : "center"
+						}, // userName
+*/						{
+							"sTitle" : "Plot Name",
+							"mData" : "plotName",
+							"sWidth" : "15%",
+							"bSortable" : true,
+							"sClass" : "center"
+						}, // userName
+						
+						{
+							"sTitle" : "Plot Size",
+							"mData" : "plotSize",
+							"sWidth" : "15%",
+							"bSortable" : true,
+							"sClass" : "center"
+						}, // userName
+						
+						{
+							"sTitle" : "Action",
+							"mData" : "projectPlotId",
+							"sWidth" : "15%",
+							"sClass" : "center",
+							"bSortable" : false
+						}
+
+						],
+						
+						"oLanguage": {
+					        "sEmptyTable": "No Project plots",
+					        "sLoadingRecords": "Please wait - loading...",
+					        "sInfo": "Got a total of _TOTAL_ entries to show (_START_ to _END_)"
+					    },
+                        "fnDrawCallback" : function(oSettings) {
+                       	 var iTotalDisplayRecords = oTable.fnSettings().fnRecordsDisplay();
+
+                       	 if (iTotalDisplayRecords == 0) {
+                       		 $('#projectPlotsDatatable_info').css("visibility","hidden");
+                       		 $('.dataTables_paginate').css("visibility","hidden");
+
+
+                       	 } else {
+                       		 $('#projectPlotsDatatable_info').css("visibility","visible");
+                       		 $('.dataTables_paginate').css("visibility","visible");
+                       	 }
+                        }
+
+					});
+}
+
+new $.fn.dataTable.Buttons( oTable, [
+                                    { extend: "create", editor: editor },
+                                    { extend: "edit",   editor: editor },
+                                    { extend: "remove", editor: editor }
+                                ] );
+
+function fnServerData(sSource, aoData, fnCallback) {
+	isSessionExtend = true;
+	$.ajax({
+		"dataType" : 'json',
+		"type" : "GET",
+		"url" : sSource,
+		"contentType" : 'application/json',
+		"data" : aoData,
+		"success" : fnCallback,
+		"timeout" : 8000,
+		"cache" : false,
+		"error" : handleAjaxError
+	});
+
+}
+
+function handleAjaxError(xhr, textStatus, error) {
+
+	if (textStatus == 'timeout') {
+		alert('The server took too long to send the data.');
+	} else if (textStatus == "parsererror") {
+		alert("Ajax error occured.");
+	}
+}

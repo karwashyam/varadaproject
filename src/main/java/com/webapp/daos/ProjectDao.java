@@ -19,5 +19,8 @@ public interface ProjectDao {
 	public void editProject(ProjectModel projectModel);
 	
 	int addProjectPlots(@Param("projectPlotsList") List<ProjectPlotsModel> projPlotsModels);
+	public List<Map<String, Object>> fetchProjectPlotsList(
+			Map<String, Object> inputMap);
+	public Long fetchTotalProjectPlotsListCount();
 
 }

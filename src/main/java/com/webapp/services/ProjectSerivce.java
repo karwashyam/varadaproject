@@ -1,6 +1,5 @@
 package com.webapp.services;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fnf.utils.UUIDGenerator;
 import com.utils.constant.ProjectConstant;
 import com.webapp.daos.ProjectDao;
 import com.webapp.models.ProjectModel;
@@ -108,28 +106,45 @@ public class ProjectSerivce {
 		projectModel.setUpdatedAt(currentTime);
 
 		projectDao.addProject(projectModel);
-		
-		
-		/*for(int i=1;i<=projectModel.getTotalPlots();i++){
-			projectPlotsModel=new ProjectPlotsModel();
-
-			projectPlotsModel.setProjectPlotId(UUIDGenerator.generateUUID());
-			projectPlotsModel.setPlotName(String.valueOf(i));
-			projectPlotsModel.setProjectId(projectId);
-//			projectPlotsModel.setPlotSize(projectModel.getPlotSize());
-			projectPlotsModel.setCreatedAt(projectModel.getCreatedAt());
-			projectPlotsModel.setCreatedBy(projectModel.getCreatedBy());
-			projectPlotsModel.setUpdatedAt(projectModel.getUpdatedAt());
-			projectPlotsModel.setUpdatedBy(projectModel.getUpdatedBy());
-			projectPlotsModel.setRecordStatus(ProjectConstant.ACTIVE_RECORD_STATUS);
-
-			projectPlotsModels.add(projectPlotsModel);
-		}
-		*/
 		projectDao.addProjectPlots(projectPlotsModels);
 		
 		
 	}
+
+
+
+	public List<Map<String, Object>> fetchProjectPlotsList(int iDisplayLength,
+			int iDisplayStart, int serialNo, String sSortDir,
+			String columnName, String sSearch, String projectId) {
+
+		Map<String, Object> inputMap = new HashMap<>();
+		inputMap.put("sSortDir", sSortDir);
+		inputMap.put("columnName", columnName);
+		inputMap.put("sSearch", sSearch);
+		inputMap.put("iDisplayStart", iDisplayStart);
+		inputMap.put("iDisplayLength", iDisplayLength);
+		inputMap.put("projectId", projectId);
+
+
+		List<Map<String, Object> > resultList = projectDao.fetchProjectPlotsList(inputMap);
+		for (Map<String, Object> map : resultList) {
+			map.put("srNo", serialNo++);
+		}
+
+
+		return resultList;
+	}
+
+
+
+	public Object fetchTotalProjectPlotsListCount() {
+		Long count=0l;
+		count=projectDao.fetchTotalProjectPlotsListCount();
+		if(count!=null){
+			return count;
+		}else{
+			return 0l;
+		}	}
 
 
 }

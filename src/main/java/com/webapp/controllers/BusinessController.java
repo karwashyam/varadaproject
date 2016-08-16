@@ -119,7 +119,7 @@ public class BusinessController extends BaseController {
 
 	private String[] commonCss() {
 		return new String[] { "css/bootstrap.min.css","css/font-awesome.min.css","css/bootstrap-datepicker.min.css",
-				"css/buttons.bootstrap.min.css","css/custom.min.css"};
+				"css/buttons.bootstrap.min.css","css/custom.min.css","css/editor.bootstrap.min.css"};
 	}
 
 	private String[] commonJs() {

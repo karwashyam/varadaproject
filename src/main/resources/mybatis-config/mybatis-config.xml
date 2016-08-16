@@ -13,8 +13,10 @@
   		
 		<typeAlias alias="CityDto" type="com.webapp.dto.CityDto" />
 		<typeAlias alias="CityModel" type="com.webapp.models.CityModel" />
+		<typeAlias alias="ProjectDto" type="com.webapp.dto.ProjectDto" />
+		
   		<typeAlias alias="ProjectModel" type="com.webapp.models.ProjectModel" />
-  		  		<typeAlias alias="ProjectPlotsModel" type="com.webapp.models.ProjectPlotsModel" />
+  		<typeAlias alias="ProjectPlotsModel" type="com.webapp.models.ProjectPlotsModel" />
   		
 	</typeAliases>
 
