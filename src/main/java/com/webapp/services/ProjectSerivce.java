@@ -147,4 +147,11 @@ public class ProjectSerivce {
 		}	}
 
 
+
+	public List<ProjectModel> fetchProjects() {
+		List<ProjectModel> projectList=projectDao.fetchProjects();
+		return projectList;
+	}
+
+
 }

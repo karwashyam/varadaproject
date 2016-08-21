@@ -1,16 +1,21 @@
-package com.webapp.models;
+package com.webapp.dto;
 
-public class ProjectPaymentSchemeModel extends AbstractModel{
+public class ProjectPaymentSchemeDto {
 
 	private String projectPaymentSchemeId;
 	private String paymentSchemeId;
 	private String projectId;
+	private String projPaymentSchemeExists;
 	private String paymentSchemeTitle;
 	private String projectTitle;
 	
 	
-	
-	
+	public String getProjPaymentSchemeExists() {
+		return projPaymentSchemeExists;
+	}
+	public void setProjPaymentSchemeExists(String projPaymentSchemeExists) {
+		this.projPaymentSchemeExists = projPaymentSchemeExists;
+	}
 	public String getProjectPaymentSchemeId() {
 		return projectPaymentSchemeId;
 	}

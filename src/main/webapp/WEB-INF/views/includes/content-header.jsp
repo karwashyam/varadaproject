@@ -39,6 +39,7 @@
                       <li><a href="${pageContext.request.contextPath}/projects">List Projects</a></li>
                       <li><a href="${pageContext.request.contextPath}/project/add">Add Project</a></li>
                       <li><a href="${pageContext.request.contextPath}/payment-scheme">Payment Scheme</a></li>
+                        <li><a href="${pageContext.request.contextPath}/proj-payment-scheme">Project Payment Scheme</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-users"></i> Franchisee <span class="fa fa-chevron-down"></span></a>

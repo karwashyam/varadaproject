@@ -198,4 +198,12 @@
        AND
         		p.record_status = 'A'
 	</select>
+	
+	<select id="fetchProjects" resultMap="projectPlotListResultMap">
+		SELECT * FROM projects
+			WHERE 
+			record_status = 'A'
+	</select>
+	
+	
 </mapper> 

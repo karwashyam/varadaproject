@@ -10,30 +10,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.utils.constant.ProjectConstant;
-import com.webapp.daos.PaymentSchemeDao;
-import com.webapp.models.PaymentSchemeModel;
+import com.webapp.daos.ProjectPaymentSchemeDao;
+import com.webapp.models.ProjectPaymentSchemeModel;
 
-@Service("paymentSchemeService")
-public class PaymentSchemeSerivce {
+@Service("projPaymentSchemeService")
+public class ProjPaymentSchemeSerivce {
 
 //	private static final Logger logger = Logger.getLogger(StateSerivce.class);
 
 	@Autowired
-	private PaymentSchemeDao paymentSchemeDao;
+	private ProjectPaymentSchemeDao projectPaymentSchemeDao;
 	
 
-	public PaymentSchemeModel getPaymentSchemeDetailsById(String paymentSchemeId) {
+	public ProjectPaymentSchemeModel getProjectsPaymentSchemeById(String projPaymentSchemeId) {
 
-		PaymentSchemeModel projectModel = null;
+		ProjectPaymentSchemeModel projectModel = null;
 
-		projectModel = paymentSchemeDao.getPaymentSchemeDetailsById(paymentSchemeId);
+		projectModel = projectPaymentSchemeDao.getProjectsPaymentSchemeById(projPaymentSchemeId);
 
 		return projectModel;
 	}
 
 
 
-	public List<Map<String, Object>> fetchPaymentSchemeList(int iDisplayLength,
+	public List<Map<String, Object>> fetchProjPaymentSchemeList(int iDisplayLength,
 			int iDisplayStart, int serialNo, String sSortDir,
 			String columnName, String sSearch) {
 		Map<String, Object> inputMap = new HashMap<>();
@@ -44,7 +44,7 @@ public class PaymentSchemeSerivce {
 		inputMap.put("iDisplayLength", iDisplayLength);
 
 
-		List<Map<String, Object> > resultList = paymentSchemeDao.fetchPaymentSchemeList(inputMap);
+		List<Map<String, Object> > resultList = projectPaymentSchemeDao.fetchProjPaymentSchemeList(inputMap);
 		for (Map<String, Object> map : resultList) {
 			map.put("srNo", serialNo++);
 		}
@@ -52,9 +52,9 @@ public class PaymentSchemeSerivce {
 
 		return resultList;
 	}
-	public Long fetchTotalPaymentSchemeListCount(){
+	public Long fetchTotalProjPaymentSchemeListCount(){
 		Long count=0l;
-		count=paymentSchemeDao.fetchTotalPaymentSchemeListCount();
+		count=projectPaymentSchemeDao.fetchTotalProjPaymentSchemeListCount();
 		if(count!=null){
 			return count;
 		}else{
@@ -64,12 +64,12 @@ public class PaymentSchemeSerivce {
 	}
 
 
-	public int deletePaymentScheme(String paymentScemeId, String userId) {
+	public int deleteProjectPaymentScheme(String projPaymentScemeId, String userId) {
 		int status=-1;
-		PaymentSchemeModel projectModel=new PaymentSchemeModel();
-		projectModel.setPaymentSchemeId(paymentScemeId);
+		ProjectPaymentSchemeModel projectModel=new ProjectPaymentSchemeModel();
+		projectModel.setPaymentSchemeId(projPaymentScemeId);
 		projectModel.setUpdatedBy(userId);
-			paymentSchemeDao.deletePaymentScheme(paymentScemeId);
+			projectPaymentSchemeDao.deleteProjectPaymentScheme(projPaymentScemeId);
 		
 		return status;
 	}
@@ -82,7 +82,7 @@ public class PaymentSchemeSerivce {
 	}*/
 
 	@Transactional
-	public void updatePaymentScheme(PaymentSchemeModel paymentSchemeModel, String userId) {
+	public void updateProjectPaymentScheme(ProjectPaymentSchemeModel paymentSchemeModel, String userId) {
 		
 		long currentTime = new Date().getTime();
 		
@@ -90,11 +90,11 @@ public class PaymentSchemeSerivce {
 		paymentSchemeModel.setUpdatedBy(userId);
 		paymentSchemeModel.setUpdatedAt(currentTime);
 		
-		paymentSchemeDao.updatePaymentScheme(paymentSchemeModel);
+		projectPaymentSchemeDao.updateProjectPaymentScheme(paymentSchemeModel);
 	}
 
 	@Transactional
-	public void addPaymentScheme(PaymentSchemeModel paymentSchemeModel, String userId) {
+	public void addProjectPaymentScheme(ProjectPaymentSchemeModel paymentSchemeModel, String userId) {
 		
 		long currentTime = new Date().getTime();
 
@@ -104,24 +104,26 @@ public class PaymentSchemeSerivce {
 		paymentSchemeModel.setUpdatedBy(userId);
 		paymentSchemeModel.setUpdatedAt(currentTime);
 
-		paymentSchemeDao.addPaymentScheme(paymentSchemeModel);
+		projectPaymentSchemeDao.addProjectPaymentScheme(paymentSchemeModel);
 		
 		
 	}
 
 
 
-	public boolean isPaymentSchemeExists(String title) {
+	public boolean isProjPaymentSchemeExists(String paySchemeId,String projectId) {
 		boolean isExists=false;
-		isExists=paymentSchemeDao.isPaymentSchemeExists(title);
+		isExists=projectPaymentSchemeDao.isProjPaymentSchemeExists(paySchemeId,projectId);
 		return isExists;
 	}
 
 
 
-	public List<PaymentSchemeModel> fetchPaymentScheme() {
-		List<PaymentSchemeModel> paymentSchemeList=paymentSchemeDao.fetchPaymentScheme();
+	public List<ProjectPaymentSchemeModel> fetchPaymentScheme() {
+		List<ProjectPaymentSchemeModel> paymentSchemeList=projectPaymentSchemeDao.fetchProjectPayementScheme();
 		return paymentSchemeList;
 	}
+
+
 
 }
