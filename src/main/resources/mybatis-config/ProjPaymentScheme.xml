@@ -63,7 +63,7 @@
          		projects p
          ON			p.project_id=pps.project_id
 		 WHERE
-        		p.record_status = 'A'
+        		pps.record_status = 'A'
         		
        <if test="sSearch!='%%'">
        	AND (p.title iLIKE #{sSearch}
@@ -97,8 +97,16 @@
 	</update>
 	
 	<update id="deleteProjectPaymentScheme" parameterType="Map" >
-		UPDATE project_payment_scheme SET record_status = 'D', updated_at = #{updatedAt}, updated_by = #{updatedBy}
-		WHERE  project_payment_scheme_id = #{projectPaymentSchemeId} A6ND record_status = 'A'
+		UPDATE 
+			project_payment_scheme 
+		SET 
+				record_status = 'D', 
+				updated_at = #{updatedAt}, 
+				updated_by = #{updatedBy}
+		WHERE  
+				project_payment_scheme_id = #{projectPaymentSchemeId} 
+		AND 
+				record_status = 'A'
 	</update>
 
 	<select id="fetchTotalProjPaymentSchemeListCount" resultType="Long">

@@ -38,9 +38,10 @@
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Project Name</label>
-                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        							<div class="col-md-3 col-sm-3 col-xs-12">
+                        
 <%--                           <form:input path="projectId" class="form-control" placeholder="Select Project Heading" /> --%>
-  <form:select path="projectId" name="projectId" id="projectId" class="selectpicker" data-live-search="true" title="Search">
+  <form:select path="projectId" name="projectId" id="projectId" class="form-control" data-live-search="true" title="Search">
                                        <option value="NONE"  >Select Project Title</option>
 											<c:forEach items="${projectsList}" var="projType">
 											
@@ -56,11 +57,10 @@
                       
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Payment Scheme</label>
-                       <%--  <div class="col-md-3 col-sm-3 col-xs-12">
-                          <form:input path="paymentSchemeId" class="form-control" placeholder="select payment scheme" />
-                        </div> --%>
+                        	<div class="col-md-3 col-sm-3 col-xs-12">
+
                         
-                          <form:select  path="paymentSchemeId" name="paymentSchemeId" id="paymentSchemeId" class="selectpicker" data-live-search="true" title="Search">
+                          <form:select  path="paymentSchemeId" name="paymentSchemeId" id="paymentSchemeId" class="form-control" data-live-search="true" title="Search">
                                        <option value="NONE"  >Select Payment Scheme</option>
 											<c:forEach items="${paymentSchemeList}" var="payschemeType">
 											
@@ -69,7 +69,8 @@
 												</option>
 											</c:forEach>
                                     </form:select>
-                                                              <form:errors path="paymentSchemeId" style="color: #ff0000;" />
+                                                      
+                                                      </div>        <form:errors path="paymentSchemeId" style="color: #ff0000;" />
                                     
                       </div>
                       

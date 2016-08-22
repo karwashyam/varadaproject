@@ -82,8 +82,14 @@
 	</update>
 	
 	<update id="deletePaymentScheme" parameterType="Map" >
-		UPDATE payment_schemes SET record_status = 'D', updated_at = #{updatedAt}, updated_by = #{updatedBy}
-		WHERE  payment_scheme_id = #{paymentSchemeId} AND record_status = 'A'
+		UPDATE payment_schemes 
+			SET 
+				record_status = 'D', 
+				updated_at = #{updatedAt}, 
+				updated_by = #{updatedBy}
+		WHERE  
+				payment_scheme_id = #{paymentSchemeId} 
+		AND record_status = 'A'
 	</update>
 
 	<select id="fetchTotalPaymentSchemeListCount" resultType="Long">

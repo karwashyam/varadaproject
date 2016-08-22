@@ -173,7 +173,7 @@ function editProjPaymentScheme(projPaymentSchemeId){
 }
 
 function deleteProjPaymentScheme(projPaySchemeId){
-	if(isDeleteAccess === "true"){
+//	if(isDeleteAccess === "true"){
 		BootstrapDialog.show({
 			message: 'Are you sure you want to delete this project payment scheme ?',
 			title: 'Alert',
@@ -183,7 +183,7 @@ function deleteProjPaymentScheme(projPaySchemeId){
 					$.ajax({
 	
 						type: "DELETE",
-						url: basePath +"/ajax/payment-scheme/delete.json?projPaymentSchemeId="+projPaySchemeId,
+						url: basePath +"/ajax/projpaymentScheme/delete.json?projectPaymentSchemeId="+projPaySchemeId,
 	
 						dataType :'json',
 						contentType: 'application/json',
@@ -219,7 +219,7 @@ function deleteProjPaymentScheme(projPaySchemeId){
 				}
 			}]
 		});
-	}
+//	}
 }
 
 

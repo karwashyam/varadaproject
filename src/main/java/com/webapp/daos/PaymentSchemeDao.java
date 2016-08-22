@@ -10,7 +10,7 @@ public interface PaymentSchemeDao {
 	public void addPaymentScheme(PaymentSchemeModel projectPaymentSchemeModel);
 	public void updatePaymentScheme(PaymentSchemeModel p);
 	public List<PaymentSchemeModel> fetchPaymentScheme();
-	public void deletePaymentScheme(String id);
+	public void deletePaymentScheme(PaymentSchemeModel projectModel);
 	public PaymentSchemeModel getPaymentSchemeDetailsById(String paymentSchemeId);
 	public List<Map<String, Object>> fetchPaymentSchemeList(Map<String, Object> inputMap);
 	public Long fetchTotalPaymentSchemeListCount();

@@ -66,10 +66,13 @@ public class PaymentSchemeSerivce {
 
 	public int deletePaymentScheme(String paymentScemeId, String userId) {
 		int status=-1;
+		long currentTime = new Date().getTime();
+
 		PaymentSchemeModel projectModel=new PaymentSchemeModel();
 		projectModel.setPaymentSchemeId(paymentScemeId);
 		projectModel.setUpdatedBy(userId);
-			paymentSchemeDao.deletePaymentScheme(paymentScemeId);
+		projectModel.setUpdatedAt(currentTime);
+			paymentSchemeDao.deletePaymentScheme(projectModel);
 		
 		return status;
 	}

@@ -84,7 +84,7 @@ public class PaySchemeManagementAjaxController extends BusinessApiController {
 	
 
 	@RequestMapping(value = "/ajax/paymentScheme/delete", method = RequestMethod.DELETE)
-	public @ResponseBody ModelAndView deleteLesson(@RequestParam("paymentScemeId") String paymentScemeId, HttpServletRequest req, HttpServletResponse res){
+	public @ResponseBody ModelAndView deleteLesson(@RequestParam("paymentSchemeId") String paymentScemeId, HttpServletRequest req, HttpServletResponse res){
 
 		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 
@@ -148,7 +148,7 @@ public class PaySchemeManagementAjaxController extends BusinessApiController {
 	
 
 	@RequestMapping(value = "/ajax/projpaymentScheme/delete", method = RequestMethod.DELETE)
-	public @ResponseBody ModelAndView deleteProjPayScheme(@RequestParam("projpaymentScemeId") String projpaymentScemeId, HttpServletRequest req, HttpServletResponse res){
+	public @ResponseBody ModelAndView deleteProjPayScheme(@RequestParam("projectPaymentSchemeId") String projectPaymentSchemeId, HttpServletRequest req, HttpServletResponse res){
 
 		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 
@@ -156,7 +156,7 @@ public class PaySchemeManagementAjaxController extends BusinessApiController {
 
 		Map<String, Object> outputFinalMap= new HashMap<String,Object>();
 
-		int status = projPaymentSchemeSerivce.deleteProjectPaymentScheme(projpaymentScemeId, userId);
+		int status = projPaymentSchemeSerivce.deleteProjectPaymentScheme(projectPaymentSchemeId, userId);
 
 		if (status ==0) {
 

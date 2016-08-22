@@ -64,12 +64,15 @@ public class ProjPaymentSchemeSerivce {
 	}
 
 
-	public int deleteProjectPaymentScheme(String projPaymentScemeId, String userId) {
+	public int deleteProjectPaymentScheme(String projectPaymentSchemeId, String userId) {
 		int status=-1;
+		long currentTime = new Date().getTime();
+
 		ProjectPaymentSchemeModel projectModel=new ProjectPaymentSchemeModel();
-		projectModel.setPaymentSchemeId(projPaymentScemeId);
+		projectModel.setProjectPaymentSchemeId(projectPaymentSchemeId);
 		projectModel.setUpdatedBy(userId);
-			projectPaymentSchemeDao.deleteProjectPaymentScheme(projPaymentScemeId);
+		projectModel.setUpdatedAt(currentTime);
+		projectPaymentSchemeDao.deleteProjectPaymentScheme(projectModel);
 		
 		return status;
 	}
