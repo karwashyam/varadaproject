@@ -74,7 +74,7 @@
                   </li>
                   <li><a><i class="fa fa-bar-chart-o"></i> Reports <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="${pageContext.request.contextPath}/booking-report">Booking</a></li>
+                      <li><a href="${pageContext.request.contextPath}/report/booking">Booking</a></li>
                       <li><a href="${pageContext.request.contextPath}/cancelled-booking-report">Cancelled Booking</a></li>
                       <li><a href="${pageContext.request.contextPath}/unbooked-plots-report">Unbooked Plots</a></li>
                       <li><a href="${pageContext.request.contextPath}/overdue-payments-report">Overdue Payments</a></li>

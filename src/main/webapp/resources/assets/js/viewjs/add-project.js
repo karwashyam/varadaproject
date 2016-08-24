@@ -117,7 +117,7 @@ $(document).ready(function(){
 
 	
 	
-	 editor = new $.fn.dataTable.Editor( {
+/*	 editor = new $.fn.dataTable.Editor( {
 	        ajax:basePath
 			+ "/ajax/projectplots.json?projectId="+projectId,
 	        table: "#projectPlotsDatatable",
@@ -132,7 +132,20 @@ $(document).ready(function(){
 	                name: "projectPlotId"
 	            }
 	        ]
+	    } );*/
+	 
+	 
+
+	    $('#projectPlotsDatatable tbody').on( 'click', 'tr', function () {
+	        if ( $(this).hasClass('selected') ) {
+	            $(this).removeClass('selected');
+	        }
+	        else {
+	        	oTable.$('tr.selected').removeClass('selected');
+	            $(this).addClass('selected');
+	        }
 	    } );
+	 
 });
 
 
@@ -244,11 +257,11 @@ function projectPlotsManagement(projectId) {
 					});
 }
 
-new $.fn.dataTable.Buttons( oTable, [
+/*new $.fn.dataTable.Buttons( oTable, [
                                     { extend: "create", editor: editor },
                                     { extend: "edit",   editor: editor },
                                     { extend: "remove", editor: editor }
-                                ] );
+                                ] );*/
 
 function fnServerData(sSource, aoData, fnCallback) {
 	isSessionExtend = true;
