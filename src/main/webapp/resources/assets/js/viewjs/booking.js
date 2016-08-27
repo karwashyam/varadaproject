@@ -13,17 +13,17 @@ $(document).ready(function() {
 		$("#add").prop("disabled", true);
 	}
 	
-	$('#city-datatable_wrapper').prepend('<a href="'+ basePath+ '/city/add'+ '" class="actionbtn" style="float:right;"><button type="button" class="btn btn-round btn-primary">New City</button></a>');
+	$('#booking-datatable_wrapper').prepend('<a href="'+ basePath+ '/booking/add'+ '" class="actionbtn" style="float:right;"><button type="button" class="btn btn-round btn-primary">New Booking</button></a>');
 	
 	jQuery("#add").click(function() {
-		document.location = basePath + "/city/add";
+		document.location = basePath + "/booking/add";
 	});
 	
 });
 
 function citytable() {
 	var i = 1;
-	oTable = $("#city-datatable").dataTable({
+	oTable = $("#booking-datatable").dataTable({
 
 		"info" : false,
 		"bProcesing" : true,
@@ -33,58 +33,69 @@ function citytable() {
 		"order" : [ [ 1, "asc" ] ],
 		"bServerSide" : true,
 		"bLengthChange" : false,
-		"sAjaxSource" : basePath + '/city/list.json',
+		"sAjaxSource" : basePath + '/booking/list.json',
 		"columnDefs" : [ {
-		/*
-		 * basePath+'/resources/assets/img/internal/delete.png"></a> "render":
-		 * function ( data, type, row ) { return 'aa<a
-		 * href='+basePath+'/order/edit.do?order_id='+data+'>edit</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'; },
-		 * "targets": 8
-		 *//*super buildup percentage in project*/
 			"mRender" : function(data, type, row) {
-				//var active = 'Deactivate';
-				/*if(row['active'] == false){
-					active = 'Activate';
-				}*/
-//				 console.log(row['active']);
 				var actionsLinks = '<div style="">'; 
-				if(isEditAccess === "true"){
-					actionsLinks += '<a href="javascript:void(0);" '+' onclick="editCity('+"'" + data+"'" + ');">'
-			        	+'Edit'+'&nbsp; <i class="fa fa-edit font-size-17px"></i></a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" '+' onclick="deleteCity('+"'" + data+"'" + ');">Delete&nbsp; <i class="fa fa-trash font-size-17px"></i></a>';
-				}else{
-					actionsLinks += '<a class="disabled" href="javascript:void(0);" '+' onclick="editState('+"'" + data+"'" + ');">'
-		        	+'Edit'+'</a>&nbsp &nbsp';
-				}
-				
-				
+					actionsLinks += '<a href="javascript:void(0);" '+' onclick="editBooking('+"'" + data+"'" + ');">'
+			        	+'Edit'+'&nbsp; <i class="fa fa-edit font-size-17px"></i></a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" '+' onclick="cancelBooking('+"'" + data+"'" + ');">Cancel&nbsp; <i class="fa fa-trash font-size-17px"></i></a>';
 				actionsLinks += '</div>';
-				
-				
 				return actionsLinks;
 			},
-
-			"aTargets" : [ 3 ]
-		}
-
+			"aTargets" : [ 8 ]
+			},
+			{
+				"mRender" : function(data, type, row) {
+					var actionsLinks = '<div style="">'; 
+					if(isEditAccess === "true"){
+						actionsLinks += '<a href="javascript:void(0);" '+' onclick="editBooking('+"'" + data+"'" + ');">'
+				        	+'Edit'+'&nbsp; <i class="fa fa-edit font-size-17px"></i></a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" '+' onclick="cancelBooking('+"'" + data+"'" + ');">Cancel&nbsp; <i class="fa fa-trash font-size-17px"></i></a>';
+					}else{
+						actionsLinks += '<a class="disabled" href="javascript:void(0);" '+' onclick="editState('+"'" + data+"'" + ');">'
+			        	+'Edit'+'</a>&nbsp &nbsp';
+					}
+					actionsLinks += '</div>';
+					return actionsLinks;
+				},
+				"aTargets" : [ 9 ]
+				}
 		],
 		"aoColumns" : [
 
 		{
-			"sTitle" : "City Id",
-			"mData" : "cityId",
+			"sTitle" : "Project",
+			"mData" : "projectName",
 			"sClass" : "center",
 			"bVisible" : false
 		// "sWidth" : "6%"
 		}, {
-			"mData" : "City Name",
-			"mData" : "cityName",
+			"mData" : "Booking No.",
+			"mData" : "bookingCode",
 			"sClass" : "center"
 		}, {
-			"sTitle" : "State Name",
-			"mData" : "stateName"
+			"sTitle" : "Plot No.",
+			"mData" : "plotName"
+		},{
+			"sTitle" : "Franchisee",
+			"mData" : "franchiseeName"
+		},{
+			"sTitle" : "Member",
+			"mData" : "memberName"
+		},{
+			"sTitle" : "Member Code",
+			"mData" : "memberCode"
+		},{
+			"sTitle" : "Phone",
+			"mData" : "phone1"
+		},{
+			"sTitle" : "Email",
+			"mData" : "email"
+		},{
+			"sTitle" : "Add Payment",
+			"mData" : "bookingId"
 		}, {
 			"sTitle" : "Action",
-			"mData" : "cityId"
+			"mData" : "bookingId"
 		} ],
 		"fnServerData" : function(sSource, aoData, fnCallback) {
 			$.ajax({
@@ -126,16 +137,16 @@ function handleAjaxError(xhr, textStatus, error) {
 	}
 }
 
-function editCity(cityId){
+function editBooking(bookingId){
 	if(isEditAccess === "true"){
-		document.location = basePath + "/city/edit-city/" + cityId;
+		document.location = basePath + "/booking/edit/" + bookingId;
 	}
 }
 
-function deleteCity(cityId){
+function cancelBooking(bookingId){
 	if(isDeleteAccess === "true"){
 		BootstrapDialog.show({
-			message: 'Are you sure you want to delete this City ?',
+			message: 'Are you sure you want to cancel this Booking ?',
 			title: 'Alert',
 			buttons: [{
 				label: 'YES',
@@ -143,7 +154,7 @@ function deleteCity(cityId){
 					$.ajax({
 	
 						type: "DELETE",
-						url: basePath +"/ajax/city/delete?cityId="+cityId,
+						url: basePath +"/booking/cancel?bookingId="+bookingId,
 	
 						dataType :'json',
 						contentType: 'application/json',
@@ -152,19 +163,16 @@ function deleteCity(cityId){
 						success: function( response ) {
 							if(response.success){
 								$(".errorMessage").html("");
-	
-								BootstrapDialog.alert("City deleted successfully.");
-								var table = $('#city-datatable').DataTable();
-								$('#city-datatable').dataTable().fnDraw();
+								BootstrapDialog.alert("Booking cancelled successfully.");
+								var table = $('#booking-datatable').DataTable();
+								$('#booking-datatable').dataTable().fnDraw();
 								dialogItself.close();
 	
 							} else if(response.error){
-								BootstrapDialog.alert("Error! could not delete the selected Deleted.");
+								BootstrapDialog.alert("Some error happened");
 								dialogItself.close();
-	
 							}
 							dialogItself.close();
-	
 						},
 						error : function() {
 							dialogItself.close();
@@ -185,7 +193,7 @@ function deleteCity(cityId){
 
 function loadTable(){
 	
-	var table = $('#city-datatable').DataTable();
+	var table = $('#booking-datatable').DataTable();
 	
 	table.fnDestroy();
 	

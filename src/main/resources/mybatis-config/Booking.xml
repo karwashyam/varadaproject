@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.BookingDao">
+
+	<resultMap id="BookingMap" type="BookingModel" >
+		<result property="bookingId" column ="booking_id" />
+		<result property="bookingCode" column ="booking_code" />
+		<result property="projectId" column ="project_id" />
+		<result property="projectName" column ="project_name" />
+		<result property="plotId" column ="plot_id" />
+		<result property="plotName" column ="plot_name" />
+		<result property="plotSize" column ="plot_size" />
+		<result property="franchiseeId" column ="franchisee_id" />
+		<result property="franchiseeName" column ="franchisee_name" />
+		<result property="memberId" column ="member_id" />
+		<result property="memberName" column ="member_name" />
+		<result property="nomineeName" column ="nominee_name" />
+		<result property="nomineeFather" column ="nominee_father" />
+		<result property="nomineeAddress" column ="nominee_address" />
+		<result property="nomineeRelation" column ="nominee_relation" />
+		<result property="nomineeDob" column ="nominee_dob" />
+		<result property="remarks" column ="remarks" />
+		<result property="price" column ="price" />
+		<result property="paymentMadeTillNow" column ="payment_made_till_now" />
+		<result property="emi" column ="emi" />
+		<result property="noOfEmi" column ="no_of_emi" />
+		<result property="emiPrice" column ="emi_price" />
+		<result property="nextEmiOn" column ="next_emi_on" />
+		<result property="memberCode" column ="member_code" />
+		<result property="email" column ="email" />
+		<result property="phone2" column ="phone2" />
+		<result property="phone1" column ="phone1" />
+	</resultMap>
+	
+	
+	<select id="fetchBookingList" parameterType="JQTableUtils" resultMap="BookingMap">
+		SELECT b.booking_id, b.booking_code, b.project_id, b.project_name, b.plot_id, 
+	       b.plot_name, b.plot_size, b.franchisee_id, b.franchisee_name, b.member_id, 
+	       b.member_name, b.nominee_name, b.nominee_father, b.nominee_address, b.nominee_relation, 
+	       b.nominee_dob, b.remarks, b.price, b.payment_made_till_now, b.emi, b.no_of_emi, 
+	       b.emi_price, b.next_emi_on,m.phone1,m.phone2,m.email,m.member_code
+  		FROM bookings b
+  		INNER JOIN members m
+  			ON m.member_id=b.member_id
+  		WHERE b.record_status='A'
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+			b.booking_code ilike #{JQTableUtils.searchParams}
+			OR
+			b.project_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.plot_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.franchisee_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.member_name ilike #{JQTableUtils.searchParams}
+			OR
+			m.member_code  ilike #{JQTableUtils.searchParams}
+			OR
+			m.phone1 ilike #{JQTableUtils.searchParams}
+			OR 
+			m.phone2 ilike #{JQTableUtils.searchParams}
+			OR
+			m.email ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+		ORDER BY
+		<choose>
+			<when test="JQTableUtils.sortColumn == 0">
+				b.project_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 1">
+				b.booking_code
+			</when>
+			<when test="JQTableUtils.sortColumn == 2">
+				b.plot_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 3">
+				b.franchisee_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 4">
+				b.member_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 5">
+				m.member_code
+			</when>
+			<when test="JQTableUtils.sortColumn == 6">
+				m.phone1
+			</when>
+			<when test="JQTableUtils.sortColumn == 7">
+				m.email
+			</when>
+			<otherwise>
+				b.created_at
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="JQTableUtils.sortingDirection == 'asc'">
+				ASC
+			</when>
+			<otherwise>
+				DESC
+			</otherwise>
+		</choose> 
+		<if test="JQTableUtils.iDisplayLength!=-1">
+			LIMIT #{JQTableUtils.iDisplayLength}
+			OFFSET #{JQTableUtils.iDisplayStart}
+		</if>
+		
+	</select>
+	
+	<select id="fetchTotalBookingList" parameterType="JQTableUtils" resultType="Long">
+		SELECT count(booking_id)
+  		FROM bookings b
+  		INNER JOIN members m
+  			ON m.member_id=b.member_id
+  		WHERE b.record_status='A'
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+			b.booking_code ilike #{JQTableUtils.searchParams}
+			OR
+			b.project_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.plot_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.franchisee_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.member_name ilike #{JQTableUtils.searchParams}
+			OR
+			m.member_code  ilike #{JQTableUtils.searchParams}
+			OR
+			m.phone1 ilike #{JQTableUtils.searchParams}
+			OR 
+			m.phone2 ilike #{JQTableUtils.searchParams}
+			OR
+			m.email ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+		
+	</select>
+	
+	
+</mapper> 
