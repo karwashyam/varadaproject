@@ -16,6 +16,15 @@
 		
 		<typeAlias alias="EmployeeModel" type="com.webapp.models.EmployeeModel" />
 		<typeAlias alias="EmployeeDto" type="com.webapp.dto.EmployeeDto" />
+		
+		<typeAlias alias="ProjectDto" type="com.webapp.dto.ProjectDto" />
+		
+  		<typeAlias alias="ProjectModel" type="com.webapp.models.ProjectModel" />
+  		<typeAlias alias="ProjectPlotsModel" type="com.webapp.models.ProjectPlotsModel" />
+  		<typeAlias alias="PaymentSchemeModel" type="com.webapp.models.PaymentSchemeModel" />
+  		<typeAlias alias="PaymentSchemeDto" type="com.webapp.dto.PaymentSchemeDto" />
+  		<typeAlias alias="ProjectPaymentSchemeDto" type="com.webapp.dto.ProjectPaymentSchemeDto" />
+  		<typeAlias alias="ProjectPaymentSchemeModel" type="com.webapp.models.ProjectPaymentSchemeModel" />
   		
 	</typeAliases>
 
@@ -26,6 +35,11 @@
   		<mapper resource="mybatis-config/Login.xml" />
   		<mapper resource="mybatis-config/State.xml" />
   		<mapper resource="mybatis-config/City.xml" />
+
   		<mapper resource="mybatis-config/Employee.xml" />
+  		<mapper resource="mybatis-config/Project.xml" />
+  		<mapper resource="mybatis-config/PaymentScheme.xml" />
+  		<mapper resource="mybatis-config/ProjPaymentScheme.xml" />
+  		
 	</mappers>
 </configuration>

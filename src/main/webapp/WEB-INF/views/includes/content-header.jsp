@@ -36,9 +36,10 @@
                   </li>
                   <li><a><i class="fa fa-table"></i> Projects <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="${pageContext.request.contextPath}/project">List Projects</a></li>
-                      <li><a href="${pageContext.request.contextPath}/add-project">Add Project</a></li>
+                      <li><a href="${pageContext.request.contextPath}/projects">List Projects</a></li>
+                      <li><a href="${pageContext.request.contextPath}/project/add">Add Project</a></li>
                       <li><a href="${pageContext.request.contextPath}/payment-scheme">Payment Scheme</a></li>
+                        <li><a href="${pageContext.request.contextPath}/proj-payment-scheme">Project Payment Scheme</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-users"></i> Franchisee <span class="fa fa-chevron-down"></span></a>
@@ -73,7 +74,7 @@
                   </li>
                   <li><a><i class="fa fa-bar-chart-o"></i> Reports <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="${pageContext.request.contextPath}/booking-report">Booking</a></li>
+                      <li><a href="${pageContext.request.contextPath}/report/booking">Booking</a></li>
                       <li><a href="${pageContext.request.contextPath}/cancelled-booking-report">Cancelled Booking</a></li>
                       <li><a href="${pageContext.request.contextPath}/unbooked-plots-report">Unbooked Plots</a></li>
                       <li><a href="${pageContext.request.contextPath}/overdue-payments-report">Overdue Payments</a></li>

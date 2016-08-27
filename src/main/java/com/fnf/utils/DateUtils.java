@@ -11,10 +11,23 @@ public class DateUtils {
 
 
 	  protected static Logger logger = Logger.getLogger(DateUtils.class);
+		public static final String GMT = "GMT";
+		public static final String SiMPLE_DATE_FORMAT = "MM/dd/yyyy";
 	  public static final String DATE_FORMAT_STR_FOR_12_HOUR = "yyyy/MM/dd hh:mm:ss a";
 	  public static final String ONLY_DATE_FORMAT_STR = "yyyy-MM-dd";
 	  public static final String ONLY_TIME_FORMAT_STR = "HH:mm:ss";
 	  
+	  
+	  public static String fetchDateStrFromMilisec(long milisec, String timezone, String dateFormat) {
+
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+			simpleDateFormat.setTimeZone(TimeZone.getTimeZone(timezone));
+
+			Date dateObject = new Date(milisec);
+			String dateStr = simpleDateFormat.format(dateObject);
+
+			return dateStr;
+		}
 	  public static String gmtTimeStampStr(Date date)
 	  {
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss a");

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.ProjectPaymentSchemeDao">
+
+	<resultMap id="projpaymentSchemeResultMap" type="ProjectPaymentSchemeModel" >
+		<result property="projectPaymentSchemeId" column="project_payment_scheme_id" />
+		<result property="paymentSchemeId" column="payment_scheme_id" />
+		<result property="projectId" column="project_id" />
+		<result property="createdBy" column="created_by" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedBy" column="updated_by" />
+		
+		<result property="updatedAt" column="updated_at" />
+		<result property="recordStatus" column="record_status" />
+	</resultMap>
+	
+	<resultMap id="projpaymentSchemeResultListMap" type="Map" >
+	<result property="projectPaymentSchemeId" column="project_payment_scheme_id" />
+		<result property="paymentSchemeId" column="payment_scheme_id" />
+		<result property="projectId" column="project_id" />
+		<result property="projectTitle" column="project_title" />
+		<result property="paymentSchemeTitle" column="payscheme_title" />
+	</resultMap>
+	
+	
+	<insert id="addProjectPaymentScheme" parameterType="ProjectPaymentSchemeModel" useGeneratedKeys="false">
+		INSERT INTO  project_payment_scheme(
+           project_payment_scheme_id, project_id, payment_scheme_id,
+            created_by, updated_by, created_at, updated_at, 
+            record_status)
+		VALUES(#{projectPaymentSchemeId},#{projectId},#{paymentSchemeId},
+			   #{createdBy},#{updatedBy},#{createdAt},#{updatedAt},'A')
+	</insert>
+	
+	<select id="getProjectsPaymentSchemeById" parameterType="String" resultMap="projpaymentSchemeResultMap">
+			SELECT 
+      		   pps.project_payment_scheme_id,pps.payment_scheme_id, pps.project_id, p.title as project_title, ps.title as payscheme_title
+        FROM
+        	project_payment_scheme pps
+        INNER JOIN
+                payment_schemes ps
+         ON 	pps.payment_scheme_id=ps.payment_scheme_id
+
+         INNER JOIN
+         		projects p
+         ON			p.project_id=pps.project_id
+		WHERE
+			 pps.project_payment_scheme_id = #{projectPaymentSchemeId} AND pps.record_status = 'A'
+	</select>
+			
+			
+	<select id="fetchProjPaymentSchemeList" parameterType="Map" resultMap="projpaymentSchemeResultListMap">
+		SELECT 
+      		 pps.project_payment_scheme_id, pps.payment_scheme_id, pps.project_id, p.title as project_title, ps.title as payscheme_title
+        FROM
+        	project_payment_scheme pps
+        INNER JOIN
+                payment_schemes ps
+         ON 	pps.payment_scheme_id=ps.payment_scheme_id
+
+         INNER JOIN
+         		projects p
+         ON			p.project_id=pps.project_id
+		 WHERE
+        		pps.record_status = 'A'
+        		
+       <if test="sSearch!='%%'">
+       	AND (p.title iLIKE #{sSearch}
+       OR 
+           ps.title iLIKE #{sSearch})
+       	
+       </if>  		
+        
+       <choose>
+		    <when test="columnName != ''">
+		      ORDER BY ${columnName}  ${sSortDir}
+		    </when>
+		    <otherwise>
+		      ORDER BY pps.created_at DESC
+		    </otherwise>
+  		</choose>
+        LIMIT ${iDisplayLength}  OFFSET  ${iDisplayStart}
+	</select>
+	
+	
+	<update id="updateProjectPaymentScheme" parameterType="ProjectPaymentSchemeModel">
+		
+	   UPDATE 
+			project_payment_scheme
+  	   SET 
+  		 	 project_id=#{projectId}, payment_scheme_id=#{paymentSchemeId}, updated_by=#{updatedBy}, updated_at=#{updatedAt}
+       WHERE 
+      		project_payment_scheme_id=#{projectPaymentSchemeId}
+		AND 
+			record_status = 'A'
+	</update>
+	
+	<update id="deleteProjectPaymentScheme" parameterType="Map" >
+		UPDATE 
+			project_payment_scheme 
+		SET 
+				record_status = 'D', 
+				updated_at = #{updatedAt}, 
+				updated_by = #{updatedBy}
+		WHERE  
+				project_payment_scheme_id = #{projectPaymentSchemeId} 
+		AND 
+				record_status = 'A'
+	</update>
+
+	<select id="fetchTotalProjPaymentSchemeListCount" resultType="Long">
+		 SELECT 
+				 count(p.project_payment_scheme_id)
+			 FROM 
+				project_payment_scheme p
+			 WHERE 
+        		p.record_status = 'A'
+	</select>
+	<select id="isProjPaymentSchemeExists" parameterType="String" resultType="boolean">
+		SELECT (count(*)>0) 
+		FROM 
+			project_payment_scheme 
+		WHERE 
+	<!-- 		project_id=#{projectId}
+		AND -->
+			payment_scheme_id=#{paymentSchemeId}
+		
+		record_status = 'A'
+	</select>
+		<select id="fetchProjectPayementScheme" resultMap="projpaymentSchemeResultMap">
+		SELECT * FROM project_payment_scheme
+			WHERE 
+			record_status = 'A'
+	</select>
+
+</mapper> 

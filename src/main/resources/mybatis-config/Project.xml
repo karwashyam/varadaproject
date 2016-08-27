@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.ProjectDao">
+
+	<resultMap id="projectResultMap" type="ProjectModel" >
+		<result property="projectId" column="project_id" />
+		<result property="title" column="title" />
+		<result property="bookingPrefix" column="booking_prefix" />
+		<result property="projectOverview" column="project_overview" />
+		<result property="totalPlots" column="total_plots" />
+		<result property="completionDate" column="completion_date" />
+		<result property="superBuildupPercentage" column="super_buildup_percentage" />
+		<result property="createdBy" column="created_by" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedBy" column="updated_by" />
+		
+		<result property="updatedAt" column="updated_at" />
+		<result property="recordStatus" column="record_status" />
+	</resultMap>
+	
+	
+	
+	<resultMap id="projectPlotsResultMap" type="ProjectPlotsModel" >
+		<result property="projectId" column="project_id" />
+		<result property="projectPlotId" column="project_plot_id" />
+		<result property="plotName" column="plot_name" />
+		<result property="plotSize" column="plot_size" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedAt" column="updated_at" />
+		<result property="createdBy" column="created_by" />
+		<result property="updatedBy" column="updated_by" />
+		<result property="recordStatus" column="record_status" />
+	</resultMap>
+	
+	<resultMap id="projectPlotListResultMap" type="Map" >
+		<result property="projectId" column="project_id" />
+		<result property="projectPlotId" column="project_plot_id" />
+		<result property="plotName" column="plot_name" />
+		<result property="plotSize" column="plot_size" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedAt" column="updated_at" />
+		<result property="createdBy" column="created_by" />
+		<result property="updatedBy" column="updated_by" />
+		<result property="recordStatus" column="record_status" />
+	</resultMap>
+	
+	
+	
+	<resultMap id="projectsResultListMap" type="Map" >
+		<result property="projectId" column="project_id" />
+		<result property="title" column="title" />
+		<result property="bookingPrefix" column="booking_prefix" />
+		<result property="projectOverview" column="project_overview" />
+		<result property="totalPlots" column="total_plots" />
+		<result property="superBuildupPercentage" column="super_buildup_percentage" />
+		<result property="completionDate" column="completion_date" />
+<!-- 		<result property="plotSize" column="plot_size" /> -->
+	</resultMap>
+	
+	
+	<insert id="addProject" parameterType="ProjectModel" useGeneratedKeys="false">
+		INSERT INTO projects(
+            project_id, title, booking_prefix, project_overview, total_plots, super_buildup_percentage,
+            completion_date, created_by, updated_by, created_at, updated_at, 
+            record_status)
+		VALUES(#{projectId},#{title},#{bookingPrefix},#{projectOverview},#{totalPlots}, #{superBuildupPercentage},
+				#{completionDate},#{createdBy},#{updatedBy},#{createdAt},#{updatedAt},'A')
+	</insert>
+	
+	
+	<insert id="addProjectPlots" parameterType="java.util.List" >
+	
+            INSERT INTO
+                      project_plots
+                      (
+           					 project_plot_id, project_id, plot_name, plot_size,  
+            				created_at, created_by,updated_by,updated_at, record_status
+            		  )
+
+                VALUES
+                <foreach collection="projectPlotsList" item="projectPlotsModel" separator=","> 
+                        (
+                        #{projectPlotsModel.projectPlotId}, #{projectPlotsModel.projectId}, #{projectPlotsModel.plotName}, #{projectPlotsModel.plotSize},
+                        #{projectPlotsModel.createdAt}, #{projectPlotsModel.createdBy}, #{projectPlotsModel.updatedBy}, #{projectPlotsModel.updatedAt},#{projectPlotsModel.recordStatus}
+                    )
+                </foreach>
+	
+	</insert>
+	
+	
+	<select id="getProjectDetailsById" parameterType="String"	resultMap="projectResultMap">
+		SELECT * FROM projects
+		WHERE project_id = #{projectId} AND record_status = 'A'
+	</select>
+			
+			
+	<select id="fetchProjectsList" parameterType="Map" resultMap="projectsResultListMap">
+		SELECT 
+        	p.project_id, p.title, p.booking_prefix, p.project_overview, p.total_plots, p.completion_date,p.super_buildup_percentage
+        FROM
+                projects p
+		 WHERE
+        		p.record_status = 'A'
+        		
+       <if test="sSearch!='%%'">
+       	AND p.title iLIKE #{sSearch}
+       </if>  		
+        
+       <choose>
+		    <when test="columnName != ''">
+		      ORDER BY ${columnName}  ${sSortDir}
+		    </when>
+		    <otherwise>
+		      ORDER BY p.created_at DESC
+		    </otherwise>
+  		</choose>
+        LIMIT ${iDisplayLength}  OFFSET  ${iDisplayStart}
+	</select>
+	
+	
+	<update id="editProject" parameterType="ProjectModel">
+		
+	   UPDATE 
+			projects
+  	   SET 
+  		 	 title=#{title}, updated_by=#{updatedBy}, updated_at=#{updatedAt}
+       WHERE 
+      		project_id=#{projectId}
+		AND 
+			record_status = 'A'
+	</update>
+	
+	<update id="deleteProjectById" parameterType="Map" >
+		UPDATE projects SET record_status = 'D', updated_at = #{updatedAt}, updated_by = #{updatedBy}
+		WHERE  project_id = #{projectId} AND record_status = 'A'
+	</update>
+
+	<select id="fetchTotalProjectListCount" resultType="Long">
+		 SELECT 
+				 p.project_id
+			 FROM 
+				projects p
+			 WHERE 
+				p.title=#{title}
+				AND
+        		p.record_status = 'A'
+	</select>
+	<select id="isProjectNameExists" parameterType="String"	resultType="boolean">
+		SELECT (count(*)>0) FROM projects 
+		WHERE title = #{title} AND record_status = 'A'
+	</select>
+	
+	
+	
+	<select id="fetchProjectPlotsList" parameterType="Map" resultMap="projectPlotListResultMap">
+		SELECT 
+			p.project_id, pp.project_plot_id, pp.plot_name, pp.plot_size
+	    FROM
+                projects p
+        INNER JOIN 
+        		project_plots pp
+        	ON p.project_id=pp.project_id
+		WHERE
+        		p.record_status = 'A'
+        AND
+        	p.project_id=#{projectId}
+        	
+       <if test="sSearch!='%%'">
+       	AND pp.plot_name iLIKE #{sSearch}
+       </if>  		
+        
+       <choose>
+		    <when test="columnName != ''">
+		      ORDER BY ${columnName}  ${sSortDir}
+		    </when>
+		    <otherwise>
+		      ORDER BY p.created_at DESC
+		    </otherwise>
+  		</choose>
+        LIMIT ${iDisplayLength}  OFFSET  ${iDisplayStart}
+	</select>
+	
+	
+	
+	<select id="fetchTotalProjectPlotsListCount" resultType="Long">
+		 SELECT 
+				 pp.project_plot_id
+			 FROM 
+				projects p
+		INNER JOIN 
+        		project_plots pp
+        ON 		p.project_id=pp.project_id
+		WHERE 
+				pp.plot_name=#{plotName}
+		AND
+        		pp.record_status = 'A'
+       AND
+        		p.record_status = 'A'
+	</select>
+	
+	<select id="fetchProjects" resultMap="projectPlotListResultMap">
+		SELECT * FROM projects
+			WHERE 
+			record_status = 'A'
+	</select>
+	
+	
+</mapper> 
