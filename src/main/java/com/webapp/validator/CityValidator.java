@@ -6,7 +6,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.webapp.dto.CityDto;
 import com.webapp.models.CityModel;
 import com.webapp.services.CityService;
 

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.PaymentSchemeDao">
+
+	<resultMap id="paymentSchemeResultMap" type="PaymentSchemeModel" >
+		<result property="paymentSchemeId" column="payment_scheme_id" />
+		<result property="title" column="title" />
+		<result property="downPayment" column="down_payment" />
+		<result property="noOfMonths" column="no_of_months" />
+		<result property="interestRate" column="interest_rate" />
+		<result property="prepaymentPossible" column="prepayment_possible" />
+		<result property="createdBy" column="created_by" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedBy" column="updated_by" />
+		
+		<result property="updatedAt" column="updated_at" />
+		<result property="recordStatus" column="record_status" />
+	</resultMap>
+	
+	<resultMap id="paymentSchemeResultListMap" type="Map" >
+	<result property="paymentSchemeId" column="payment_scheme_id" />
+		<result property="title" column="title" />
+		<result property="downPayment" column="down_payment" />
+		<result property="noOfMonths" column="no_of_months" />
+		<result property="interestRate" column="interest_rate" />
+		<result property="prepaymentPossible" column="prepayment_possible" />
+	</resultMap>
+	
+	
+	<insert id="addPaymentScheme" parameterType="PaymentSchemeModel" useGeneratedKeys="false">
+		INSERT INTO  payment_schemes(
+            payment_scheme_id, title, down_payment, no_of_months, interest_rate, 
+            prepayment_possible, created_by, updated_by, created_at, updated_at, 
+            record_status)
+		VALUES(#{paymentSchemeId},#{title},#{downPayment},#{noOfMonths},#{interestRate}, #{prepaymentPossible},
+			   #{createdBy},#{updatedBy},#{createdAt},#{updatedAt},'A')
+	</insert>
+	
+	<select id="getPaymentSchemeDetailsById" parameterType="String"	resultMap="paymentSchemeResultMap">
+		SELECT * FROM payment_schemes
+		WHERE payment_scheme_id = #{paymentSchemeId} AND record_status = 'A'
+	</select>
+			
+			
+	<select id="fetchPaymentSchemeList" parameterType="Map" resultMap="paymentSchemeResultListMap">
+		SELECT 
+        p.payment_scheme_id, p.title, p.down_payment, p.no_of_months, p.interest_rate, 
+            p.prepayment_possible
+        FROM
+                payment_schemes p
+		 WHERE
+        		p.record_status = 'A'
+        		
+       <if test="sSearch!='%%'">
+       	AND p.title iLIKE #{sSearch}
+       </if>  		
+        
+       <choose>
+		    <when test="columnName != ''">
+		      ORDER BY ${columnName}  ${sSortDir}
+		    </when>
+		    <otherwise>
+		      ORDER BY p.created_at DESC
+		    </otherwise>
+  		</choose>
+        LIMIT ${iDisplayLength}  OFFSET  ${iDisplayStart}
+	</select>
+	
+	
+	<update id="updatePaymentScheme" parameterType="ProjectModel">
+		
+	   UPDATE 
+			payment_schemes
+  	   SET 
+  		 	 title=#{title}, down_payment=#{downPayment}, no_of_months=#{noOfMonths}, 
+       interest_rate=#{interestRate}, prepayment_possible=#{prepaymentPossible}, updated_by=#{updatedBy}, updated_at=#{updatedAt}
+       WHERE 
+      		payment_scheme_id=#{paymentSchemeId}
+		AND 
+			record_status = 'A'
+	</update>
+	
+	<update id="deletePaymentScheme" parameterType="Map" >
+		UPDATE payment_schemes 
+			SET 
+				record_status = 'D', 
+				updated_at = #{updatedAt}, 
+				updated_by = #{updatedBy}
+		WHERE  
+				payment_scheme_id = #{paymentSchemeId} 
+		AND record_status = 'A'
+	</update>
+
+	<select id="fetchTotalPaymentSchemeListCount" resultType="Long">
+		 SELECT 
+				 p.payment_scheme_id
+			 FROM 
+				payment_schemes p
+			 WHERE 
+				p.title=#{title}
+				AND
+        		p.record_status = 'A'
+	</select>
+	<select id="isPaymentSchemeExists" parameterType="String"	resultType="boolean">
+		SELECT (count(*)>0) FROM payment_schemes 
+		WHERE title = #{title} AND record_status = 'A'
+	</select>
+		<select id="fetchPaymentScheme" resultMap="paymentSchemeResultMap">
+		SELECT * FROM payment_schemes
+			WHERE 
+			record_status = 'A'
+	</select>
+
+</mapper> 

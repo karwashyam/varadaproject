@@ -4,6 +4,7 @@
 <mapper namespace="com.webapp.daos.CityDao">
 
 	<resultMap id="CityMap" type="CityDto" >
+		<result property="rowNo" column ="row_index"/>
 		<result property="cityId" column="city_id" />
 		<result property="cityName" column="city_name" />
 		<result property="stateName" column="state_name" />
@@ -17,7 +18,26 @@
 	</resultMap>
 	
 	<select id="fetchCityList" parameterType="JQTableUtils" resultMap="CityMap">
-		SELECT c.city_id, c.city_name, s.state_id,s.state_name
+		SELECT row_number() over(ORDER BY
+		<choose>
+			<when test="JQTableUtils.sortColumn == 2">
+				c.city_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 3">
+				s.state_name
+			</when>
+			<otherwise>
+				c.city_name
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="JQTableUtils.sortingDirection == 'desc'">
+				DESC
+			</when>
+			<otherwise>
+				ASC
+			</otherwise>
+		</choose> ) as row_index,c.city_id, c.city_name, s.state_id,s.state_name
   		FROM cities c
   		INNER JOIN states s ON s.state_id=c.state_id AND s.record_status='A'
   		WHERE c.record_status='A'
@@ -31,10 +51,10 @@
 		</if>
 		ORDER BY
 		<choose>
-			<when test="JQTableUtils.sortColumn == 1">
+			<when test="JQTableUtils.sortColumn == 2">
 				c.city_name
 			</when>
-			<when test="JQTableUtils.sortColumn == 2">
+			<when test="JQTableUtils.sortColumn == 3">
 				s.state_name
 			</when>
 			<otherwise>

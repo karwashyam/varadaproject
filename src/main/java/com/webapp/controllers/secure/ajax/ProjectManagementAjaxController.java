@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.QueryParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -98,5 +99,51 @@ public class ProjectManagementAjaxController extends BusinessApiController {
 
 		return getOutputResponse(outputFinalMap );
 
+	}
+
+
+
+
+	@RequestMapping(value = "/ajax/projectplots", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody DatatableModel<Map<String, Object> > fetchProjectPots(@RequestParam int iDisplayStart,
+	                                                                       @RequestParam int iDisplayLength,
+	                                                                       @RequestParam int sEcho,
+	                                                                       @RequestParam String sSearch,
+	                                                                       @QueryParam(value = "projectId") String projectId,
+	                                                                       HttpServletRequest req, HttpServletResponse res){
+
+
+		
+		System.out.println("\n\t\t ===========projectId======="+projectId);
+		int serialNo = iDisplayStart + 1;
+		int colNo;
+		String iSortCol, columnName = null, sSortDir = null;
+		String cols[] = { "", "pp.plotName"};
+
+		sSearch = "%" + sSearch + "%";
+
+		if (req.getParameter("sSortDir_0") != null) {
+			sSortDir = req.getParameter("sSortDir_0");
+		}
+
+		if (req.getParameter("iSortCol_0") != null) {
+			iSortCol = req.getParameter("iSortCol_0");
+			if (!iSortCol.trim().equalsIgnoreCase("")) {
+				colNo = Integer.parseInt(iSortCol);
+				if (cols.length > 0) {
+					columnName = cols[colNo];
+				}
+			}
+		}
+
+		List<Map<String, Object> > aDData=projectSerivce.fetchProjectPlotsList(iDisplayLength, iDisplayStart, serialNo, sSortDir, columnName, sSearch,projectId);
+		DatatableModel<Map<String, Object> > dtData = new DatatableModel<Map<String, Object> >();
+		dtData.setAaData(aDData);
+		
+//		int totalRecords= Integer.valueOf(projectSerivce.fetchTotalProjectPlotsListCount().toString());
+		dtData.setiTotalDisplayRecords(0);
+		dtData.setiTotalRecords(0);
+		dtData.setsEcho(sEcho);
+		return dtData;
 	}
 }

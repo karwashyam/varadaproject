@@ -44,13 +44,7 @@
 						<tbody>
                 </tbody>
 
-<!--                       <tbody> -->
-<!--                         <tr> -->
-<!--                           <td>Tiger Nixon</td> -->
-<!--                           <td>System Architect</td> -->
-<!--                           <td>Edinburgh</td> -->
-<!--                         </tr> -->
-<!--                       </tbody> -->
+
                     </table>
                   </div>
                 </div>

@@ -6,7 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.webapp.models.ProjectModel;
+import com.webapp.dto.ProjectDto;
 import com.webapp.services.ProjectSerivce;
 
 @Component
@@ -16,13 +16,13 @@ public class ProjectValidator implements Validator {
 	ProjectSerivce projectSerivce;
 	
 	public boolean supports(Class<?> clazz) {
-		return ProjectModel.class.isAssignableFrom(clazz);
+		return ProjectDto.class.isAssignableFrom(clazz);
 	}
 
 	public void validate(Object obj, Errors errors) {
 
 		
-		ProjectModel project = (ProjectModel) obj;
+		ProjectDto project = (ProjectDto) obj;
 		
 		if (!("").equals(project.getTitle()) && !("").equals(project.getTitle())) {
 

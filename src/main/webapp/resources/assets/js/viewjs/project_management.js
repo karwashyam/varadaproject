@@ -54,7 +54,7 @@ function projectManagement() {
 										var actionsLinks = '<div style="">'; 
 										if(isEditAccess === "true"){
 											actionsLinks += '<a href="javascript:void(0);" '+' onclick="editProject('+"'" + data+"'" + ');">'
-									        	+'Edit'+'&nbsp; <i class="fa fa-edit font-size-17px"></i></a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" '+' onclick="deleteState('+"'" + data+"'" + ');">Delete&nbsp; <i class="fa fa-trash font-size-17px"></i></a>';
+									        	+'Edit'+'&nbsp; <i class="fa fa-edit font-size-17px"></i></a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" '+' onclick="deleteProject('+"'" + data+"'" + ');">Delete&nbsp; <i class="fa fa-trash font-size-17px"></i></a>';
 										}else{
 											actionsLinks += '<a class="disabled" href="javascript:void(0);" '+' onclick="editProject('+"'" + data+"'" + ');">'
 								        	+'Edit'+'</a>&nbsp &nbsp';
@@ -159,13 +159,13 @@ function handleAjaxError(xhr, textStatus, error) {
 	}
 }
 
-function editState(lessonId){
-	if(isEditAccess === "true"){
-		document.location = basePath + "/edit-state/" + lessonId + ".do";
-	}
+function editProject(proejctId){
+//	if(isEditAccess === "true"){
+		document.location = basePath + "/project/edit/" + proejctId + ".do";
+//	}
 }
 
-function deleteState(stateId){
+function deleteProject(stateId){
 	if(isDeleteAccess === "true"){
 		BootstrapDialog.show({
 			message: 'Are you sure you want to delete this Project ?',

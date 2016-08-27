@@ -47,10 +47,11 @@
                     <table id="city-datatable" class="table table-striped table-bordered">
                       <thead>
                         <tr>
-                        <th>City Id</th>
-                          <th>City Name</th>
-                          <th>State Name</th>
-                          <th>Action</th>
+                        	<th>S.No.</th>
+                        	<th>City Id</th>
+                          	<th>City Name</th>
+                          	<th>State Name</th>
+                          	<th>Action</th>
                         </tr>
                       </thead>
 						<tbody>

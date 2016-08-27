@@ -1,6 +1,8 @@
 package com.webapp.dto;
 
 public class CityDto {
+	
+	private long rowNo;
 
 	private String cityId;
 
@@ -11,6 +13,14 @@ public class CityDto {
 	private String stateId;
 	
 	private String action;
+
+	public long getRowNo() {
+		return rowNo;
+	}
+
+	public void setRowNo(long rowNo) {
+		this.rowNo = rowNo;
+	}
 
 	public String getCityId() {
 		return cityId;

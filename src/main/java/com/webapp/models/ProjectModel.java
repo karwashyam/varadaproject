@@ -7,8 +7,8 @@ public class ProjectModel extends AbstractModel{
 	private String bookingPrefix;
 	private String projectOverview;
 	private Integer totalPlots;
+	private Integer superBuildupPercentage;
 	private Long completionDate;
-	private Long plotSize;
 	private String projectExists;
 	
 	
@@ -56,11 +56,12 @@ public class ProjectModel extends AbstractModel{
 	public void setCompletionDate(Long completionDate) {
 		this.completionDate = completionDate;
 	}
-	public Long getPlotSize() {
-		return plotSize;
+	public Integer getSuperBuildupPercentage() {
+		return superBuildupPercentage;
 	}
-	public void setPlotSize(Long plotSize) {
-		this.plotSize = plotSize;
+	public void setSuperBuildupPercentage(Integer superBuildupPercentage) {
+		this.superBuildupPercentage = superBuildupPercentage;
 	}
+	
 
 }
