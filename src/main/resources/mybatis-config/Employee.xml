@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.EmployeeDao">
+
+	<resultMap id="EmployeeMap" type="EmployeeDto" >
+		<result property="rowNo" column="row_index"/>
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="email" column="email" />
+		<result property="fullName" column="full_name" />
+		<result property="birthDate" column="birth_date" />
+		<result property="address" column="address" />
+		<result property="phone" column="phone" />
+		<result property="recordStatus" column="record_status"/>
+	</resultMap>
+	
+	<resultMap id="EmployeeModel" type="EmployeeModel" >
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="password" column="password" />
+		<result property="email" column="email" />
+		<result property="fullName" column="full_name" />
+		<result property="birthDate" column="birth_date" />
+		<result property="address" column="address" />
+		<result property="phone" column="phone" />
+	</resultMap>
+	
+	
+	<select id="fetchEmployeeList" parameterType="JQTableUtils" resultMap="EmployeeMap">
+		SELECT row_number() over (ORDER BY
+		<choose>
+			<when test="JQTableUtils.sortColumn == 2">
+				u.user_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 3">
+				u.full_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 5">
+				u.email
+			</when>
+			<when test="JQTableUtils.sortColumn == 6">
+				u.address
+			</when>
+			<when test="JQTableUtils.sortColumn == 7">
+				u.phone
+			</when>
+			<otherwise>
+				u.user_name
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="JQTableUtils.sortingDirection == 'desc'">
+				DESC
+			</when>
+			<otherwise>
+				ASC
+			</otherwise>
+		</choose>) as row_index,u.user_id,u.user_name,u.email,u.full_name,u.birth_date,u.address,u.phone,u.record_status
+  		FROM users u
+  		WHERE 1=1
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+			u.user_name ilike #{JQTableUtils.searchParams}
+			OR
+			u.full_name ilike #{JQTableUtils.searchParams}
+			OR
+			u.email ilike #{JQTableUtils.searchParams}
+			OR
+			u.address ilike #{JQTableUtils.searchParams}
+			OR
+			u.phone ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+		ORDER BY
+		<choose>
+			<when test="JQTableUtils.sortColumn == 2">
+				u.user_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 3">
+				u.full_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 5">
+				u.email
+			</when>
+			<when test="JQTableUtils.sortColumn == 6">
+				u.address
+			</when>
+			<when test="JQTableUtils.sortColumn == 7">
+				u.phone
+			</when>
+			<otherwise>
+				u.user_name
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="JQTableUtils.sortingDirection == 'desc'">
+				DESC
+			</when>
+			<otherwise>
+				ASC
+			</otherwise>
+		</choose> 
+		<if test="JQTableUtils.iDisplayLength!=-1">
+			LIMIT #{JQTableUtils.iDisplayLength}
+			OFFSET #{JQTableUtils.iDisplayStart}
+		</if>
+		
+	</select>
+	<select id="fetchTotalEmployeeList" parameterType="JQTableUtils" resultType="Long">
+		SELECT count(u.user_name)
+  		FROM users u
+  		WHERE 1=1
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+			u.user_name ilike #{JQTableUtils.searchParams}
+			OR
+			u.full_name ilike #{JQTableUtils.searchParams}
+			OR
+			u.email ilike #{JQTableUtils.searchParams}
+			OR
+			u.address ilike #{JQTableUtils.searchParams}
+			OR
+			u.phone ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+		
+	</select>
+	
+	<select id="fetchEmployeeByUserName" parameterType="EmployeeModel" resultType="int">
+		SELECT count(user_id)
+				FROM users	
+				WHERE (user_name ilike #{userName})	
+	</select>
+	
+	<select id="fetchEmpByPhone" parameterType="EmployeeModel" resultType="boolean">
+	SELECT count(user_id)>0
+				FROM users	
+				WHERE (phone = #{phone})AND (user_id!= #{userId})	
+	</select>
+	
+	<select id="fetchEmpByEmail" parameterType="EmployeeModel" resultType="boolean">
+	SELECT count(user_id)>0
+				FROM users	
+				WHERE (email = #{email}) AND (user_id!= #{userId})
+	</select>
+		
+	<insert id="postAddEmployee" parameterType="EmployeeModel">
+		INSERT INTO users(
+            user_id, user_name, password, email, full_name, profile_name, 
+            birth_date, created_by, updated_by, created_at, updated_at, record_status, 
+            address, phone)
+    		VALUES (#{userId}, #{userName}, #{password}, #{email}, #{fullName}, #{profileName}, 
+            		#{birthDate}, #{createdBy}, #{updatedBy}, #{createdAt}, #{updatedAt}, 'A', 
+            		#{address}, #{phone});
+	</insert>
+	
+	<update id="changeEmployeeStatus" parameterType="EmployeeModel">
+		UPDATE users
+			SET record_status=(SELECT CASE WHEN record_status = 'A' THEN 'D' ELSE 'A' end as record_status from users where user_id=#{userId} ), updated_by=#{updatedBy}, updated_at=#{updatedAt}
+			WHERE user_id=#{userId}
+	</update>
+	
+	<update id="editEmployee" parameterType="EmployeeModel">
+		UPDATE users
+			SET full_name=#{fullName},email = #{email},birth_date=#{birthDate}, updated_by=#{updatedBy}, updated_at=#{updatedAt},address = #{address},phone = #{phone}
+			WHERE user_id=#{userId}
+	</update>
+	
+	<select id="fetchEmployeeDetail" parameterType="String" resultMap="EmployeeModel">
+		SELECT user_id, user_name, password, email, full_name,birth_date,address, phone
+				FROM users	
+				WHERE (user_id = #{employeeId})	
+	</select>
+	
+</mapper> 

@@ -30,45 +30,32 @@ function citytable() {
 		"oLanguage" : {
 			"sSearch" : ""
 		},
-		"order" : [ [ 1, "asc" ] ],
+		//"order" : [ [ 1, "asc" ] ],
 		"bServerSide" : true,
 		"bLengthChange" : false,
 		"sAjaxSource" : basePath + '/city/list.json',
 		"columnDefs" : [ {
-		/*
-		 * basePath+'/resources/assets/img/internal/delete.png"></a> "render":
-		 * function ( data, type, row ) { return 'aa<a
-		 * href='+basePath+'/order/edit.do?order_id='+data+'>edit</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'; },
-		 * "targets": 8
-		 */
 			"mRender" : function(data, type, row) {
-				//var active = 'Deactivate';
-				/*if(row['active'] == false){
-					active = 'Activate';
-				}*/
-//				 console.log(row['active']);
 				var actionsLinks = '<div style="">'; 
 				if(isEditAccess === "true"){
 					actionsLinks += '<a href="javascript:void(0);" '+' onclick="editCity('+"'" + data+"'" + ');">'
 			        	+'Edit'+'&nbsp; <i class="fa fa-edit font-size-17px"></i></a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" '+' onclick="deleteCity('+"'" + data+"'" + ');">Delete&nbsp; <i class="fa fa-trash font-size-17px"></i></a>';
 				}else{
-					actionsLinks += '<a class="disabled" href="javascript:void(0);" '+' onclick="editState('+"'" + data+"'" + ');">'
+					actionsLinks += '<a class="disabled" href="javascript:void(0);" '+' onclick="editCity('+"'" + data+"'" + ');">'
 		        	+'Edit'+'</a>&nbsp &nbsp';
 				}
-				
-				
 				actionsLinks += '</div>';
-				
-				
 				return actionsLinks;
 			},
-
-			"aTargets" : [ 3 ]
+			"aTargets" : [ 4 ]
 		}
-
 		],
 		"aoColumns" : [
-
+		{
+			"sTitle" : "S.No.",
+			"mData" : "rowNo",
+			"bSortable" : false
+		},
 		{
 			"sTitle" : "City Id",
 			"mData" : "cityId",
@@ -78,10 +65,12 @@ function citytable() {
 		}, {
 			"mData" : "City Name",
 			"mData" : "cityName",
-			"sClass" : "center"
+			"sClass" : "center",
+			"bSortable" : true
 		}, {
 			"sTitle" : "State Name",
-			"mData" : "stateName"
+			"mData" : "stateName",
+			"bSortable" : true
 		}, {
 			"sTitle" : "Action",
 			"mData" : "cityId"
@@ -99,6 +88,11 @@ function citytable() {
 		"sPaginationType" : "full_numbers"
 
 	});
+	/*oTable.on( 'order.dt search.dt', function () {
+		oTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();*/
 
 }
 

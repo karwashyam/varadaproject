@@ -13,6 +13,9 @@
   		
 		<typeAlias alias="CityDto" type="com.webapp.dto.CityDto" />
 		<typeAlias alias="CityModel" type="com.webapp.models.CityModel" />
+		
+		<typeAlias alias="EmployeeModel" type="com.webapp.models.EmployeeModel" />
+		<typeAlias alias="EmployeeDto" type="com.webapp.dto.EmployeeDto" />
   		
 	</typeAliases>
 
@@ -23,5 +26,6 @@
   		<mapper resource="mybatis-config/Login.xml" />
   		<mapper resource="mybatis-config/State.xml" />
   		<mapper resource="mybatis-config/City.xml" />
+  		<mapper resource="mybatis-config/Employee.xml" />
 	</mappers>
 </configuration>
