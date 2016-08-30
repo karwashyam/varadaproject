@@ -6,13 +6,17 @@ public class BookingModel extends AbstractModel{
 	private String bookingCode;
 	private String projectId;
 	private String projectName;
-	private String plotId;
+	private String paymentSchemeId;
+ 	private String plotId;
 	private String plotName;
 	private String plotSize;
+	private long downPayment;
+	private long ratePerYard;
 	private String franchiseeId;
 	private String franchiseeName;
 	private String memberId;
 	private String memberName;
+	private String fatherName;
 	private String nomineeName;
 	private String nomineeFather;
 	private String nomineeAddress;
@@ -190,6 +194,30 @@ public class BookingModel extends AbstractModel{
 	}
 	public void setPhone1(String phone1) {
 		this.phone1 = phone1;
+	}
+	public String getPaymentSchemeId() {
+		return paymentSchemeId;
+	}
+	public void setPaymentSchemeId(String paymentSchemeId) {
+		this.paymentSchemeId = paymentSchemeId;
+	}
+	public long getRatePerYard() {
+		return ratePerYard;
+	}
+	public void setRatePerYard(long ratePerYard) {
+		this.ratePerYard = ratePerYard;
+	}
+	public long getDownPayment() {
+		return downPayment;
+	}
+	public void setDownPayment(long downPayment) {
+		this.downPayment = downPayment;
+	}
+	public String getFatherName() {
+		return fatherName;
+	}
+	public void setFatherName(String fatherName) {
+		this.fatherName = fatherName;
 	}
 	
 
