@@ -135,16 +135,37 @@ $(document).ready(function(){
 	    } );*/
 	 
 	 
+	var form = $('#plotprojectFrm').html();
 
-	    $('#projectPlotsDatatable tbody').on( 'click', 'tr', function () {
+	 /*   $('#projectPlotsDatatable tbody').on( 'click', 'tr', function () {
 	        if ( $(this).hasClass('selected') ) {
 	            $(this).removeClass('selected');
 	        }
 	        else {
+	        	alert(" select row ");
+	        	
+
+	        	BootstrapDialog.show({
+	        		 message: form,
+	        		 buttons: [{
+	        		        label: 'Cancel',
+	        		        action: function(dialog) {
+	        		          typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(false);
+	        		          dialog.close();
+	        		        }
+	        		      }, {
+	        		        label: 'OK',
+	        		        cssClass: 'btn-primary',
+	        		        action: function(dialog) {
+	        		          typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
+	        		          dialog.close();
+	        		        }
+	        		      }]
+	        	});
 	        	oTable.$('tr.selected').removeClass('selected');
 	            $(this).addClass('selected');
 	        }
-	    } );
+	    } );*/
 	 
 });
 
