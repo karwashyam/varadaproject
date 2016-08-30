@@ -216,7 +216,7 @@ public class ProjectController extends BusinessController{
 	
 	@Override
 	protected String[] requiredJs() {
-		return new String[] {"js/vendor/jquery.validation.min.js", "js/vendor/addition-medthods-min.js", "js/viewjs/add-project.js","js/vendor/bootstrap-filestyle.min.js",
+		return new String[] {"js/vendor/jquery.validation.min.js", "js/vendor/addition-medthods-min.js","js/bootstrap/bootstrap-dialog.js", "js/viewjs/add-project.js","js/vendor/bootstrap-filestyle.min.js",
 				"js/vendor/dataTables.editor.min.js","dataTables.select.min.js"};
 	}
 
