@@ -3,6 +3,8 @@ package com.webapp.daos;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.webapp.models.PaymentSchemeModel;
 
 public interface PaymentSchemeDao {
@@ -15,5 +17,7 @@ public interface PaymentSchemeDao {
 	public List<Map<String, Object>> fetchPaymentSchemeList(Map<String, Object> inputMap);
 	public Long fetchTotalPaymentSchemeListCount();
 	public boolean isPaymentSchemeExists(String title);
+	
+	public List<PaymentSchemeModel> fetchPaymentSchemeForProject(@Param("projectId") String projectId);
 
 }

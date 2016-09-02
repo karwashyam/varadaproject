@@ -119,11 +119,12 @@ public class ProjectController extends BusinessController{
 				
 				projectPlotsModel=new ProjectPlotsModel();
 				Cell firstCol=row.getCell(0);
+				firstCol.setCellType(Cell.CELL_TYPE_STRING);
 				Cell secCol=row.getCell(1);
 
 				if(row.getRowNum()>0){
 //					Double plot = Double.parseDouble(firstCol.toString());
-					projectPlotsModel.setPlotName(String.valueOf(firstCol));
+					projectPlotsModel.setPlotName(String.valueOf(firstCol.getStringCellValue()));
 					Double d = Double.parseDouble(secCol.toString());
 					Long pSizze= d.longValue();
 //					long pSizze=Long.parseLong(secCol.toString());

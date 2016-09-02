@@ -1,6 +1,7 @@
 package com.webapp.controllers.secure;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,10 +22,12 @@ import com.fnf.utils.JQTableUtils;
 import com.webapp.controllers.BusinessController;
 import com.webapp.controllers.DataTablesTO;
 import com.webapp.dbsession.DbSession;
-import com.webapp.dto.CityDto;
 import com.webapp.models.BookingModel;
+import com.webapp.models.MemberModel;
+import com.webapp.models.ProjectModel;
 import com.webapp.services.BookingService;
-import com.webapp.validator.CityValidator;
+import com.webapp.services.MemberService;
+import com.webapp.services.ProjectSerivce;
 
 @Controller
 @RequestMapping("/booking")
@@ -40,14 +42,20 @@ public class BookingController extends BusinessController{
 
 	@Autowired
 	private BookingService bookingService;
-		
-	@Autowired
-	private CityValidator cityValidator;
 	
-	@InitBinder
-	private void initBinder(WebDataBinder binder) {
-		binder.setValidator(cityValidator);
-	}
+	@Autowired
+	private ProjectSerivce projectSerivce;
+	
+	@Autowired
+	private MemberService memberService;
+		
+//	@Autowired
+//	private CityValidator cityValidator;
+//	
+//	@InitBinder
+//	private void initBinder(WebDataBinder binder) {
+//		binder.setValidator(cityValidator);
+//	}
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String initForm(Model model, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -71,6 +79,10 @@ public class BookingController extends BusinessController{
 		}
 		BookingModel bookingModel= new BookingModel();
 		model.addAttribute("bookingModel",bookingModel);
+		List<ProjectModel> projectModel= projectSerivce.fetchProjects();
+		model.addAttribute("projectModel",projectModel);
+		List<MemberModel> memberModelList = memberService.fetchMembersList();
+		model.addAttribute("memberModelList",memberModelList);
 //		List<State> stateList = stateService.fetchAllStateList();
 //		model.addAttribute("stateModel", stateList);
 		return "add-booking";
@@ -120,6 +132,16 @@ public class BookingController extends BusinessController{
 		dt.setiTotalRecords(Integer.valueOf(String.valueOf(count))); // the total data in db for
 		dt.setsEcho(sEcho);
 		return dt;
+	}
+	
+	@RequestMapping(value = "/fetch/{projectId}", produces = "application/json")
+	public @ResponseBody HashMap<String, Object> fetchProjPaymentSchemeANDPlots(@PathVariable("projectId") String projectId, HttpServletRequest req, HttpServletResponse res) {
+
+		return bookingService.fetchProjPaymentSchemeANDPlots(projectId);
+//		model.addAttribute("paymentSchemeList", paymentSchemeList);
+//		HashMap<String, Object> outputMap = new HashMap<String, Object>();
+//		outputMap.put("paymentSchemeList", paymentSchemeList);
+//		return outputMap;
 	}
 	
 //	@RequestMapping(value = "/edit-city/{cityId}", method = RequestMethod.GET)

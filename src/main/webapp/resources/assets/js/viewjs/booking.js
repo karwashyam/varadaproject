@@ -19,6 +19,112 @@ $(document).ready(function() {
 		document.location = basePath + "/booking/add";
 	});
 	
+	
+	
+	$("#projectId").change(function() {
+    	var projectId=$("#projectId").val();
+		  $.ajax({
+	            type: "GET",
+	            url:basePath+"/booking/fetch/"+projectId+".json",
+	            async: false,
+	            success: function (data) {
+	            	$('#paymentSchemeId').selectpicker('refresh');
+	            	   $("#paymentSchemeId").empty();
+//	            	   $("#stateId option").addClass("bs-title-option");
+	            	   $("#paymentSchemeId").append($("<option> "+                                                 
+                    "</option>").val("NONE").html("Select Payment Scheme"));
+	            	   
+	            	   var temp = '';
+	            	   
+	            	for ( var i in data.paymentSchemeList) {
+	         
+	            		var id = data.paymentSchemeList[i].paymentSchemeId+"_"+data.paymentSchemeList[i].noOfMonths+"_"+data.paymentSchemeList[i].interestRate;
+	            		var name = data.paymentSchemeList[i].title;
+	            		
+	            		  $("#paymentSchemeId").append($("<option> "+                                                 
+	                       "</option>").val(id).html(name));
+	            		
+	            	}
+	            	$('#paymentSchemeId').selectpicker('refresh');
+	            	
+	            	$('#plotId').selectpicker('refresh');
+	            	   $("#plotId").empty();
+//	            	   $("#stateId option").addClass("bs-title-option");
+	            	   $("#plotId").append($("<option> "+                                                 
+                    "</option>").val("NONE").html("Select Plot"));
+	            	   
+	            	   var temp = '';
+	            	   
+	            	for ( var i in data.plotList) {
+	         
+	            		var id = data.plotList[i].projectPlotId+"_"+data.plotList[i].plotSize;
+	            		var name = data.plotList[i].plotName;
+	            		
+	            		  $("#plotId").append($("<option> "+                                                 
+	                       "</option>").val(id).html(name));
+	            		
+	            	}
+	            	$('#plotId').selectpicker('refresh');
+	            	}
+	        });
+		 
+	  });
+	
+	$("#paymentSchemeId").change(function() {
+    	var paymentSchemeId=$("#paymentSchemeId").val().split("_");
+		$("#months").text(paymentSchemeId[1]);
+		$("#interestRate").text(paymentSchemeId[2]);
+    	
+	});
+	$("#plotId").change(function() {
+    	var paymentSchemeId=$("#plotId").val().split("_");
+		$("#plotSize").text(paymentSchemeId[1]);
+	});
+	$("#memberId").change(function() {
+    	var paymentSchemeId=$("#memberId").val().split("_");
+		$("#fatherName").text(paymentSchemeId[2]);
+		$("#memberName").text(paymentSchemeId[1]);
+	});
+	
+	$("#ratePerYard").change(function() {
+		var yardSize=$("#plotSize").text();
+		var downPayment=$("#downPayment").val();
+		var loanAmount = $("#ratePerYard").val()*yardSize-downPayment;
+		var numberOfMonths = $("#months").text();
+		var rateOfInterest = $("#interestRate").text();
+		var monthlyInterestRatio = (rateOfInterest/100)/12;
+			
+		var top = Math.pow((1+monthlyInterestRatio),numberOfMonths);
+		var bottom = top -1;
+		var sp = top / bottom;
+		var emi = ((loanAmount * monthlyInterestRatio) * sp);
+		var full = numberOfMonths * emi;
+		var interest = full - loanAmount;
+		$("#emi").text(emi);
+		$("#totalAmount").text(full);
+		console.log(interest);
+	});
+	
+	$("#downPayment").change(function() {
+		var yardSize=$("#plotSize").text();
+		var downPayment=$("#downPayment").val();
+		var loanAmount = $("#ratePerYard").val()*yardSize-downPayment;
+		var numberOfMonths = $("#months").text();
+		var rateOfInterest = $("#interestRate").text();
+		var monthlyInterestRatio = (rateOfInterest/100)/12;
+			
+		var top = Math.pow((1+monthlyInterestRatio),numberOfMonths);
+		var bottom = top -1;
+		var sp = top / bottom;
+		var emi = ((loanAmount * monthlyInterestRatio) * sp);
+		var full = numberOfMonths * emi;
+		var interest = full - loanAmount;
+		$("#emi").text(emi);
+		$("#totalAmount").text(full);
+		console.log(interest);
+	});
+	
+	
 });
 
 function citytable() {

@@ -106,10 +106,17 @@
 		SELECT (count(*)>0) FROM payment_schemes 
 		WHERE title = #{title} AND record_status = 'A'
 	</select>
-		<select id="fetchPaymentScheme" resultMap="paymentSchemeResultMap">
+	<select id="fetchPaymentScheme" resultMap="paymentSchemeResultMap">
 		SELECT * FROM payment_schemes
 			WHERE 
 			record_status = 'A'
 	</select>
-
+	
+	<select id="fetchPaymentSchemeForProject" parameterType="String" resultMap="paymentSchemeResultMap">
+		select * from payment_schemes 
+		where payment_scheme_id 
+		IN (select payment_scheme_id from project_payment_scheme where project_id=#{projectId}) AND 
+		record_status = 'A'
+	</select>
+	
 </mapper> 
