@@ -57,7 +57,7 @@
                    <li><a><i class="fa fa-edit"></i> Booking <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="${pageContext.request.contextPath}/booking">List Booking</a></li>
-                      <li><a href="${pageContext.request.contextPath}/add-booking">Add Booking</a></li>
+                      <li><a href="${pageContext.request.contextPath}/booking/add">Add Booking</a></li>
                     </ul>
                   </li> 
                   <li><a><i class="fa fa-dollar"></i> Payment <span class="fa fa-chevron-down"></span></a>

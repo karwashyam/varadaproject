@@ -13,4 +13,6 @@ public interface BookingDao {
 
 	long fetchTotalBookingList(@Param("JQTableUtils") JQTableUtils tableUtils);
 
+	int addBooking(BookingModel bookingModel);
+
 }

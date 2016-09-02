@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.PaymentDao">
+
+	<resultMap id="projectResultMap" type="ProjectModel" >
+		<result property="projectId" column="project_id" />
+		<result property="title" column="title" />
+		<result property="bookingPrefix" column="booking_prefix" />
+		<result property="projectOverview" column="project_overview" />
+		<result property="totalPlots" column="total_plots" />
+		<result property="completionDate" column="completion_date" />
+		<result property="superBuildupPercentage" column="super_buildup_percentage" />
+		<result property="createdBy" column="created_by" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedBy" column="updated_by" />
+		<result property="lastBookingPostfix" column="last_booking_postfix" />
+		<result property="updatedAt" column="updated_at" />
+		<result property="recordStatus" column="record_status" />
+	</resultMap>
+	
+	
+	
+	
+	
+	<insert id="addPayments" parameterType="java.util.List" >
+	
+            INSERT INTO payments(
+	            payment_id, member_id, franchisee_id, franchisee_name, member_name, 
+	            booking_id, project_id, emi_date, payment_mode, cheque_date, 
+	            payment_amount, cheque_number, bank, account_holder, transaction_number, 
+	            description, status, created_by, updated_by, created_at, updated_at, 
+	            record_status, type)
+   			 VALUES 
+                <foreach collection="list" item="model" separator=","> 
+                   (
+                   		#{model.paymentId}, #{model.memberId}, #{model.franchiseeId}, #{model.franchiseeName}, #{model.memberName}, 
+			            #{model.bookingId}, #{model.projectId}, #{model.emiDate}, #{model.paymentMode}, #{model.chequeDate}, 
+			            #{model.paymentAmount}, #{model.chequeNumber}, #{model.bank}, #{model.accountHolder}, #{model.transactionNumber}, 
+			            #{model.description}, #{model.status},
+                        #{model.createdBy}, #{model.updatedBy}, #{model.createdAt}, #{model.updatedAt},
+                        'A',#{model.type}
+                    )
+                </foreach>
+	
+	</insert>
+	
+</mapper> 

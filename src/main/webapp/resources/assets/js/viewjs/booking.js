@@ -1,6 +1,7 @@
 var oTable;
 var isEditAccess;
 var isDeleteAccess;
+var validateRequireFields = ["memberId","projectId","paymentSchemeId","plotId","ratePerYard","nomineeName","nomineeFather","nomineeAddress","nomineeRelation","paymentDate","nomineeDob"];
 
 $(document).ready(function() {
 	var isAddAccess = jQuery("#isAddAccess").val();
@@ -57,7 +58,7 @@ $(document).ready(function() {
 	            	   
 	            	for ( var i in data.plotList) {
 	         
-	            		var id = data.plotList[i].projectPlotId+"_"+data.plotList[i].plotSize;
+	            		var id = data.plotList[i].projectPlotId+"_"+data.plotList[i].plotSize+"_"+data.plotList[i].plotName;
 	            		var name = data.plotList[i].plotName;
 	            		
 	            		  $("#plotId").append($("<option> "+                                                 
@@ -74,6 +75,8 @@ $(document).ready(function() {
     	var paymentSchemeId=$("#paymentSchemeId").val().split("_");
 		$("#months").text(paymentSchemeId[1]);
 		$("#interestRate").text(paymentSchemeId[2]);
+		$("#interestRate1").val(emi);
+		$("#noOfEmi").val(emi);
     	
 	});
 	$("#plotId").change(function() {
@@ -85,6 +88,26 @@ $(document).ready(function() {
 		$("#fatherName").text(paymentSchemeId[2]);
 		$("#memberName").text(paymentSchemeId[1]);
 	});
+	
+	$('input:radio[name="paymentMethod"]').change(
+			function(){
+		        if ($(this).is(':checked') && $(this).val() == 'Cash') {
+		        	$("#chequeNo").hide();	
+		        	$("#issueDate").hide();
+		        	$("#bank").hide();
+		        	$("#accountHolder").hide();
+		        }else  if ($(this).is(':checked') && $(this).val() == 'Cheque') {
+		        	$("#chequeNo").show();
+		        	$("#issueDate").show();
+		        	$("#bank").show();
+		        	$("#accountHolder").show();
+				}else  if ($(this).is(':checked') && $(this).val() == 'Online') {
+					$("#chequeNo").show();
+		        	$("#issueDate").hide();
+		        	$("#bank").show();
+		        	$("#accountHolder").show();
+				}
+		    });
 	
 	$("#ratePerYard").change(function() {
 		var yardSize=$("#plotSize").text();
@@ -100,8 +123,12 @@ $(document).ready(function() {
 		var emi = ((loanAmount * monthlyInterestRatio) * sp);
 		var full = numberOfMonths * emi;
 		var interest = full - loanAmount;
+		emi=Math.ceil(emi);
+		full=Math.ceil(full);
 		$("#emi").text(emi);
+		$("#emi1").val(emi);
 		$("#totalAmount").text(full);
+		$("#price").val(full);
 		console.log(interest);
 	});
 	
@@ -119,9 +146,23 @@ $(document).ready(function() {
 		var emi = ((loanAmount * monthlyInterestRatio) * sp);
 		var full = numberOfMonths * emi;
 		var interest = full - loanAmount;
+		emi=Math.ceil(emi);
+		full=Math.ceil(full);
 		$("#emi").text(emi);
+		$("#emi1").val(emi);
+		$("#price").val(full);
 		$("#totalAmount").text(full);
 		console.log(interest);
+	});
+	
+	$("#submit").click(function() {
+		
+		var isValid = validateForm();
+		if (!isValid) {
+			window.stop(); //should work in all major browsers
+			document.execCommand("Stop"); //is necessary to support IE
+			return false;
+		}
 	});
 	
 	

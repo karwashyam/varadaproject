@@ -25,5 +25,9 @@ public interface ProjectDao {
 	public List<ProjectModel> fetchProjects();
 	
 	public List<ProjectPlotsModel> fetchProjectAllPlotsList(@Param("projectId") String projectId);
+	
+	public void updateLastBookingCode(ProjectModel projectModel);
+	
+	int updatePlotStatus(@Param("plotId") String plotId);
 
 }

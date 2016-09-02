@@ -47,5 +47,16 @@
   		Where record_status = 'A'	
 	</select>
 	
+	<select id="fetchMemberById"  resultMap="memberMap">
+		SELECT member_id, member_name, father_name, address1, state1, city1, 
+ 			pincode1, address2, state2, city2, pincode2, phone1, phone2, 
+	       fax, landline1, landline2, email, gender, pancard, member_code, 
+	       franchisee_id, franchisee_name, ref_member_code, dob, created_by, 
+	       updated_by, created_at, updated_at, record_status
+  		FROM members 
+  		Where record_status = 'A'	
+  		AND member_id=#{memberId}
+	</select>
+	
 	
 </mapper> 

@@ -40,7 +40,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Plot No</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           <form:input path="plotNo" class="form-control" placeholder="Enter Project Heading" />
-                          <form:errors path="plotNo" style="color: #ff0000;" />
+                          <form:errors path="plotNo" class="errorMessage" />
                         </div>
                       </div>
                       
@@ -48,7 +48,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Plot Size</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           <form:input path="plotSize" class="form-control" placeholder="Enter plot Size" />
-                          <form:errors path="plotSize" style="color: #ff0000;" />
+                          <form:errors path="plotSize" class="errorMessage" />
                         </div>
                       </div>
                       

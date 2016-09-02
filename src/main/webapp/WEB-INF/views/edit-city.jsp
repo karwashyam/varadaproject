@@ -47,15 +47,15 @@
 							</c:choose>
 							</c:forEach>
                           </select>
-                          <form:errors path="stateId" style="color: #ff0000;" />
+                          <form:errors path="stateId" class="errorMessage" />
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">City Name</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           <form:input path="cityName" class="form-control" placeholder="Enter City" />
-                          <form:errors path="cityName" style="color: #ff0000;" />
-                          <form:errors path="validCity" style="color: #ff0000;" />
+                          <form:errors path="cityName" class="errorMessage" />
+                          <form:errors path="validCity" class="errorMessage" />
                         </div>
                       </div>
 						<form:hidden path="cityId"  />

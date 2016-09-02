@@ -12,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +32,7 @@ import com.webapp.models.ProjectModel;
 import com.webapp.services.BookingService;
 import com.webapp.services.MemberService;
 import com.webapp.services.ProjectSerivce;
+import com.webapp.validator.BookingValidator;
 
 @Controller
 @RequestMapping("/booking")
@@ -49,13 +54,13 @@ public class BookingController extends BusinessController{
 	@Autowired
 	private MemberService memberService;
 		
-//	@Autowired
-//	private CityValidator cityValidator;
-//	
-//	@InitBinder
-//	private void initBinder(WebDataBinder binder) {
-//		binder.setValidator(cityValidator);
-//	}
+	@Autowired
+	private BookingValidator bookingValidator;
+	
+	@InitBinder
+	private void initBinder(WebDataBinder binder) {
+		binder.setValidator(bookingValidator);
+	}
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String initForm(Model model, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -83,37 +88,37 @@ public class BookingController extends BusinessController{
 		model.addAttribute("projectModel",projectModel);
 		List<MemberModel> memberModelList = memberService.fetchMembersList();
 		model.addAttribute("memberModelList",memberModelList);
-//		List<State> stateList = stateService.fetchAllStateList();
-//		model.addAttribute("stateModel", stateList);
 		return "add-booking";
 	}
 	
-//	@RequestMapping(value = "/add",method = RequestMethod.POST)
-//	public String postAddCity(Model model,@Validated CityModel cityModel,BindingResult result,
-//			 HttpServletRequest req,HttpServletResponse res) throws ServletException, IOException {
-//
-//		preprocessRequest(model, req, res);
-//		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
-//			String url = "/login";
-//			return "redirect:" + url;
-//		}
-//		
+	@RequestMapping(value = "/add",method = RequestMethod.POST)
+	public String addBooking(Model model,@Validated BookingModel bookingModel,BindingResult result,
+			 HttpServletRequest req,HttpServletResponse res) throws ServletException, IOException {
+
+		preprocessRequest(model, req, res);
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url = "/login";
+			return "redirect:" + url;
+		}
+		
 //		if (result.hasErrors()) {
+//			model.addAttribute("bookingModel",bookingModel);
+//			return "add-booking";
 //			model.addAttribute("cityModel",cityModel);
 //			List<State> stateList = stateService.fetchAllStateList();
 //			model.addAttribute("stateModel", stateList);
 //			return "add-city";
 //		}
-//		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
-//		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
-//		int status =cityService.postAddCity(cityModel,userId);
-//		if(status>0){
-//				model.addAttribute("msg", "Daily Update sent successfully");
-//		}else{
-//			model.addAttribute("msg", "Failed to send updates");
-//		}
-//		return "city";
-//	}
+		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
+		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
+		int status =bookingService.addBooking(bookingModel,userId);
+		if(status>0){
+				model.addAttribute("msg", "Booking added successfully");
+		}else{
+			model.addAttribute("msg", "Failed to add booking");
+		}
+		return "booking";
+	}
 	
 	@RequestMapping(value = "/list", produces = "application/json")
 	public @ResponseBody DataTablesTO<BookingModel> showOrders(@RequestParam int sEcho, @RequestParam String sSearch, HttpServletRequest req, HttpServletResponse res) {
@@ -138,10 +143,6 @@ public class BookingController extends BusinessController{
 	public @ResponseBody HashMap<String, Object> fetchProjPaymentSchemeANDPlots(@PathVariable("projectId") String projectId, HttpServletRequest req, HttpServletResponse res) {
 
 		return bookingService.fetchProjPaymentSchemeANDPlots(projectId);
-//		model.addAttribute("paymentSchemeList", paymentSchemeList);
-//		HashMap<String, Object> outputMap = new HashMap<String, Object>();
-//		outputMap.put("paymentSchemeList", paymentSchemeList);
-//		return outputMap;
 	}
 	
 //	@RequestMapping(value = "/edit-city/{cityId}", method = RequestMethod.GET)

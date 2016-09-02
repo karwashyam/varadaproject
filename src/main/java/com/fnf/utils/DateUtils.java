@@ -2,6 +2,7 @@ package com.fnf.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -39,6 +40,14 @@ public class DateUtils {
 	  public static long nowAsGmtMillisec()
 	  {
 	    return new Date().getTime();
+	  }
+	  
+	  public static long getGmtMillisecAfterMonths(int month)
+	  {
+		  Calendar cal = Calendar.getInstance();
+		  cal.setTime(new Date());
+		  cal.add(Calendar.MONTH, month); //minus number would decrement the month
+		  return cal.getTime().getTime();
 	  }
 	  
 	  public static String dbTimeStampToSesionDate(long time, String timeZone, String sessionDateFormatStr)

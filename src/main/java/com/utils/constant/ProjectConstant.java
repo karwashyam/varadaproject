@@ -18,4 +18,23 @@ public class ProjectConstant {
 
 	public static final int DESIGN_IMG_WIDTH = 0;
 
+	public static final int ONE_MONTH = 1;
+	
+	public static final String UNBOOKED_PLOT="1";
+	
+	public static final String SELECTED_PLOT="2";
+	
+	public static final String BOOKED_PLOT = "3";
+	
+	public static final String PAYMENT_TYPE_CREDIT="C";
+	
+	public static final String PAYMENT_TYPE_DEBIT="D";
+	
+	public static final String PAYMENT_STATUS_UNCLEARED="1";//uncleared
+	
+	public static final String PAYMENT_STATUS_CLEARED="2";
+
+	public static final String PAYMENT_STATUS_FUTURE_EMI="3";
+	
+	public static final String PAYMENT_STATUS_ADDED_EMI="4";
 }
