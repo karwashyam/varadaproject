@@ -52,6 +52,7 @@
                                     </form:select>
                           <form:errors path="projectId" class="errorMessage" />
 <%--                           <form:errors path="projectExists" class="errorMessage" /> --%>
+                          
                         </div>
                       </div>
                       
@@ -73,6 +74,7 @@
                                                       </div>        <form:errors path="paymentSchemeId" class="errorMessage" />
                                     
                       </div>
+                                                <form:errors path="projPaymentSchemeExists" style="color: #ff0000;" />
                       
                       
 						<div class="ln_solid"></div>

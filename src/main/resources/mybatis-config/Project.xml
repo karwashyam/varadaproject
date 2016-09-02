@@ -212,6 +212,19 @@
 			record_status = 'A'
 	</select>
 	
+	<select id="fetchProjectPlots" parameterType="Map" resultMap="projectPlotListResultMap">
+	SELECT 
+			p.project_id, pp.project_plot_id, pp.plot_name, pp.plot_size
+	    FROM
+                projects p
+        INNER JOIN 
+        		project_plots pp
+        	ON p.project_id=pp.project_id
+        	WHERE
+        		p.record_status = 'A'
+        AND
+        	p.project_id=#{projectId}
+        </select>
 	<select id="fetchProjectAllPlotsList" parameterType="String" resultMap="projectPlotsResultMap">
 		SELECT 
 			p.project_id, pp.project_plot_id, pp.plot_name, pp.plot_size
@@ -220,11 +233,14 @@
         INNER JOIN 
         		project_plots pp
         	ON p.project_id=pp.project_id
-        	AND pp.status='1'
+
+        	
 		WHERE
         		p.record_status = 'A'
         AND
-        	p.project_id=#{projectId} 
+        	p.project_id=#{projectId}
+        	
+        AND pp.status='1' 
         ORDER BY pp.plot_name ASC
      </select>
 </mapper> 

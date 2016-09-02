@@ -71,12 +71,12 @@ public class ProjPaymentSchemeController extends BusinessController{
 	public String fetchProjPayschemeForl(Model model, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		preprocessRequest(model, req, res);
-/*
+
 		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
 			String url ="/login.do";
 			return "redirect:" + url;
 		}
-*/
+
 		/*DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 		if (!dbSession.checkUrlAccess(sessionService, roleAccessService, FunctionConstant.LESSONS_VIEW)) {
 			String url = "/access-denied.do";
@@ -129,10 +129,10 @@ public class ProjPaymentSchemeController extends BusinessController{
 				String url ="/login.do";
 				return "redirect:" + url;
 			}
-			/*if (result.hasErrors()) {
+			if (result.hasErrors()) {
 				model.addAttribute("projectPaymentSchemeDto", projectPaymentSchemeDto);
 				return "add-proj-payment-scheme";
-			}*/
+			}
 			DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 			String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
 

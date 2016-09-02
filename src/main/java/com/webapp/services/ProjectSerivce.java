@@ -154,4 +154,11 @@ public class ProjectSerivce {
 	}
 
 
+
+	public List<ProjectPlotsModel> fetchProjectPlots(String projectId) {
+		List<ProjectPlotsModel> projectList=projectDao.fetchProjectPlots(projectId);
+		return projectList;
+	}
+
+
 }

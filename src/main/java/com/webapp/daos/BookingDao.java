@@ -1,6 +1,7 @@
 package com.webapp.daos;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -14,5 +15,6 @@ public interface BookingDao {
 	long fetchTotalBookingList(@Param("JQTableUtils") JQTableUtils tableUtils);
 
 	int addBooking(BookingModel bookingModel);
+	List<BookingModel> fetchBookingListByCurrentYear(Map<String, Object> inputMap);
 
 }

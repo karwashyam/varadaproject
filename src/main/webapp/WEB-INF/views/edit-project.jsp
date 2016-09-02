@@ -40,6 +40,8 @@
 						commandName="editProjectFrm" enctype="multipart/form-data">
 
 <form:hidden path="projectId" name="projectId" id="projectId"/>
+<form:hidden path="projPlotsList" name="projPlotsList" id="projPlotsList"/>
+
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">Project
 								Name</label>
@@ -124,6 +126,7 @@
 
 
 						<div class="clearfix"></div>
+				
 				</div>
 				<div class="x_content">
 					<table id="projectPlotsDatatable"

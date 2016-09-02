@@ -3,6 +3,7 @@ package com.webapp.services;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,11 @@ public class BookingService {
 		return bookingDao.fetchTotalBookingList(tableUtils);
 	}
 
+
+	public List<BookingModel> fetchBookingListByCurrentYear(
+			Map<String, Object> newRequestMap) {
+		return bookingDao.fetchBookingListByCurrentYear(newRequestMap);
+	}
 	@Transactional
 	public HashMap<String, Object> fetchProjPaymentSchemeANDPlots(String projectId) {
 		

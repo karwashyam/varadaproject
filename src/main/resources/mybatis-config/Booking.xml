@@ -35,6 +35,16 @@
 		<result property="ratePerYard" column ="rate_per_yard" />
 		<result property="downPayment" column ="down_payment" />
 		<result property="paymentSchemeId" column ="payment_scheme_id" />
+		<result property="createdBy" column="created_by" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedBy" column="updated_by" />
+		
+		<result property="updatedAt" column="updated_at" />
+		<result property="recordStatus" column="record_status" />
+	
+	
+		<result property="month" column ="month" />
+		<result property="bookingCount" column ="booking_count" />
 	</resultMap>
 	
 	
@@ -162,4 +172,23 @@
             'A', #{interestRate}, #{ratePerYard}, #{downPayment}, #{paymentSchemeId});
 	</insert>
 	
+	
+	<select id="fetchBookingListByCurrentYear" parameterType="map"	resultMap="BookingMap">
+		SELECT 
+			COUNT(*) as booking_count,
+			EXTRACT(MONTH FROM to_timestamp(b.created_at/1000)) as month
+		FROM bookings b
+  		INNER JOIN members m
+  							ON m.member_id=b.member_id
+  		WHERE 
+  			b.record_status=#{recordStatus}
+		AND
+			b.created_at &gt;=#{startDate} 
+		AND 
+			b.created_at &lt;=#{endDate}
+		
+		GROUP BY month
+		ORDER BY month ASC	
+		
+	</select>
 </mapper> 

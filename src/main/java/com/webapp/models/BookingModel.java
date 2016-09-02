@@ -42,6 +42,11 @@ public class BookingModel extends AbstractModel{
 	private String issueDate;
 	private String bank;
 	private String accountHolder;
+	
+	private int month;
+	private long bookingCount;
+	
+	
 	public String getBookingId() {
 		return bookingId;
 	}
@@ -203,6 +208,18 @@ public class BookingModel extends AbstractModel{
 	}
 	public void setPhone1(String phone1) {
 		this.phone1 = phone1;
+	}
+	public int getMonth() {
+		return month;
+	}
+	public void setMonth(int month) {
+		this.month = month;
+	}
+	public long getBookingCount() {
+		return bookingCount;
+	}
+	public void setBookingCount(long bookingCount) {
+		this.bookingCount = bookingCount;
 	}
 	public String getPaymentSchemeId() {
 		return paymentSchemeId;
