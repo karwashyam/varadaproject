@@ -1,6 +1,7 @@
 package com.webapp.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,12 @@ public class BookingService {
 
 	public long fetchTotalBookingList(JQTableUtils tableUtils) {
 		return bookingDao.fetchTotalBookingList(tableUtils);
+	}
+
+
+	public List<BookingModel> fetchBookingListByCurrentYear(
+			Map<String, Object> newRequestMap) {
+		return bookingDao.fetchBookingListByCurrentYear(newRequestMap);
+
 	}
 }

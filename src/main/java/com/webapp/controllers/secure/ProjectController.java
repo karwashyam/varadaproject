@@ -168,10 +168,13 @@ public class ProjectController extends BusinessController{
 			String url ="/login.do";
 			return "redirect:" + url;
 		}
+		System.out.println("\n\t projectId=="+projectId);
 
 
 		ProjectModel projectModel = projectSerivce.getProjectDetailsById(projectId);
 
+		List<ProjectPlotsModel> projPlotsList=projectSerivce.fetchProjectPlots(projectId);
+		System.out.println("\n\t projPlotsList=="+projPlotsList.size());
 		ProjectDto projectModelDto=new ProjectDto();
 		projectModelDto.setProjectId(projectId);
 		projectModelDto.setTitle(projectModel.getTitle());
@@ -180,7 +183,8 @@ public class ProjectController extends BusinessController{
 		projectModelDto.setTotalPlots(projectModel.getTotalPlots());
 		projectModelDto.setCompletionDate(DateUtils.fetchDateStrFromMilisec(projectModel.getCompletionDate(), DateUtils.GMT, DateUtils.SiMPLE_DATE_FORMAT));
 		projectModelDto.setSuperBuildupPercentage(projectModel.getSuperBuildupPercentage());
-
+		
+		projectModelDto.setProjPlotsList(projPlotsList);
 		model.addAttribute("editProjectFrm", projectModelDto);
 		
 		model.addAttribute("title", projectModel.getTitle());
@@ -191,6 +195,7 @@ public class ProjectController extends BusinessController{
 		model.addAttribute("completionDate", projectModel.getCompletionDate());
 
 		model.addAttribute("superBuildupPercentage", projectModel.getSuperBuildupPercentage());
+		model.addAttribute("projPlotsList", projPlotsList);
 
 		
 		return "edit-project";
@@ -213,6 +218,33 @@ public class ProjectController extends BusinessController{
 
 		return pageRedirect("/projects.do");
 	}
+	
+	@RequestMapping(value = "/editplot/{projectId}", method = RequestMethod.GET)
+	public String editPlotForm(Model model, @PathVariable("projectId") String projectId, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
+		preprocessRequest(model, req, res);
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url ="/login.do";
+			return "redirect:" + url;
+		}
+		System.out.println("\n\t projectId=="+projectId);
+
+
+		ProjectModel projectModel = projectSerivce.getProjectDetailsById(projectId);
+
+		List<ProjectPlotsModel> projPlotsList=projectSerivce.fetchProjectPlots(projectId);
+		System.out.println("\n\t projPlotsList=="+projPlotsList.size());
+		ProjectDto projectModelDto=new ProjectDto();
+		projectModelDto.setProjectId(projectId);
+		
+		projectModelDto.setProjPlotsList(projPlotsList);
+		
+		model.addAttribute("projPlotsList", projPlotsList);
+
+		
+		return "project-plots";
+	}
+	
 	
 	@Override
 	protected String[] requiredJs() {

@@ -34,7 +34,7 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form:form name="plotprojectFrm" id="plotprojectFrm" class="form-horizontal form-label-left" method="POST" action="${pageContext.request.contextPath}/project/plot/edit" commandName="projectplotModel" enctype="multipart/form-data">
+                  <%--   <form:form name="plotprojectFrm" id="plotprojectFrm" class="form-horizontal form-label-left" method="POST" action="${pageContext.request.contextPath}/project/plot/edit" commandName="projectplotModel" enctype="multipart/form-data">
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Plot No</label>
@@ -61,7 +61,7 @@
                         </div>
                       </div>
 
-                    </form:form>
+                    </form:form> --%>
                   </div>
                 </div>
               </div>

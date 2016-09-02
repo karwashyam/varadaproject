@@ -9,7 +9,6 @@ public class ProjectPaymentSchemeDto {
 	private String paymentSchemeTitle;
 	private String projectTitle;
 	
-	
 	public String getProjPaymentSchemeExists() {
 		return projPaymentSchemeExists;
 	}

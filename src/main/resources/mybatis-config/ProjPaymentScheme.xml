@@ -122,10 +122,10 @@
 		FROM 
 			project_payment_scheme 
 		WHERE 
-	<!-- 		project_id=#{projectId}
-		AND -->
+			project_id=#{projectId}
+		AND
 			payment_scheme_id=#{paymentSchemeId}
-		
+		AND
 		record_status = 'A'
 	</select>
 		<select id="fetchProjectPayementScheme" resultMap="projpaymentSchemeResultMap">

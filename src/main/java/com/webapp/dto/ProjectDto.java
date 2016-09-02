@@ -1,6 +1,10 @@
 package com.webapp.dto;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
+
+import com.webapp.models.ProjectPlotsModel;
 
 public class ProjectDto{
 
@@ -14,10 +18,17 @@ public class ProjectDto{
 	private String projectExists;
 //	private String excelFile;
 	private MultipartFile excelFile;
+	private List<ProjectPlotsModel> projPlotsList;
 
 	
 	
 	
+	public List<ProjectPlotsModel> getProjPlotsList() {
+		return projPlotsList;
+	}
+	public void setProjPlotsList(List<ProjectPlotsModel> projPlotsList) {
+		this.projPlotsList = projPlotsList;
+	}
 	public MultipartFile getExcelFile() {
 		return excelFile;
 	}

@@ -33,7 +33,7 @@ function handleGraphData(){
 	$.ajax({
 				dataType : "json",
 				method : "GET",
-				url : basePath + "/report/ajax/monthly/bookings.json?year="+jQuery('#year').val(),
+				url : basePath + "/report/ajax/monthly/canbookings.json?year="+jQuery('#year').val(),
 				success : function(result) {
 					ajaxInProgress = false;
 					 var chartData = [[]];
@@ -56,7 +56,7 @@ function handleGraphData(){
 
 
 					data.addColumn('string', 'Months');
-					data.addColumn('number', 'Bookings');
+					data.addColumn('number', 'Cancelled Bookings');
 					    
 				    	data.addRows(arr2); 
 

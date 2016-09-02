@@ -24,17 +24,21 @@ public class ProjPaymentSchemeValidator implements Validator {
 
 		
 		ProjectPaymentSchemeDto project = (ProjectPaymentSchemeDto) obj;
-		
+
 		if (!("").equals(project.getPaymentSchemeId()) && !("").equals(project.getPaymentSchemeId())) {
-/*
 			boolean isExists = projPaymentSchemeSerivce.isProjPaymentSchemeExists(project.getPaymentSchemeId(), project.getProjectId());
+			System.out.println( "\n\t isExists="+isExists);
 
 			if (isExists) {
 				errors.rejectValue("projPaymentSchemeExists", "valid.projPaymentSchemeExists");
-			}*/
+			}
+		}else{
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "projectId", "required.projectName");
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "paymentSchemeId", "required.paymentSchemeName");
+
+
 		}
 		
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "projectPaymentSchemeId", "required.projectPaymentSchemeId");
 
 
 	}

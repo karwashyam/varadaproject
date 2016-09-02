@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.fnf.utils.CookieUtils;
@@ -22,6 +23,8 @@ import com.webapp.services.SessionService;
 public class BusinessController extends BaseController {
 
 	private static final String REDIRECT="redirect:";
+	public static final String SINGLE_OBJECT_RESPONSE = "responseObject";
+
 	private static final Logger logger = Logger.getLogger(BusinessController.class);
 	
 	@Value("${SessionCookieName}")
@@ -124,12 +127,16 @@ public class BusinessController extends BaseController {
 
 	private String[] commonJs() {
 		return new String[] {
-			        "js/vendor/jquery-1.11.1.min.js", "js/vendor/bootstrap.min.js", 
+			        "js/vendor/jquery-1.11.1.min.js", 
+			        "js/vendor/bootstrap.min.js", 
 			      "js/vendor/jquery-ui.js","js/vendor/jquery.dataTables.min.js",
-			      "js/vendor/icheck.min.js","js/vendor/daterangepicker.js","js/vendor/bootstrap-datepicker.min.js","js/vendor/custom.min.js","js/main.js"
+			      "js/vendor/icheck.min.js","js/vendor/daterangepicker.js","js/vendor/bootstrap-datepicker.min.js",
+			      "js/vendor/custom.min.js","js/main.js"
 		};
 	}
-
+	protected ModelAndView getOutputResponse(Object obj) {
+		return new ModelAndView("", SINGLE_OBJECT_RESPONSE, obj);
+	}
 	private void noCache(HttpServletResponse response) {
 		response.setHeader("Pragma", "No-cache");
 		response.setHeader("Cache-Control", "no-cache,no-store,max-age=0");

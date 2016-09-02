@@ -7,9 +7,14 @@
  */
 var editor; 
 var oTable;
+var projPlotsList;
 $(document).ready(function(){
 	var today = new Date();
 	var projectId;
+	var arr=[];
+	
+	
+//	addTable() ;
 /*    
 	if($("#stateId").val() != ""){
 		
@@ -248,7 +253,7 @@ function projectPlotsManagement(projectId) {
 						
 						{
 							"sTitle" : "Action",
-							"mData" : "projectPlotId",
+							"mData" : "projectId",
 							"sWidth" : "15%",
 							"sClass" : "center",
 							"bSortable" : false
@@ -284,6 +289,13 @@ function projectPlotsManagement(projectId) {
                                     { extend: "remove", editor: editor }
                                 ] );*/
 
+function editProjectPlot(proejctId){
+//	if(isEditAccess === "true"){
+		document.location = basePath + "/project/editplot/" + proejctId + ".do";
+//	}
+}
+
+
 function fnServerData(sSource, aoData, fnCallback) {
 	isSessionExtend = true;
 	$.ajax({
@@ -307,4 +319,86 @@ function handleAjaxError(xhr, textStatus, error) {
 	} else if (textStatus == "parsererror") {
 		alert("Ajax error occured.");
 	}
+}
+
+
+function addTable() {
+    var myTableDiv = document.getElementById("metric_results")
+    var table = document.createElement('TABLE')
+    var tableBody = document.createElement('TBODY')
+
+    table.border = '1'
+    table.appendChild(tableBody);
+
+    var heading = new Array();
+    heading[0] = "Project Plot"
+    heading[1] = "Plot Name"
+    heading[2] = "Plot Size"
+//    heading[3] = "Group C"
+//    heading[4] = "Total"
+
+    	$.ajax({
+			dataType : "json",
+			method : "GET",
+			url : basePath + "/ajax/projectplot/list.json?projectId="+jQuery('#projectId').val(),
+			success : function(result) {
+				ajaxInProgress = false;
+				
+				projPlotsList=result.list;
+		/*	
+				for(var i=0;i<projPlotsList.length;i++){
+					console.log("\n\t "+projPlotsList[i].projectPlotId+"\t plot nam="+projPlotsList[i].plotName);
+				}*/
+				 var tr = document.createElement('TR');
+				    tableBody.appendChild(tr);
+				    for (var i = 0; i < heading.length; i++) {
+				        var th = document.createElement('TH')
+				        th.width = '75';
+				        th.appendChild(document.createTextNode(heading[i]));
+				        tr.appendChild(th);
+				    }
+				   
+				    //TABLE ROWS
+				    for (var i = 0; i < projPlotsList.length; i++) {
+				    	
+				    	console.log("\n\t "+projPlotsList[i].projectPlotId+"\t plot nam="+projPlotsList[i].plotName);
+				        var tr = document.createElement('TR');
+//				        for (j = 0; j < projPlotsList[i].length; j++) {
+				            var td = document.createElement('TD')
+				            var input1=document.createElement('input')
+				            input1.setAttribute("type", "text");
+				            input1.setAttribute("value", projPlotsList[i].projectPlotId);
+//				            input1.value=projPlotsList[i].projectPlotId;
+				            td.appendChild(document.createTextNode(input1));
+				            tr.appendChild(td)
+				            
+				             var td = document.createElement('TD')
+				            td.appendChild(document.createTextNode(projPlotsList[i].plotName));
+				            tr.appendChild(td)
+				            
+				            
+				             var td = document.createElement('TD')
+				            td.appendChild(document.createTextNode(projPlotsList[i].plotSize));
+				            tr.appendChild(td)
+//				        }
+				        tableBody.appendChild(tr);
+				    }  
+				    myTableDiv.appendChild(table)
+			},
+			error : function(xhr) {
+				ajaxInProgress = false;
+				console.log("Error..");
+			}
+		}); // Ajax Ends Here
+    console.log("Error.."+projPlotsList);
+    	
+/*    var stock = new Array()
+    stock[0] = new Array("Cars", "88.625", "85.50", "85.81", "987")
+    stock[1] = new Array("Veggies", "88.625", "85.50", "85.81", "988")
+    stock[2] = new Array("Colors", "88.625", "85.50", "85.81", "989")
+    stock[3] = new Array("Numbers", "88.625", "85.50", "85.81", "990")
+    stock[4] = new Array("Requests", "88.625", "85.50", "85.81", "991")
+*/
+    //TABLE COLUMNS
+   
 }
