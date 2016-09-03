@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.FranchiseDao">
+
+	<resultMap id="FranchiseMap" type="FranchiseDto" >
+		<result property="rowNo" column="row_index"/>
+		<result property="franchiseeId" column="franchisee_id" />
+		<result property="franchiseeName" column="franchisee_name" />
+		<result property="email" column="email" />
+		<result property="state" column="state" />
+		<result property="city" column="city" />
+		<result property="address" column="address" />
+		<result property="phone1" column="phone1" />
+		<result property="phone2" column="phone2" />
+		<result property="fax" column="fax" />
+		<result property="landLine1" column="landline1" />
+		<result property="landLine2" column="landline2" />
+		<result property="pan" column="pan" />
+		<result property="tds" column="tds" />
+		<result property="commissionPercentage" column="commission_percentage" />
+		<result property="registeredDate" column="created_at" />
+		<result property="recordStatus" column="record_status"/>
+	</resultMap>
+	<resultMap id="FranchiseModel" type="FranchiseModel" >
+		<result property="franchiseeId" column="franchisee_id" />
+		<result property="franchiseeName" column="franchisee_name" />
+		<result property="email" column="email" />
+		<result property="state" column="state" />
+		<result property="city" column="city" />
+		<result property="address" column="address" />
+		<result property="phone1" column="phone1" />
+		<result property="phone2" column="phone2" />
+		<result property="fax" column="fax" />
+		<result property="landLine1" column="landline1" />
+		<result property="landLine2" column="landline2" />
+		<result property="pan" column="pan" />
+		<result property="tds" column="tds" />
+		<result property="commissionPercentage" column="commission_percentage" />
+	</resultMap>
+	
+	<select id="fetchFranchiseList" parameterType="JQTableUtils" resultMap="FranchiseMap">
+		SELECT row_number() over (ORDER BY
+		<choose>
+			<when test="JQTableUtils.sortColumn == 2">
+				f.franchisee_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 3">
+				f.email
+			</when>
+			<when test="JQTableUtils.sortColumn == 4">
+				f.phone1
+			</when>
+			<when test="JQTableUtils.sortColumn == 6">
+				f.commission_percentage
+			</when>
+			<otherwise>
+				f.franchisee_name
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="JQTableUtils.sortingDirection == 'desc'">
+				DESC
+			</when>
+			<otherwise>
+				ASC
+			</otherwise>
+		</choose>) as row_index,f.franchisee_id,f.franchisee_name,f.email,f.phone1,f.address,f.commission_percentage,f.record_status,f.created_at
+  		FROM franchisee f
+  		WHERE 1=1
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+			f.franchisee_name ilike #{JQTableUtils.searchParams}
+			OR
+			f.email ilike #{JQTableUtils.searchParams}
+			OR
+			f.address ilike #{JQTableUtils.searchParams}
+			OR
+			f.phone1 ilike #{JQTableUtils.searchParams}
+			
+			)
+		</if>
+		ORDER BY
+		<choose>
+			<when test="JQTableUtils.sortColumn == 2">
+				f.franchisee_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 3">
+				f.email
+			</when>
+			<when test="JQTableUtils.sortColumn == 4">
+				f.phone1
+			</when>
+			<when test="JQTableUtils.sortColumn == 6">
+				f.commission_percentage
+			</when>
+			<otherwise>
+				f.franchisee_name
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="JQTableUtils.sortingDirection == 'desc'">
+				DESC
+			</when>
+			<otherwise>
+				ASC
+			</otherwise>
+		</choose> 
+		<if test="JQTableUtils.iDisplayLength!=-1">
+			LIMIT #{JQTableUtils.iDisplayLength}
+			OFFSET #{JQTableUtils.iDisplayStart}
+		</if>
+		
+	</select>
+	
+	<select id="fetchTotalFranchiseList" parameterType="JQTableUtils" resultType="Long">
+		SELECT count(f.franchisee_id)
+  		FROM franchisee f
+  		WHERE 1=1
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+			f.franchisee_name ilike #{JQTableUtils.searchParams}
+			OR
+			f.email ilike #{JQTableUtils.searchParams}
+			OR
+			f.address ilike #{JQTableUtils.searchParams}
+			OR
+			f.phone1 ilike #{JQTableUtils.searchParams}
+			
+			)
+		</if>
+		
+	</select>
+	
+	<insert id="postAddFranchise" parameterType="FranchiseModel">
+		INSERT INTO franchisee(
+            franchisee_id, franchisee_name, email, address, state, city, 
+            pincode, phone1, phone2, fax, landline1, landline2, pan, tds, 
+            created_by, updated_by, created_at, updated_at, record_status, 
+            commission_percentage)
+    		VALUES (#{franchiseeId}, #{franchiseeName}, #{email}, #{address}, #{state}, #{city}, 
+            		#{pincode}, #{phone1}, #{phone2}, #{fax}, #{landLine1}, #{landLine2}, #{pan}, #{tds}, 
+            		#{createdBy}, #{updatedBy}, #{createdAt}, #{updatedAt}, #{recordStatus}, 
+            		#{commissionPercentage});
+	</insert>
+	
+	<update id="editFranchise" parameterType="FranchiseModel">
+		UPDATE franchisee
+   			SET franchisee_name=#{franchiseeName}, email=#{email}, address=#{address}, state=#{state}, 
+       			city=#{city}, pincode=#{pincode}, phone1=#{phone1}, phone2=#{phone2}, fax=#{fax}, landline1=#{landLine1}, landline2=#{landLine2}, 
+      		 	pan=#{pan}, tds=#{tds}, updated_by=#{updatedBy}, updated_at=#{updatedAt}, commission_percentage=#{commissionPercentage}
+			WHERE franchisee_id=#{franchiseeId};
+	</update>
+	
+	<select id="fetchFranchiseDetail" parameterType="String" resultMap="FranchiseModel">
+		SELECT franchisee_id, franchisee_name, email, address, state, city, 
+       			pincode, phone1, phone2, fax, landline1, landline2, pan, tds, 
+       			created_by, updated_by, created_at, updated_at,commission_percentage
+  			FROM franchisee 
+  			WHERE franchisee_id=#{franchiseeId};
+	</select>
+	
+	<select id="fetchFranByEmail" parameterType="FranchiseModel" resultType="boolean">
+	SELECT count(franchisee_id)>0
+				FROM franchisee	
+				WHERE (email = #{email}) AND (franchisee_id!= #{franchiseeId})
+	</select>
+	
+	<select id="fetchFranByPhone" parameterType="FranchiseModel" resultType="boolean">
+	SELECT count(franchisee_id)>0
+				FROM franchisee	
+				WHERE (phone1 = #{phone1}) AND (franchisee_id!= #{franchiseeId})
+	</select>
+	
+	<select id="fetchFranByPan" parameterType="FranchiseModel" resultType="boolean">
+	SELECT count(franchisee_id)>0
+				FROM franchisee	
+				WHERE (pan = #{pan}) AND (franchisee_id!= #{franchiseeId})
+	</select>
+	
+	<update id="changeFranchiseStatus" parameterType="FranchiseModel">
+		UPDATE franchisee
+			SET record_status=(SELECT CASE WHEN record_status = 'A' THEN 'D' ELSE 'A' end as record_status from franchisee where franchisee_id=#{franchiseeId} ), updated_by=#{updatedBy}, updated_at=#{updatedAt}
+			WHERE franchisee_id=#{franchiseeId}
+	</update>
+	
+</mapper> 

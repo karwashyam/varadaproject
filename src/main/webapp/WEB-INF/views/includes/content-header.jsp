@@ -45,7 +45,7 @@
                   <li><a><i class="fa fa-users"></i> Franchisee <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="${pageContext.request.contextPath}/franchisee">List Franchisee</a></li>
-                      <li><a href="${pageContext.request.contextPath}/add-franchisee">Add Franchisee</a></li>
+                      <li><a href="${pageContext.request.contextPath}/franchisee/add">Add Franchisee</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-users"></i> Member <span class="fa fa-chevron-down"></span></a>

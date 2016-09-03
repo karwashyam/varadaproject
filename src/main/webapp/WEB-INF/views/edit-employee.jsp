@@ -87,24 +87,13 @@
            </div>
         </div>
 <%@ include file="/WEB-INF/views/includes/footer.jsp"%>
-<style>
-.ui-datepicker {
-   background: ghostwhite;
-   border: 1px solid #555;
-   width: 17em;
- }
- .ui-datepicker-calendar{
- 	width: 100%;
- }
-</style>
 <script type="text/javascript">
 $( function() {
     $( "#birthDate" ).datepicker({
 			changeMonth: true,
 			changeYear: true,
-			dateFormat : 'dd/mm/yy',
-			maxDate: 0,
-			yearRange: "-100:+0"
+			format : 'dd/mm/yyyy',
+			endDate: new Date()
     });
   } );
 </script>
