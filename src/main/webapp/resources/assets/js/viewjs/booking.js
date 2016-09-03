@@ -1,6 +1,7 @@
 var oTable;
 var isEditAccess;
 var isDeleteAccess;
+var validateRequireFields = ["memberId","projectId","paymentSchemeId","plotId","ratePerYard","nomineeName","nomineeFather","nomineeAddress","nomineeRelation","paymentDate","nomineeDob"];
 
 $(document).ready(function() {
 	var isAddAccess = jQuery("#isAddAccess").val();
@@ -18,6 +19,152 @@ $(document).ready(function() {
 	jQuery("#add").click(function() {
 		document.location = basePath + "/booking/add";
 	});
+	
+	
+	
+	$("#projectId").change(function() {
+    	var projectId=$("#projectId").val();
+		  $.ajax({
+	            type: "GET",
+	            url:basePath+"/booking/fetch/"+projectId+".json",
+	            async: false,
+	            success: function (data) {
+	            	$('#paymentSchemeId').selectpicker('refresh');
+	            	   $("#paymentSchemeId").empty();
+//	            	   $("#stateId option").addClass("bs-title-option");
+	            	   $("#paymentSchemeId").append($("<option> "+                                                 
+                    "</option>").val("NONE").html("Select Payment Scheme"));
+	            	   
+	            	   var temp = '';
+	            	   
+	            	for ( var i in data.paymentSchemeList) {
+	         
+	            		var id = data.paymentSchemeList[i].paymentSchemeId+"_"+data.paymentSchemeList[i].noOfMonths+"_"+data.paymentSchemeList[i].interestRate;
+	            		var name = data.paymentSchemeList[i].title;
+	            		
+	            		  $("#paymentSchemeId").append($("<option> "+                                                 
+	                       "</option>").val(id).html(name));
+	            		
+	            	}
+	            	$('#paymentSchemeId').selectpicker('refresh');
+	            	
+	            	$('#plotId').selectpicker('refresh');
+	            	   $("#plotId").empty();
+//	            	   $("#stateId option").addClass("bs-title-option");
+	            	   $("#plotId").append($("<option> "+                                                 
+                    "</option>").val("NONE").html("Select Plot"));
+	            	   
+	            	   var temp = '';
+	            	   
+	            	for ( var i in data.plotList) {
+	         
+	            		var id = data.plotList[i].projectPlotId+"_"+data.plotList[i].plotSize+"_"+data.plotList[i].plotName;
+	            		var name = data.plotList[i].plotName;
+	            		
+	            		  $("#plotId").append($("<option> "+                                                 
+	                       "</option>").val(id).html(name));
+	            		
+	            	}
+	            	$('#plotId').selectpicker('refresh');
+	            	}
+	        });
+		 
+	  });
+	
+	$("#paymentSchemeId").change(function() {
+    	var paymentSchemeId=$("#paymentSchemeId").val().split("_");
+		$("#months").text(paymentSchemeId[1]);
+		$("#interestRate").text(paymentSchemeId[2]);
+		$("#interestRate1").val(emi);
+		$("#noOfEmi").val(emi);
+    	
+	});
+	$("#plotId").change(function() {
+    	var paymentSchemeId=$("#plotId").val().split("_");
+		$("#plotSize").text(paymentSchemeId[1]);
+	});
+	$("#memberId").change(function() {
+    	var paymentSchemeId=$("#memberId").val().split("_");
+		$("#fatherName").text(paymentSchemeId[2]);
+		$("#memberName").text(paymentSchemeId[1]);
+	});
+	
+	$('input:radio[name="paymentMethod"]').change(
+			function(){
+		        if ($(this).is(':checked') && $(this).val() == 'Cash') {
+		        	$("#chequeNo").hide();	
+		        	$("#issueDate").hide();
+		        	$("#bank").hide();
+		        	$("#accountHolder").hide();
+		        }else  if ($(this).is(':checked') && $(this).val() == 'Cheque') {
+		        	$("#chequeNo").show();
+		        	$("#issueDate").show();
+		        	$("#bank").show();
+		        	$("#accountHolder").show();
+				}else  if ($(this).is(':checked') && $(this).val() == 'Online') {
+					$("#chequeNo").show();
+		        	$("#issueDate").hide();
+		        	$("#bank").show();
+		        	$("#accountHolder").show();
+				}
+		    });
+	
+	$("#ratePerYard").change(function() {
+		var yardSize=$("#plotSize").text();
+		var downPayment=$("#downPayment").val();
+		var loanAmount = $("#ratePerYard").val()*yardSize-downPayment;
+		var numberOfMonths = $("#months").text();
+		var rateOfInterest = $("#interestRate").text();
+		var monthlyInterestRatio = (rateOfInterest/100)/12;
+			
+		var top = Math.pow((1+monthlyInterestRatio),numberOfMonths);
+		var bottom = top -1;
+		var sp = top / bottom;
+		var emi = ((loanAmount * monthlyInterestRatio) * sp);
+		var full = numberOfMonths * emi;
+		var interest = full - loanAmount;
+		emi=Math.ceil(emi);
+		full=Math.ceil(full);
+		$("#emi").text(emi);
+		$("#emi1").val(emi);
+		$("#totalAmount").text(full);
+		$("#price").val(full);
+		console.log(interest);
+	});
+	
+	$("#downPayment").change(function() {
+		var yardSize=$("#plotSize").text();
+		var downPayment=$("#downPayment").val();
+		var loanAmount = $("#ratePerYard").val()*yardSize-downPayment;
+		var numberOfMonths = $("#months").text();
+		var rateOfInterest = $("#interestRate").text();
+		var monthlyInterestRatio = (rateOfInterest/100)/12;
+			
+		var top = Math.pow((1+monthlyInterestRatio),numberOfMonths);
+		var bottom = top -1;
+		var sp = top / bottom;
+		var emi = ((loanAmount * monthlyInterestRatio) * sp);
+		var full = numberOfMonths * emi;
+		var interest = full - loanAmount;
+		emi=Math.ceil(emi);
+		full=Math.ceil(full);
+		$("#emi").text(emi);
+		$("#emi1").val(emi);
+		$("#price").val(full);
+		$("#totalAmount").text(full);
+		console.log(interest);
+	});
+	
+	$("#submit").click(function() {
+		
+		var isValid = validateForm();
+		if (!isValid) {
+			window.stop(); //should work in all major browsers
+			document.execCommand("Stop"); //is necessary to support IE
+			return false;
+		}
+	});
+	
 	
 });
 

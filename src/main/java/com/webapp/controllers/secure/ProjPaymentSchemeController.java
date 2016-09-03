@@ -3,6 +3,7 @@ package com.webapp.controllers.secure;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -20,11 +21,16 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fnf.utils.JQTableUtils;
 import com.fnf.utils.UUIDGenerator;
 import com.webapp.controllers.BusinessController;
+import com.webapp.controllers.DataTablesTO;
 import com.webapp.dbsession.DbSession;
 import com.webapp.dto.ProjectPaymentSchemeDto;
+import com.webapp.models.BookingModel;
 import com.webapp.models.PaymentSchemeModel;
 import com.webapp.models.ProjectModel;
 import com.webapp.models.ProjectPaymentSchemeModel;
@@ -65,12 +71,12 @@ public class ProjPaymentSchemeController extends BusinessController{
 	public String fetchProjPayschemeForl(Model model, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		preprocessRequest(model, req, res);
-/*
+
 		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
 			String url ="/login.do";
 			return "redirect:" + url;
 		}
-*/
+
 		/*DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 		if (!dbSession.checkUrlAccess(sessionService, roleAccessService, FunctionConstant.LESSONS_VIEW)) {
 			String url = "/access-denied.do";
@@ -123,10 +129,10 @@ public class ProjPaymentSchemeController extends BusinessController{
 				String url ="/login.do";
 				return "redirect:" + url;
 			}
-			/*if (result.hasErrors()) {
+			if (result.hasErrors()) {
 				model.addAttribute("projectPaymentSchemeDto", projectPaymentSchemeDto);
 				return "add-proj-payment-scheme";
-			}*/
+			}
 			DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 			String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
 
@@ -211,6 +217,9 @@ public class ProjPaymentSchemeController extends BusinessController{
 
 		return pageRedirect("/proj-payment-scheme.do");
 	}
+	
+	
+	
 	
 	@Override
 	protected String[] requiredJs() {

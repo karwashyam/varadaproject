@@ -50,8 +50,9 @@
 												</option>
 											</c:forEach>
                                     </form:select>
-                          <form:errors path="projectId" style="color: #ff0000;" />
-<%--                           <form:errors path="projectExists" style="color: #ff0000;" /> --%>
+                          <form:errors path="projectId" class="errorMessage" />
+<%--                           <form:errors path="projectExists" class="errorMessage" /> --%>
+                          
                         </div>
                       </div>
                       
@@ -70,9 +71,10 @@
 											</c:forEach>
                                     </form:select>
                                                       
-                                                      </div>        <form:errors path="paymentSchemeId" style="color: #ff0000;" />
+                                                      </div>        <form:errors path="paymentSchemeId" class="errorMessage" />
                                     
                       </div>
+                                                <form:errors path="projPaymentSchemeExists" style="color: #ff0000;" />
                       
                       
 						<div class="ln_solid"></div>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.MemberDao">
+
+	<resultMap id="memberMap" type="MemberModel" >
+		<result property="memberId" column ="member_id"/>
+		<result property="memberName" column="member_name" />
+		<result property="fatherName" column="father_name" />
+		<result property="address1" column="address1" />
+		<result property="state1" column="state1" />
+		<result property="city1" column ="city1"/>
+		<result property="pincode1" column="pincode1" />
+		<result property="address2" column="address2" />
+		<result property="state2" column="state2" />
+		<result property="city2" column="city2" />
+		<result property="pincode2" column ="pincode2"/>
+		<result property="phone1" column="phone1" />
+		<result property="phone2" column="phone2" />
+		<result property="fax" column="fax" />
+		<result property="landline1" column="landline1" />
+		<result property="landline2" column="landline2" />
+		<result property="email" column="email" />
+		<result property="gender" column="gender" />
+		<result property="pancard" column="pancard" />
+		<result property="memberCode" column="member_code" />
+		<result property="franchiseeId" column="franchisee_id" />
+		<result property="franchiseeName" column="franchisee_name" />
+		<result property="refMemberCode" column="ref_member_code" />
+		<result property="dob" column="dob" />
+		<result property="updatedBy" column="updated_by" />
+		<result property="createdBy" column="created_by" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedAt" column="updated_at" />
+		<result property="recordStatus" column="record_status" />
+		
+	</resultMap>
+	
+	
+	<select id="fetchMembersList"  resultMap="memberMap">
+		SELECT member_id, member_name, father_name, address1, state1, city1, 
+ 			pincode1, address2, state2, city2, pincode2, phone1, phone2, 
+	       fax, landline1, landline2, email, gender, pancard, member_code, 
+	       franchisee_id, franchisee_name, ref_member_code, dob, created_by, 
+	       updated_by, created_at, updated_at, record_status
+  		FROM members 
+  		Where record_status = 'A'	
+	</select>
+	
+	<select id="fetchMemberById"  resultMap="memberMap">
+		SELECT member_id, member_name, father_name, address1, state1, city1, 
+ 			pincode1, address2, state2, city2, pincode2, phone1, phone2, 
+	       fax, landline1, landline2, email, gender, pancard, member_code, 
+	       franchisee_id, franchisee_name, ref_member_code, dob, created_by, 
+	       updated_by, created_at, updated_at, record_status
+  		FROM members 
+  		Where record_status = 'A'	
+  		AND member_id=#{memberId}
+	</select>
+	
+	
+</mapper> 

@@ -14,7 +14,7 @@
 		<result property="createdBy" column="created_by" />
 		<result property="createdAt" column="created_at" />
 		<result property="updatedBy" column="updated_by" />
-		
+		<result property="lastBookingPostfix" column="last_booking_postfix" />
 		<result property="updatedAt" column="updated_at" />
 		<result property="recordStatus" column="record_status" />
 	</resultMap>
@@ -74,21 +74,23 @@
             INSERT INTO
                       project_plots
                       (
-           					 project_plot_id, project_id, plot_name, plot_size,  
+           					 project_plot_id, project_id, plot_name, plot_size,  status,
             				created_at, created_by,updated_by,updated_at, record_status
             		  )
 
                 VALUES
                 <foreach collection="projectPlotsList" item="projectPlotsModel" separator=","> 
                         (
-                        #{projectPlotsModel.projectPlotId}, #{projectPlotsModel.projectId}, #{projectPlotsModel.plotName}, #{projectPlotsModel.plotSize},
+                        #{projectPlotsModel.projectPlotId}, #{projectPlotsModel.projectId}, #{projectPlotsModel.plotName}, #{projectPlotsModel.plotSize},'1',
                         #{projectPlotsModel.createdAt}, #{projectPlotsModel.createdBy}, #{projectPlotsModel.updatedBy}, #{projectPlotsModel.updatedAt},#{projectPlotsModel.recordStatus}
                     )
                 </foreach>
 	
 	</insert>
 	
-	
+	<update id="updatePlotStatus" parameterType="String">
+		update project_plots set status='3' where project_plot_id=#{plotId};
+	</update>
 	<select id="getProjectDetailsById" parameterType="String"	resultMap="projectResultMap">
 		SELECT * FROM projects
 		WHERE project_id = #{projectId} AND record_status = 'A'
@@ -133,6 +135,11 @@
 	
 	<update id="deleteProjectById" parameterType="Map" >
 		UPDATE projects SET record_status = 'D', updated_at = #{updatedAt}, updated_by = #{updatedBy}
+		WHERE  project_id = #{projectId} AND record_status = 'A'
+	</update>
+	
+	<update id="updateLastBookingCode" parameterType="ProjectModel" >
+		UPDATE projects SET last_booking_postfix = #{lastBookingPostfix}
 		WHERE  project_id = #{projectId} AND record_status = 'A'
 	</update>
 
@@ -205,5 +212,35 @@
 			record_status = 'A'
 	</select>
 	
-	
+	<select id="fetchProjectPlots" parameterType="Map" resultMap="projectPlotListResultMap">
+	SELECT 
+			p.project_id, pp.project_plot_id, pp.plot_name, pp.plot_size
+	    FROM
+                projects p
+        INNER JOIN 
+        		project_plots pp
+        	ON p.project_id=pp.project_id
+        	WHERE
+        		p.record_status = 'A'
+        AND
+        	p.project_id=#{projectId}
+        </select>
+	<select id="fetchProjectAllPlotsList" parameterType="String" resultMap="projectPlotsResultMap">
+		SELECT 
+			p.project_id, pp.project_plot_id, pp.plot_name, pp.plot_size
+	    FROM
+                projects p
+        INNER JOIN 
+        		project_plots pp
+        	ON p.project_id=pp.project_id
+
+        	
+		WHERE
+        		p.record_status = 'A'
+        AND
+        	p.project_id=#{projectId}
+        	
+        AND pp.status='1' 
+        ORDER BY pp.plot_name ASC
+     </select>
 </mapper> 

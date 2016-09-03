@@ -6,18 +6,23 @@ public class BookingModel extends AbstractModel{
 	private String bookingCode;
 	private String projectId;
 	private String projectName;
-	private String plotId;
+	private String paymentSchemeId;
+ 	private String plotId;
 	private String plotName;
 	private String plotSize;
+	private long downPayment;
+	private long ratePerYard;
 	private String franchiseeId;
 	private String franchiseeName;
 	private String memberId;
 	private String memberName;
+	private String fatherName;
 	private String nomineeName;
 	private String nomineeFather;
 	private String nomineeAddress;
 	private String nomineeRelation;
 	private String nomineeDob;
+	private long nomineeDobLong;
 	private String remarks;
 	private long price;
 	private long paymentMadeTillNow;
@@ -25,10 +30,23 @@ public class BookingModel extends AbstractModel{
 	private long noOfEmi;
 	private long emiPrice;
 	private long nextEmiOn;
+	private long interestRate;
 	private String memberCode;
 	private String email;
 	private String phone2;
 	private String phone1;
+	private String paymentMethod;
+	private String paymentDate;
+	private String description;
+	private String chequeNo;
+	private String issueDate;
+	private String bank;
+	private String accountHolder;
+	
+	private int month;
+	private long bookingCount;
+	
+	
 	public String getBookingId() {
 		return bookingId;
 	}
@@ -190,6 +208,96 @@ public class BookingModel extends AbstractModel{
 	}
 	public void setPhone1(String phone1) {
 		this.phone1 = phone1;
+	}
+	public int getMonth() {
+		return month;
+	}
+	public void setMonth(int month) {
+		this.month = month;
+	}
+	public long getBookingCount() {
+		return bookingCount;
+	}
+	public void setBookingCount(long bookingCount) {
+		this.bookingCount = bookingCount;
+	}
+	public String getPaymentSchemeId() {
+		return paymentSchemeId;
+	}
+	public void setPaymentSchemeId(String paymentSchemeId) {
+		this.paymentSchemeId = paymentSchemeId;
+	}
+	public long getRatePerYard() {
+		return ratePerYard;
+	}
+	public void setRatePerYard(long ratePerYard) {
+		this.ratePerYard = ratePerYard;
+	}
+	public long getDownPayment() {
+		return downPayment;
+	}
+	public void setDownPayment(long downPayment) {
+		this.downPayment = downPayment;
+	}
+	public String getFatherName() {
+		return fatherName;
+	}
+	public void setFatherName(String fatherName) {
+		this.fatherName = fatherName;
+	}
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+	public String getPaymentDate() {
+		return paymentDate;
+	}
+	public void setPaymentDate(String paymentDate) {
+		this.paymentDate = paymentDate;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getChequeNo() {
+		return chequeNo;
+	}
+	public void setChequeNo(String chequeNo) {
+		this.chequeNo = chequeNo;
+	}
+	public String getIssueDate() {
+		return issueDate;
+	}
+	public void setIssueDate(String issueDate) {
+		this.issueDate = issueDate;
+	}
+	public String getBank() {
+		return bank;
+	}
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+	public String getAccountHolder() {
+		return accountHolder;
+	}
+	public void setAccountHolder(String accountHolder) {
+		this.accountHolder = accountHolder;
+	}
+	public long getNomineeDobLong() {
+		return nomineeDobLong;
+	}
+	public void setNomineeDobLong(long nomineeDobLong) {
+		this.nomineeDobLong = nomineeDobLong;
+	}
+	public long getInterestRate() {
+		return interestRate;
+	}
+	public void setInterestRate(long interestRate) {
+		this.interestRate = interestRate;
 	}
 	
 

@@ -36,7 +36,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Full Name *</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                         	<form:input path="fullName" class="form-control" placeholder="Enter Full Name" />
-                          	<form:errors path="fullName" style="color: #ff0000;" />
+                          	<form:errors path="fullName" class="errorMessage" />
                           	<p id="fullNameError" style="color:#ff0000;"></p>
                         </div>
                       </div>
@@ -44,7 +44,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Password *</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                         	<form:password path="password" class="form-control" placeholder="Enter Password" />
-                          	<form:errors path="password" style="color: #ff0000;" />
+                          	<form:errors path="password" class="errorMessage" />
                           	<p id="passwordError" style="color:#ff0000;"></p>
                         </div>
                       </div>
@@ -52,7 +52,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Confirm Password *</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                         	<form:password path="confirmPassword" class="form-control" placeholder="Enter Confirm Password" />
-                          	<form:errors path="confirmPassword" style="color: #ff0000;" />
+                          	<form:errors path="confirmPassword" class="errorMessage" />
                           	<p id="confirmPasswordError" style="color:#ff0000;"></p>
                         </div>
                       </div>
@@ -60,7 +60,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Email *</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                         	<form:input path="email" class="form-control" placeholder="Enter Email" />
-                          	<form:errors path="email" style="color: #ff0000;" />
+                          	<form:errors path="email" class="errorMessage" />
                           	<p id="emailError" style="color:#ff0000;"></p>
                         </div>
                       </div>
@@ -68,7 +68,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Date of Birth</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                         	<form:input path="birthDateForModel" class="form-control" id="birthDate" placeholder="dd/mm/yyyy" />
-                          	<form:errors path="birthDateForModel" style="color: #ff0000;" />
+                          	<form:errors path="birthDateForModel" class="errorMessage" />
                           	<p id="birthDateError" style="color:#ff0000;"></p>
                         </div>
                       </div>
@@ -82,7 +82,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Phone *</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                         	<form:input path="phone" class="form-control" placeholder="91XXXXXXXX" />
-                          	<form:errors path="phone" style="color: #ff0000;" />
+                          	<form:errors path="phone" class="errorMessage" />
                           	<p id="phoneError" style="color:#ff0000;"></p>
                         </div>
                       </div>

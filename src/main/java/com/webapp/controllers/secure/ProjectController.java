@@ -119,11 +119,12 @@ public class ProjectController extends BusinessController{
 				
 				projectPlotsModel=new ProjectPlotsModel();
 				Cell firstCol=row.getCell(0);
+				firstCol.setCellType(Cell.CELL_TYPE_STRING);
 				Cell secCol=row.getCell(1);
 
 				if(row.getRowNum()>0){
 //					Double plot = Double.parseDouble(firstCol.toString());
-					projectPlotsModel.setPlotName(String.valueOf(firstCol));
+					projectPlotsModel.setPlotName(String.valueOf(firstCol.getStringCellValue()));
 					Double d = Double.parseDouble(secCol.toString());
 					Long pSizze= d.longValue();
 //					long pSizze=Long.parseLong(secCol.toString());
@@ -168,10 +169,13 @@ public class ProjectController extends BusinessController{
 			String url ="/login.do";
 			return "redirect:" + url;
 		}
+		System.out.println("\n\t projectId=="+projectId);
 
 
 		ProjectModel projectModel = projectSerivce.getProjectDetailsById(projectId);
 
+		List<ProjectPlotsModel> projPlotsList=projectSerivce.fetchProjectPlots(projectId);
+		System.out.println("\n\t projPlotsList=="+projPlotsList.size());
 		ProjectDto projectModelDto=new ProjectDto();
 		projectModelDto.setProjectId(projectId);
 		projectModelDto.setTitle(projectModel.getTitle());
@@ -180,7 +184,8 @@ public class ProjectController extends BusinessController{
 		projectModelDto.setTotalPlots(projectModel.getTotalPlots());
 		projectModelDto.setCompletionDate(DateUtils.fetchDateStrFromMilisec(projectModel.getCompletionDate(), DateUtils.GMT, DateUtils.SiMPLE_DATE_FORMAT));
 		projectModelDto.setSuperBuildupPercentage(projectModel.getSuperBuildupPercentage());
-
+		
+		projectModelDto.setProjPlotsList(projPlotsList);
 		model.addAttribute("editProjectFrm", projectModelDto);
 		
 		model.addAttribute("title", projectModel.getTitle());
@@ -191,6 +196,7 @@ public class ProjectController extends BusinessController{
 		model.addAttribute("completionDate", projectModel.getCompletionDate());
 
 		model.addAttribute("superBuildupPercentage", projectModel.getSuperBuildupPercentage());
+		model.addAttribute("projPlotsList", projPlotsList);
 
 		
 		return "edit-project";
@@ -214,9 +220,36 @@ public class ProjectController extends BusinessController{
 		return pageRedirect("/projects.do");
 	}
 	
+	@RequestMapping(value = "/editplot/{projectId}", method = RequestMethod.GET)
+	public String editPlotForm(Model model, @PathVariable("projectId") String projectId, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
+		preprocessRequest(model, req, res);
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url ="/login.do";
+			return "redirect:" + url;
+		}
+		System.out.println("\n\t projectId=="+projectId);
+
+
+		ProjectModel projectModel = projectSerivce.getProjectDetailsById(projectId);
+
+		List<ProjectPlotsModel> projPlotsList=projectSerivce.fetchProjectPlots(projectId);
+		System.out.println("\n\t projPlotsList=="+projPlotsList.size());
+		ProjectDto projectModelDto=new ProjectDto();
+		projectModelDto.setProjectId(projectId);
+		
+		projectModelDto.setProjPlotsList(projPlotsList);
+		
+		model.addAttribute("projPlotsList", projPlotsList);
+
+		
+		return "project-plots";
+	}
+	
+	
 	@Override
 	protected String[] requiredJs() {
-		return new String[] {"js/vendor/jquery.validation.min.js", "js/vendor/addition-medthods-min.js", "js/viewjs/add-project.js","js/vendor/bootstrap-filestyle.min.js",
+		return new String[] {"js/vendor/jquery.validation.min.js", "js/vendor/addition-medthods-min.js","js/bootstrap/bootstrap-dialog.js", "js/viewjs/add-project.js","js/vendor/bootstrap-filestyle.min.js",
 				"js/vendor/dataTables.editor.min.js","dataTables.select.min.js"};
 	}
 

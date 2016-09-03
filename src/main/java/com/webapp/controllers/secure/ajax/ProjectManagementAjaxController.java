@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.webapp.controllers.BusinessApiController;
 import com.webapp.dbsession.DbSession;
 import com.webapp.models.DatatableModel;
+import com.webapp.models.ProjectPlotsModel;
 import com.webapp.services.ProjectSerivce;
 import com.webapp.services.SessionService;
 
@@ -101,6 +102,27 @@ public class ProjectManagementAjaxController extends BusinessApiController {
 
 	}
 
+	@RequestMapping(value = "/ajax/projectplot/list", method = RequestMethod.GET)
+	public @ResponseBody ModelAndView fetchPlotListt(@RequestParam("projectId") String projectId, HttpServletRequest req, HttpServletResponse res){
+
+		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
+
+		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
+
+		Map<String, Object> outputMap = new HashMap<String, Object>();
+		List<ProjectPlotsModel> plotsList= projectSerivce.fetchProjectPlots(projectId);
+		System.out.println("\n\t size ==>"+plotsList.size());
+		if (plotsList.isEmpty()) {
+
+			outputMap.put("error", "done");
+		} else {
+
+			outputMap.put("success", "done");
+		}
+		outputMap.put("list", plotsList);
+		return getOutputResponse(outputMap);
+
+	}
 
 
 

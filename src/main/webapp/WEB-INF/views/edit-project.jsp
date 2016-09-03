@@ -40,14 +40,16 @@
 						commandName="editProjectFrm" enctype="multipart/form-data">
 
 <form:hidden path="projectId" name="projectId" id="projectId"/>
+<form:hidden path="projPlotsList" name="projPlotsList" id="projPlotsList"/>
+
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">Project
 								Name</label>
 							<div class="col-md-3 col-sm-3 col-xs-12">
 								<form:input path="title" class="form-control"
 									placeholder="Enter Project Heading" />
-								<form:errors path="title" style="color: #ff0000;" />
-								<form:errors path="projectExists" style="color: #ff0000;" />
+								<form:errors path="title" class="errorMessage" />
+								<form:errors path="projectExists" class="errorMessage" />
 							</div>
 						</div>
 
@@ -57,7 +59,7 @@
 							<div class="col-md-3 col-sm-3 col-xs-12">
 								<form:input path="bookingPrefix" class="form-control"
 									placeholder="Enter Project Heading" />
-								<form:errors path="bookingPrefix" style="color: #ff0000;" />
+								<form:errors path="bookingPrefix" class="errorMessage" />
 							</div>
 						</div>
 
@@ -68,7 +70,7 @@
 							<div class="col-md-3 col-sm-3 col-xs-12">
 								<form:input path="totalPlots" class="form-control"
 									placeholder="Enter number of plots" />
-								<form:errors path="totalPlots" style="color: #ff0000;" />
+								<form:errors path="totalPlots" class="errorMessage" />
 							</div>
 						</div>
 
@@ -78,7 +80,7 @@
 							<div class="col-md-3 col-sm-3 col-xs-12">
 								<form:input path="projectOverview" class="form-control"
 									placeholder="Enter Overview" />
-								<form:errors path="projectOverview" style="color: #ff0000;" />
+								<form:errors path="projectOverview" class="errorMessage" />
 							</div>
 						</div>
 
@@ -90,7 +92,7 @@
 								<form:input path="superBuildupPercentage" class="form-control"
 									placeholder="Enter Build up percentage" />
 								<form:errors path="superBuildupPercentage"
-									style="color: #ff0000;" />
+									class="errorMessage" />
 							</div>
 						</div>
 						<div class="form-group">
@@ -124,6 +126,7 @@
 
 
 						<div class="clearfix"></div>
+				
 				</div>
 				<div class="x_content">
 					<table id="projectPlotsDatatable"

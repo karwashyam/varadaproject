@@ -23,5 +23,12 @@ public interface ProjectDao {
 			Map<String, Object> inputMap);
 	public Long fetchTotalProjectPlotsListCount();
 	public List<ProjectModel> fetchProjects();
+	public List<ProjectPlotsModel> fetchProjectPlots(String projectId);
+	
+	public List<ProjectPlotsModel> fetchProjectAllPlotsList(@Param("projectId") String projectId);
+	
+	public void updateLastBookingCode(ProjectModel projectModel);
+	
+	int updatePlotStatus(@Param("plotId") String plotId);
 
 }

@@ -10,7 +10,7 @@ public class ProjectModel extends AbstractModel{
 	private Integer superBuildupPercentage;
 	private Long completionDate;
 	private String projectExists;
-	
+	private Long lastBookingPostfix;
 	
 	
 	
@@ -61,6 +61,12 @@ public class ProjectModel extends AbstractModel{
 	}
 	public void setSuperBuildupPercentage(Integer superBuildupPercentage) {
 		this.superBuildupPercentage = superBuildupPercentage;
+	}
+	public Long getLastBookingPostfix() {
+		return lastBookingPostfix;
+	}
+	public void setLastBookingPostfix(Long lastBookingPostfix) {
+		this.lastBookingPostfix = lastBookingPostfix;
 	}
 	
 

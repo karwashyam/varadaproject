@@ -41,8 +41,8 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Payment Scheme Name</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           <form:input path="title" class="form-control" placeholder="Enter Payment scheme" />
-                          <form:errors path="title" style="color: #ff0000;" />
-<%--                           <form:errors path="projectExists" style="color: #ff0000;" /> --%>
+                          <form:errors path="title" class="errorMessage" />
+<%--                           <form:errors path="projectExists" class="errorMessage" /> --%>
                         </div>
                       </div>
                       
@@ -50,7 +50,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Down Payment</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           <form:input path="downPayment" class="form-control" placeholder="Enter down payment" />
-                          <form:errors path="downPayment" style="color: #ff0000;" />
+                          <form:errors path="downPayment" class="errorMessage" />
                         </div>
                       </div>
                       
@@ -59,7 +59,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">No. Of Months</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           <form:input path="noOfMonths" class="form-control" placeholder="Enter number of months" />
-                          <form:errors path="noOfMonths" style="color: #ff0000;" />
+                          <form:errors path="noOfMonths" class="errorMessage" />
                         </div>
                       </div>
                       
@@ -68,7 +68,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Rate Of Interest</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           <form:input path="interestRate" class="form-control" placeholder="Enter rate of interest" />
-                          <form:errors path="interestRate" style="color: #ff0000;" />
+                          <form:errors path="interestRate" class="errorMessage" />
                         </div>
                       </div>
 
@@ -79,7 +79,7 @@
                         <form:radiobutton path="prepaymentPossible" class="form-control"  value="yes"/>Yes
 						<form:radiobutton path="prepaymentPossible" class="form-control"  value="no"/>No
 <%--                           <form:input path="prepaymentPossible" class="form-control" placeholder="Enter pre payment " /> --%>
-                          <form:errors path="prepaymentPossible" style="color: #ff0000;" />
+                          <form:errors path="prepaymentPossible" class="errorMessage" />
                         </div>
                       </div>
 						
