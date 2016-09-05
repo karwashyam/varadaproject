@@ -30,5 +30,7 @@ public interface ProjectDao {
 	public void updateLastBookingCode(ProjectModel projectModel);
 	
 	int updatePlotStatus(@Param("plotId") String plotId);
+	
+	int updatePlotStatusToAvailable(@Param("plotId") String plotId);
 
 }

@@ -3,23 +3,58 @@
 
 <mapper namespace="com.webapp.daos.PaymentDao">
 
-	<resultMap id="projectResultMap" type="ProjectModel" >
+	<resultMap id="paymentMap" type="PaymentModel" >
+		<result property="paymentId" column="payment_id" />
+		<result property="memberId" column="member_id" />
+		<result property="franchiseeId" column="franchisee_id" />
+		<result property="franchiseeName" column="franchisee_name" />
+		<result property="memberName" column="member_name" />
+		<result property="bookingId" column="booking_id" />
 		<result property="projectId" column="project_id" />
-		<result property="title" column="title" />
-		<result property="bookingPrefix" column="booking_prefix" />
-		<result property="projectOverview" column="project_overview" />
-		<result property="totalPlots" column="total_plots" />
-		<result property="completionDate" column="completion_date" />
-		<result property="superBuildupPercentage" column="super_buildup_percentage" />
+		<result property="emiDate" column="emi_date" />
+		<result property="paymentMode" column="payment_mode" />
+		<result property="chequeDate" column="cheque_date" />
+		<result property="paymentAmount" column="payment_amount" />
+		<result property="chequeNumber" column="cheque_number" />
+		<result property="bank" column="bank" />
+		<result property="accountHolder" column="account_holder" />
+		<result property="transactionNumber" column="transaction_number" />
+		<result property="description" column="description" />
+		<result property="status" column="status" />
+		<result property="type" column="type" />
 		<result property="createdBy" column="created_by" />
 		<result property="createdAt" column="created_at" />
 		<result property="updatedBy" column="updated_by" />
-		<result property="lastBookingPostfix" column="last_booking_postfix" />
 		<result property="updatedAt" column="updated_at" />
 		<result property="recordStatus" column="record_status" />
+		<result property="srNo" column="srno" />
+		<result property="fullName" column="full_name" />
+		<result property="receiptNo" column="receipt_no" />
 	</resultMap>
 	
+	<select id="getPaymentDetailsByBookingId" resultMap="paymentMap">
+		SELECT row_number() over (ORDER BY p.created_at ASC) as srno,p.payment_id, p.member_id, p.franchisee_id, p.franchisee_name, p.member_name, 
+		       p.booking_id, p.project_id, p.emi_date, p.payment_mode, p.cheque_date, 
+		       p.payment_amount, p.cheque_number, p.bank, p.account_holder, p.transaction_number, 
+		       p.description, p.status, p.created_by, p.updated_by, p.created_at, p.updated_at, 
+		       p.record_status, p.type,e.full_name,p.receipt_no
+  		FROM payments p
+  		INNER JOIN users e ON e.user_id=p.created_by
+  		WHERE p.booking_id=#{bookingId}
+  		AND p.record_status='A' AND p.status IN ('1','2','4')	
+	</select>
 	
+	<select id="getPaymentDetailsById" resultMap="paymentMap">
+		SELECT p.payment_id, p.member_id, p.franchisee_id, p.franchisee_name, p.member_name, 
+		       p.booking_id, p.project_id, p.emi_date, p.payment_mode, p.cheque_date, 
+		       p.payment_amount, p.cheque_number, p.bank, p.account_holder, p.transaction_number, 
+		       p.description, p.status, p.created_by, p.updated_by, p.created_at, p.updated_at, 
+		       p.record_status, p.type,e.full_name,p.receipt_no
+  		FROM payments p
+  		INNER JOIN users e ON e.user_id=p.created_by
+  		WHERE p.payment_id=#{paymentId}
+  		AND p.record_status='A' AND p.type = 'C'	
+	</select>
 	
 	
 	
@@ -30,7 +65,7 @@
 	            booking_id, project_id, emi_date, payment_mode, cheque_date, 
 	            payment_amount, cheque_number, bank, account_holder, transaction_number, 
 	            description, status, created_by, updated_by, created_at, updated_at, 
-	            record_status, type)
+	            record_status, type,receipt_no)
    			 VALUES 
                 <foreach collection="list" item="model" separator=","> 
                    (
@@ -39,10 +74,20 @@
 			            #{model.paymentAmount}, #{model.chequeNumber}, #{model.bank}, #{model.accountHolder}, #{model.transactionNumber}, 
 			            #{model.description}, #{model.status},
                         #{model.createdBy}, #{model.updatedBy}, #{model.createdAt}, #{model.updatedAt},
-                        'A',#{model.type}
+                        'A',#{model.type},#{model.receiptNo}
                     )
                 </foreach>
 	
 	</insert>
+	
+	
+	<update id="disableFuturePayment" parameterType="PaymentModel">
+		update payments set record_status='D' where booking_id=#{bookingId} AND emi_date &gt; #{updatedAt}
+	</update>
+	
+	<select id="getLatestReceiptNo" resultType="Long">
+		select receipt_no from payments where receipt_no is not NULL AND record_status='A' AND type='C'
+		ORDER BY created_at DESC LIMIT 1
+	</select>
 	
 </mapper> 

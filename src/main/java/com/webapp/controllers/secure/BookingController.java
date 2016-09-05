@@ -3,6 +3,7 @@ package com.webapp.controllers.secure;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,14 +22,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.fnf.utils.DateUtils;
 import com.fnf.utils.JQTableUtils;
 import com.webapp.controllers.BusinessController;
 import com.webapp.controllers.DataTablesTO;
 import com.webapp.dbsession.DbSession;
 import com.webapp.models.BookingModel;
 import com.webapp.models.MemberModel;
+import com.webapp.models.PaymentModel;
+import com.webapp.models.PenaltyModel;
 import com.webapp.models.ProjectModel;
+import com.webapp.models.TransferModel;
 import com.webapp.services.BookingService;
 import com.webapp.services.MemberService;
 import com.webapp.services.ProjectSerivce;
@@ -57,7 +63,7 @@ public class BookingController extends BusinessController{
 	@Autowired
 	private BookingValidator bookingValidator;
 	
-	@InitBinder
+	@InitBinder("bookingModel")
 	private void initBinder(WebDataBinder binder) {
 		binder.setValidator(bookingValidator);
 	}
@@ -89,6 +95,31 @@ public class BookingController extends BusinessController{
 		List<MemberModel> memberModelList = memberService.fetchMembersList();
 		model.addAttribute("memberModelList",memberModelList);
 		return "add-booking";
+	}
+	
+	@RequestMapping(value = "/view/{bookingId}",method = RequestMethod.GET)
+	public String viewBooking(@PathVariable("bookingId")String bookingId,Model model, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		preprocessRequest(model, req, res);
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url = "/login";
+			return "redirect:" + url;
+		}
+		BookingModel bookingModel= bookingService.getBookingDetailsById(bookingId);
+		bookingModel.setNomineeDob(DateUtils.fetchDateStrFromMilisec(bookingModel.getNomineeDobLong(), "IST", "dd/MM/yyyy"));
+		bookingModel.setBookingDate(DateUtils.fetchDateStrFromMilisec(bookingModel.getCreatedAt(), "IST", "dd/MM/yyyy"));
+		bookingModel.setTodayDate(DateUtils.fetchDateStrFromMilisec(DateUtils.nowAsGmtMillisec(), "IST", "dd/MM/yyyy"));
+		model.addAttribute("bookingModel",bookingModel);
+		List<PaymentModel> paymentModelList= bookingService.getPaymentDetailsByBookingId(bookingId);
+		for (PaymentModel paymentModel : paymentModelList) {
+			paymentModel.setEmiDateString(DateUtils.fetchDateStrFromMilisec(paymentModel.getEmiDate(), "IST", "dd/MM/yyyy"));
+			if(paymentModel.getChequeDate()>0){
+				paymentModel.setChequeDateString(DateUtils.fetchDateStrFromMilisec(paymentModel.getChequeDate(), "IST", "dd/MM/yyyy"));
+			}
+		}
+		
+		model.addAttribute("paymentModelList",paymentModelList);
+		
+		return "view-booking";
 	}
 	
 	@RequestMapping(value = "/add",method = RequestMethod.POST)
@@ -127,8 +158,6 @@ public class BookingController extends BusinessController{
 		
 		JQTableUtils tableUtils = new JQTableUtils(req);
 		tableUtils.setSearchParams("%" + sSearch.trim() + "%");
-		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
-//		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
 		List<BookingModel> accts = bookingService.fetchBookingList(tableUtils);
 
 		long count =  bookingService.fetchTotalBookingList(tableUtils);
@@ -145,53 +174,153 @@ public class BookingController extends BusinessController{
 		return bookingService.fetchProjPaymentSchemeANDPlots(projectId);
 	}
 	
-//	@RequestMapping(value = "/edit-city/{cityId}", method = RequestMethod.GET)
-//	public String editState(Model model, @PathVariable("cityId") String cityId, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-//
-//		preprocessRequest(model, req, res);
-//
-//		
-//		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
-//			String url ="/login.do";
-//			return "redirect:" + url;
-//		}
-//
-//
-//		CityModel cityModel = cityService.fetchCityDetailsById(cityId);
-//		
-//		model.addAttribute("cityModel", cityModel);
-//		
-//		model.addAttribute("stateId", cityModel.getStateId());
-//		List<State> stateList = stateService.fetchAllStateList();
-//		model.addAttribute("stateModel", stateList);
-//		return "/edit-city";
-//	}
-//	
-//	@RequestMapping(value = "/edit-city", method = RequestMethod.POST)
-//	public String editStatePost(Model model, @Validated CityModel cityModel, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-//
-//		preprocessRequest(model, req, res);
-//		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
-//		if (!dbSession.isValidLogin(getDbSession(), sessionService)) {
-//			String url ="/login.do";
-//			return "redirect:" + url;
-//		}
-//		if (result.hasErrors()) {
-//			model.addAttribute("cityModel",cityModel);
-//			model.addAttribute("stateId", cityModel.getStateId());
-//			List<State> stateList = stateService.fetchAllStateList();
-//			model.addAttribute("stateModel", stateList);
-//			return "edit-city";
-//		}
-//		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
-//		cityService.editCity(cityModel,userId);
-//
-//		return pageRedirect("/city");
-//	}
+	@RequestMapping(value = "/allotment-letter/{bookingId}",method = RequestMethod.GET)
+	public String printAllotmentLetter(@PathVariable("bookingId") String bookingId,Model model, HttpServletRequest req, HttpServletResponse res) 
+	throws ServletException, IOException {
+		preprocessRequest(model, req, res);
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url = "/login";
+			return "redirect:" + url;
+		}
+		bookingService.changeAllotmentLetterGiven(bookingId);
+		BookingModel bookingModel= bookingService.getBookingDetailsById(bookingId);
+		bookingModel.setNomineeDob(DateUtils.fetchDateStrFromMilisec(bookingModel.getNomineeDobLong(), "IST", "dd/MM/yyyy"));
+		bookingModel.setBookingDate(DateUtils.fetchDateStrFromMilisec(bookingModel.getCreatedAt(), "IST", "dd/MM/yyyy"));
+		bookingModel.setTodayDate(DateUtils.fetchDateStrFromMilisec(DateUtils.nowAsGmtMillisec(), "IST", "dd/MM/yyyy"));
+		model.addAttribute("bookingModel",bookingModel);
+		return "allotment-letter";
+	}
+	
+	@RequestMapping(value = "/add-payment/{bookingId}",method = RequestMethod.GET)
+	public String addPayment(@PathVariable("bookingId") String bookingId,Model model, HttpServletRequest req, HttpServletResponse res) 
+	throws ServletException, IOException {
+		preprocessRequest(model, req, res);
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url = "/login";
+			return "redirect:" + url;
+		}
+		BookingModel bookingModel= bookingService.getBookingDetailsById(bookingId);
+		bookingModel.setNomineeDob(DateUtils.fetchDateStrFromMilisec(bookingModel.getNomineeDobLong(), "IST", "dd/MM/yyyy"));
+		bookingModel.setBookingDate(DateUtils.fetchDateStrFromMilisec(bookingModel.getCreatedAt(), "IST", "dd/MM/yyyy"));
+		bookingModel.setTodayDate(DateUtils.fetchDateStrFromMilisec(DateUtils.nowAsGmtMillisec(), "IST", "dd/MM/yyyy"));
+		model.addAttribute("bookingModel",bookingModel);
+		List<PaymentModel> paymentModelList= bookingService.getPaymentDetailsByBookingId(bookingId);
+		for (PaymentModel paymentModel : paymentModelList) {
+			paymentModel.setEmiDateString(DateUtils.fetchDateStrFromMilisec(paymentModel.getEmiDate(), "IST", "dd/MM/yyyy"));
+			if(paymentModel.getChequeDate()>0){
+				paymentModel.setChequeDateString(DateUtils.fetchDateStrFromMilisec(paymentModel.getChequeDate(), "IST", "dd/MM/yyyy"));
+			}
+		}
+		
+		model.addAttribute("paymentModelList",paymentModelList);
+		PenaltyModel penaltyModel=new PenaltyModel();
+		penaltyModel.setBookingId(bookingModel.getBookingId());
+		model.addAttribute("penaltyModel",penaltyModel);
+		return "add-payment";
+	}
+	
+	@RequestMapping(value = "/cancel-booking/{bookingId}",method = RequestMethod.DELETE)
+	public @ResponseBody ModelAndView cancelBooking(@PathVariable("bookingId") String bookingId,Model model, HttpServletRequest req, HttpServletResponse res) 
+	throws ServletException, IOException {
+		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
+		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
+		int status = bookingService.cancelBooking(bookingId,userId);
+		Map<String, Object> outputFinalMap= new HashMap<String,Object>();
+		if (status ==0) {
+
+			outputFinalMap.put("error", "done");
+		} else {
+
+			outputFinalMap.put("success", "done");
+		}
+
+		return getOutputResponse(outputFinalMap );
+	}
+	
+	@RequestMapping(value = "/transfer-booking/{bookingId}/{memberId}",method = RequestMethod.GET)
+	public @ResponseBody ModelAndView transferBookingCheck(@PathVariable("bookingId") String bookingId,@PathVariable("memberId") String memberId,Model model, HttpServletRequest req, HttpServletResponse res) 
+	throws ServletException, IOException {
+		boolean status = bookingService.transferBookingCheck(bookingId,memberId);
+		Map<String, Object> outputFinalMap= new HashMap<String,Object>();
+		if (!status) {
+
+			outputFinalMap.put("error", "done");
+		} else {
+
+			outputFinalMap.put("success", "done");
+		}
+
+		return getOutputResponse(outputFinalMap );
+	}
+	
+	@RequestMapping(value = "/transfer/{bookingId}/{memberId}",method = RequestMethod.GET)
+	public String transferBooking(@PathVariable("bookingId") String bookingId,@PathVariable("memberId") String memberId,Model model, HttpServletRequest req, HttpServletResponse res) 
+	throws ServletException, IOException {
+		preprocessRequest(model, req, res);
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url = "/login";
+			return "redirect:" + url;
+		}
+		List<Map<String,Object>> bookingIds = bookingService.transferBookingIds(bookingId,memberId);
+		TransferModel transferModel = new TransferModel();
+		transferModel.setMemberBookingId(bookingId);
+		transferModel.setMemberId(memberId);
+		model.addAttribute("bookingIdList",bookingIds);
+		model.addAttribute("transferModel",transferModel);
+		BookingModel bookingModel= bookingService.getBookingDetailsById(bookingId);
+		bookingModel.setNomineeDob(DateUtils.fetchDateStrFromMilisec(bookingModel.getNomineeDobLong(), "IST", "dd/MM/yyyy"));
+		bookingModel.setBookingDate(DateUtils.fetchDateStrFromMilisec(bookingModel.getCreatedAt(), "IST", "dd/MM/yyyy"));
+		bookingModel.setTodayDate(DateUtils.fetchDateStrFromMilisec(DateUtils.nowAsGmtMillisec(), "IST", "dd/MM/yyyy"));
+		model.addAttribute("bookingModel",bookingModel);
+		return "transfer-booking";
+	}
+	
+	@RequestMapping(value = "/transfer",method = RequestMethod.POST)
+	public String transferBookingPost(Model model, TransferModel transferModel,BindingResult result,
+			 HttpServletRequest req,HttpServletResponse res) throws ServletException, IOException { 
+		preprocessRequest(model, req, res);
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url = "/login";
+			return "redirect:" + url;
+		}
+		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
+		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
+		bookingService.transferBookingPost(transferModel,userId);
+		return "redirect:/booking/view/"+transferModel.getMemberBookingId();
+	}
+	
+	@RequestMapping(value = "/add-payment",method = RequestMethod.POST)
+	public String addPayment(Model model, BookingModel bookingModel,BindingResult result,
+			 HttpServletRequest req,HttpServletResponse res) throws ServletException, IOException { 
+		preprocessRequest(model, req, res);
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url = "/login";
+			return "redirect:" + url;
+		}
+		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
+		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
+		bookingService.addPayment(bookingModel,userId);
+		return "redirect:/booking/view/"+bookingModel.getBookingId();
+	}
+	
+	@RequestMapping(value = "/add-penalty",method = RequestMethod.POST)
+	public String addPenalty(Model model, PenaltyModel penaltyModel,BindingResult result,
+			 HttpServletRequest req,HttpServletResponse res) throws ServletException, IOException { 
+		preprocessRequest(model, req, res);
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url = "/login";
+			return "redirect:" + url;
+		}
+		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
+		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
+		bookingService.addPenalty(penaltyModel,userId);
+		return "redirect:/booking/view/"+penaltyModel.getBookingId();
+	}
+	
 	
 	@Override
 	protected String[] requiredJs() {
-		return new String[] { "js/viewjs/booking.js" };
+		return new String[] { "js/bootstrap/bootstrap-dialog.js","js/viewjs/booking.js" };
 	}
 
 	

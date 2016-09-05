@@ -17,4 +17,19 @@ public interface BookingDao {
 	int addBooking(BookingModel bookingModel);
 	List<BookingModel> fetchBookingListByCurrentYear(Map<String, Object> inputMap);
 
+	BookingModel getBookingDetailsById(@Param("bookingId") String bookingId);
+
+	void changePaidPayment(@Param("bookingId") String bookingId,@Param("paidAmount") long paidAmount,
+			@Param("addRemainingBalance") long addRemainingBalance);
+
+	void changeAllotmentLetterGiven(@Param("bookingId") String bookingId);
+
+	void cancelBooking(BookingModel bookingModel);
+
+	void changePaidPaymentForCancelledBooking(@Param("bookingId") String bookingId);
+
+	boolean transferBookingCheck(@Param("bookingId") String bookingId, @Param("memberId") String memberId);
+
+	List<Map<String, Object>> transferBookingIds(@Param("bookingId") String bookingId, @Param("memberId") String memberId);
+
 }
