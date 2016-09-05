@@ -30,5 +30,8 @@ public interface ProjectDao {
 	public void updateLastBookingCode(ProjectModel projectModel);
 	
 	int updatePlotStatus(@Param("plotId") String plotId);
+	public List<Map<String, Object>> fetchUnBookedPlotsBYdate(
+			Map<String, Object> inputMap);
+	public long fetchTotalUnBookedPlotsBYdate(Map<String, Object> inputMap);
 
 }

@@ -243,4 +243,62 @@
         AND pp.status='1' 
         ORDER BY pp.plot_name ASC
      </select>
+     
+     
+     
+	<select id="fetchUnBookedPlotsBYdate" parameterType="Map" resultMap="projectPlotListResultMap">
+		SELECT 
+			p.project_id, pp.project_plot_id, p.title, pp.plot_name, pp.plot_size
+	    FROM
+                projects p
+        INNER JOIN 
+        		project_plots pp
+        	ON p.project_id=pp.project_id
+		WHERE
+        		p.record_status = 'A'
+       
+        AND
+        	 pp.project_plot_id NOT IN
+        	 	<foreach item="plotId" index="index" collection="plotIdList" open="(" separator="," close=")">
+      					#{plotId}
+   				</foreach>
+        	
+       <if test="sSearch!='%%'">
+       	AND pp.plot_name iLIKE #{sSearch}
+       </if>  		
+        
+       <choose>
+		    <when test="columnName != ''">
+		      ORDER BY ${columnName}  ${sSortDir}
+		    </when>
+		    <otherwise>
+		      ORDER BY p.created_at DESC
+		    </otherwise>
+  		</choose>
+        LIMIT ${iDisplayLength}  OFFSET  ${iDisplayStart}
+	</select>
+	
+	
+	<select id="fetchTotalUnBookedPlotsBYdate" parameterType="Map" resultType="Long">
+		SELECT 
+			count(p.project_id)
+	    FROM
+                projects p
+        INNER JOIN 
+        		project_plots pp
+        	ON p.project_id=pp.project_id
+		WHERE
+        		p.record_status = 'A'
+       
+        AND
+        	 pp.project_plot_id NOT IN
+        	 	<foreach item="plotId" index="index" collection="plotIdList" open="(" separator="," close=")">
+      					#{plotId}
+   				</foreach>
+        	
+       <if test="sSearch!='%%'">
+       	AND pp.plot_name iLIKE #{sSearch}
+       </if>  		
+	</select>
+	
 </mapper> 

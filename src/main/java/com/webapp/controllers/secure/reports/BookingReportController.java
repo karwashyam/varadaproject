@@ -48,6 +48,17 @@ public class BookingReportController extends BusinessController{
 	}
 	
 	
+	@RequestMapping(value="/bookingdata", method = RequestMethod.GET)
+	public String bookingReport(Model model, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		preprocessRequest(model, req, res);
+		System.out.println("\n\t\t bookingdata------------");
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url = "/login.do";
+			return "redirect:" + url;
+		}
+		return "booking-category-report";
+	}
+	
 
 	@Override
 	protected String[] requiredJs() {
@@ -56,6 +67,7 @@ public class BookingReportController extends BusinessController{
 				"js/chartjs/Chart.min.js",
 				"js/vendor/addition-medthods-min.js", 
 				"js/viewjs/booking-report.js",
+				"js/viewjs/booking-category-report.js", 
 				"js/vendor/bootstrap-filestyle.min.js"};
 	}
 

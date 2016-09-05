@@ -4,7 +4,7 @@
 <head>
 <%@ page session="false"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Projects</title>
+<title>Payment Scheme</title>
 <script type="text/javascript">
 	var basePath = '${pageContext.request.contextPath}';
 </script> 
@@ -22,7 +22,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Projects</h2>
+                    <h2>Payment Scheme</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
