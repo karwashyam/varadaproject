@@ -161,4 +161,42 @@ public class ProjectSerivce {
 	}
 
 
+
+	public List<Map<String, Object>> fetchUnBookedPlotsBYdate(
+			int iDisplayLength, int iDisplayStart, int serialNo,
+			String sSortDir, String columnName, String sSearch,
+			Map<String, Object> inputMap) {
+		inputMap.put("sSortDir", sSortDir);
+		inputMap.put("columnName", columnName);
+		inputMap.put("sSearch", sSearch);
+		inputMap.put("iDisplayStart", iDisplayStart);
+		inputMap.put("iDisplayLength", iDisplayLength);
+
+
+		List<Map<String, Object> > resultList = projectDao.fetchUnBookedPlotsBYdate(inputMap);
+		for (Map<String, Object> map : resultList) {
+			map.put("srNo", serialNo++);
+		}
+
+
+		return resultList;
+	}
+
+
+
+	public long fetchTotalUnBookedPlotsBYdate(int iDisplayLength,
+			int iDisplayStart, int serialNo, String sSortDir,
+			String columnName, String sSearch, Map<String, Object> inputMap) {
+		
+		inputMap.put("sSortDir", sSortDir);
+		inputMap.put("columnName", columnName);
+		inputMap.put("sSearch", sSearch);
+		inputMap.put("iDisplayStart", iDisplayStart);
+		inputMap.put("iDisplayLength", iDisplayLength);
+
+
+		return	projectDao.fetchTotalUnBookedPlotsBYdate(inputMap);
+	}
+
+
 }

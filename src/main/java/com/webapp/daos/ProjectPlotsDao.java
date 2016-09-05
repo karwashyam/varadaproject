@@ -10,4 +10,5 @@ public interface ProjectPlotsDao {
 
 	int addProjectPlots(@Param("projectPlotsList") List<ProjectPlotsModel> projPlotsModels);
 	
+	
 }

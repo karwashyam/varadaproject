@@ -58,6 +58,17 @@ public class BookingService {
 		return bookingDao.fetchTotalBookingList(tableUtils);
 	}
 
+	public long fetchTotalBookingListByDate(int iDisplayLength, int iDisplayStart, int serialNo, String sSortDir, String columnName, String sSearch, Map<String, Object> inputMap) {
+	
+		inputMap.put("sSortDir", sSortDir);
+		inputMap.put("columnName", columnName);
+		inputMap.put("sSearch", sSearch);
+		inputMap.put("iDisplayStart", iDisplayStart);
+		inputMap.put("iDisplayLength", iDisplayLength);
+
+		return bookingDao.fetchTotalBookingListByDate(inputMap);
+
+	}
 
 	public List<BookingModel> fetchBookingListByCurrentYear(
 			Map<String, Object> newRequestMap) {
@@ -404,6 +415,30 @@ public class BookingService {
 		paymentModelList.add(paymentModel);
 		paymentDao.addPayments(paymentModelList);
 		
+	public List<Map<String, Object>> fetchBookingListByDate(
+			int iDisplayLength, int iDisplayStart, int serialNo, String sSortDir, String columnName, String sSearch, Map<String, Object> inputMap) {
+//		return bookingDao.fetchBookingListByDate(inputMap);
+//		Map<String, Object> inputMap2 = new HashMap<>();
+		inputMap.put("sSortDir", sSortDir);
+		inputMap.put("columnName", columnName);
+		inputMap.put("sSearch", sSearch);
+		inputMap.put("iDisplayStart", iDisplayStart);
+		inputMap.put("iDisplayLength", iDisplayLength);
+
+
+		List<Map<String, Object> > resultList = bookingDao.fetchBookingListByDate(inputMap);
+		for (Map<String, Object> map : resultList) {
+			map.put("srNo", serialNo++);
+		}
+
+
+		return resultList;
+
+	}
+
+
+	public List<String> fethBookedPlotsIdListOfProjects() {
+		return bookingDao.fethBookedPlotsIdListOfProjects();
 	}
 
 

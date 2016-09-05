@@ -31,5 +31,10 @@ public interface BookingDao {
 	boolean transferBookingCheck(@Param("bookingId") String bookingId, @Param("memberId") String memberId);
 
 	List<Map<String, Object>> transferBookingIds(@Param("bookingId") String bookingId, @Param("memberId") String memberId);
+	List<Map<String, Object>> fetchBookingListByDate(Map<String, Object> inputMap);
+	public List<String> fethBookedPlotsIdListOfProjects();
+	long fetchTotalBookingListByDate(Map<String, Object> inputMap);
+
+	
 
 }

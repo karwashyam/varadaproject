@@ -44,7 +44,7 @@
                     
                     <div id="line_top_x"></div>
                   </div>
-   <div id="graphDiv" class="col-lg-10">
+  				 <div id="graphDiv" class="col-lg-10">
                     		<div class="box box-info">
                                        
                                         <div class="box-body">
