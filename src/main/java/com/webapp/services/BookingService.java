@@ -414,6 +414,7 @@ public class BookingService {
 		paymentModel.setFranchiseeName(bookingModel.getFranchiseeName());
 		paymentModelList.add(paymentModel);
 		paymentDao.addPayments(paymentModelList);
+		}
 		
 	public List<Map<String, Object>> fetchBookingListByDate(
 			int iDisplayLength, int iDisplayStart, int serialNo, String sSortDir, String columnName, String sSearch, Map<String, Object> inputMap) {
