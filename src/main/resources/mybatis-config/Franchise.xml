@@ -186,4 +186,10 @@
 			WHERE franchisee_id=#{franchiseeId}
 	</update>
 	
+	<select id="fetchAllFranchiseList" resultMap="FranchiseMap">
+		SELECT f.franchisee_id,f.franchisee_name
+  		FROM franchisee f
+  		WHERE f.record_status='A'
+	</select>
+	
 </mapper> 

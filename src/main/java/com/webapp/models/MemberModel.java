@@ -2,6 +2,7 @@ package com.webapp.models;
 
 public class MemberModel extends AbstractModel{
 
+	private long srNo;
 	private String memberId;
 	private String memberName;
 	private String fatherName;
@@ -26,6 +27,14 @@ public class MemberModel extends AbstractModel{
 	private String franchiseeName;
 	private String refMemberCode;
 	private String dob;
+	private long dobForDb;
+	private String action;
+	public long getSrNo() {
+		return srNo;
+	}
+	public void setSrNo(long srNo) {
+		this.srNo = srNo;
+	}
 	public String getMemberId() {
 		return memberId;
 	}
@@ -169,5 +178,17 @@ public class MemberModel extends AbstractModel{
 	}
 	public void setDob(String dob) {
 		this.dob = dob;
+	}
+	public long getDobForDb() {
+		return dobForDb;
+	}
+	public void setDobForDb(long dobForDb) {
+		this.dobForDb = dobForDb;
+	}
+	public String getAction() {
+		return action;
+	}
+	public void setAction(String action) {
+		this.action = action;
 	}
 }

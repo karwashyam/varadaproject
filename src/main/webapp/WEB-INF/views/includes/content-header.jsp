@@ -51,7 +51,7 @@
                   <li><a><i class="fa fa-users"></i> Member <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="${pageContext.request.contextPath}/member">List Member</a></li>
-                      <li><a href="${pageContext.request.contextPath}/add-member">Add Member</a></li>
+                      <li><a href="${pageContext.request.contextPath}/member/add">Add Member</a></li>
                     </ul>
                   </li>
                    <li><a><i class="fa fa-edit"></i> Booking <span class="fa fa-chevron-down"></span></a>

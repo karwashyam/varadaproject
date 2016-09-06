@@ -28,5 +28,7 @@ public interface FranchiseDao {
 	FranchiseModel fetchFranchiseDetail(String franchiseeId);
 
 	int changeFranchiseStatus(FranchiseModel franchiseModel);
+
+	List<FranchiseDto> fetchAllFranchiseList();
 	
 }

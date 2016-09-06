@@ -28,6 +28,7 @@
 		<result property="franchiseeName" column="franchisee_name" />
 		<result property="refMemberCode" column="ref_member_code" />
 		<result property="dob" column="dob" />
+		<result property="dobForDb" column="dob" />
 		<result property="updatedBy" column="updated_by" />
 		<result property="createdBy" column="created_by" />
 		<result property="createdAt" column="created_at" />
@@ -58,5 +59,137 @@
   		AND member_id=#{memberId}
 	</select>
 	
+	<select id="fetchAllMemberList" parameterType="JQTableUtils" resultMap="memberMap">
+		SELECT m.member_id, m.member_name, m.phone1, m.email, m.franchisee_name, m.ref_member_code, m.record_status
+  		FROM members m
+  		WHERE 1=1
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+			m.member_name ilike #{JQTableUtils.searchParams}
+			OR
+			m.phone1 ilike #{JQTableUtils.searchParams}
+			OR
+			m.email ilike #{JQTableUtils.searchParams}
+			OR
+			m.franchisee_name ilike #{JQTableUtils.searchParams}
+			OR
+			m.ref_member_code ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+		ORDER BY
+		<choose>
+			<when test="JQTableUtils.sortColumn == 2">
+				m.member_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 3">
+				m.email
+			</when>
+			<when test="JQTableUtils.sortColumn == 4">
+				m.phone1
+			</when>
+			<when test="JQTableUtils.sortColumn == 5">
+				m.franchisee_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 6">
+				m.ref_member_code
+			</when>
+			<otherwise>
+				m.member_name
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="JQTableUtils.sortingDirection == 'desc'">
+				DESC
+			</when>
+			<otherwise>
+				ASC
+			</otherwise>
+		</choose> 
+		<if test="JQTableUtils.iDisplayLength!=-1">
+			LIMIT #{JQTableUtils.iDisplayLength}
+			OFFSET #{JQTableUtils.iDisplayStart}
+		</if>
+		
+	</select>
 	
+	<select id="fetchTotalMemberCountList" parameterType="JQTableUtils" resultType="Long">
+		SELECT count(m.member_id)
+  		FROM members m
+  		WHERE 1=1
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+			m.member_name ilike #{JQTableUtils.searchParams}
+			OR
+			m.phone1 ilike #{JQTableUtils.searchParams}
+			OR
+			m.email ilike #{JQTableUtils.searchParams}
+			OR
+			m.franchisee_name ilike #{JQTableUtils.searchParams}
+			OR
+			m.ref_member_code ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+		
+	</select>
+	
+	<select id="fetchMemberByEmail" parameterType="MemberModel" resultType="boolean">
+	SELECT count(member_id)>0
+				FROM members	
+				WHERE (email = #{email}) AND (member_id!= #{memberId})
+	</select>
+	
+	<select id="fetchMemberByPhone" parameterType="MemberModel" resultType="boolean">
+	SELECT count(member_id)>0
+				FROM members	
+				WHERE (phone1 = #{phone1}) AND (member_id!= #{memberId})
+	</select>
+	
+	<select id="fetchMemberByPan" parameterType="MemberModel" resultType="boolean">
+	SELECT count(member_id)>0
+				FROM members	
+				WHERE (pancard = #{pancard}) AND (member_id!= #{memberId})
+	</select>
+	
+	<update id="changeMemberStatus" parameterType="MemberModel">
+		UPDATE members
+			SET record_status=(SELECT CASE WHEN record_status = 'A' THEN 'D' ELSE 'A' end as record_status from members where member_id=#{memberId} ), updated_by=#{updatedBy}, updated_at=#{updatedAt}
+			WHERE member_id=#{memberId}
+	</update>
+	
+	<insert id="postAddMember" parameterType="MemberModel">
+	INSERT INTO members(
+            member_id, member_name, father_name, address1, state1, city1, 
+            pincode1, address2, state2, city2, pincode2, phone1, phone2, 
+            fax, landline1, landline2, email, gender, pancard, member_code, 
+            franchisee_id, franchisee_name, ref_member_code, dob, created_by, 
+            updated_by, created_at, updated_at, record_status)
+    VALUES (#{memberId}, #{memberName}, #{fatherName}, #{address1}, #{state1}, #{city1}, 
+            #{pincode1}, #{address2}, #{state2}, #{city2}, #{pincode2}, #{phone1}, #{phone2}, 
+            #{fax}, #{landline1}, #{landline2}, #{email}, #{gender}, #{pancard}, #{memberCode}, 
+            #{franchiseeId}, #{franchiseeName}, #{refMemberCode}, #{dobForDb}, #{createdBy}, 
+            #{updatedBy}, #{createdAt}, #{updatedAt}, #{recordStatus});
+	</insert>
+	
+	<select id="fetchMemberDetail" parameterType="String" resultMap="memberMap">
+		SELECT member_id, member_name, father_name, address1, state1, city1, 
+       			pincode1, address2, state2, city2, pincode2, phone1, phone2, 
+       			fax, landline1, landline2, email, gender, pancard, member_code, 
+       			franchisee_id, franchisee_name, ref_member_code, dob, created_by, 
+       			updated_by, created_at, updated_at, record_status
+  			FROM members
+  			WHERE member_id=#{memberId};
+	</select>
+	
+	<update id="editMember" parameterType="MemberModel">
+		UPDATE members
+   			SET member_id=#{memberId}, member_name=#{memberName}, father_name=#{fatherName}, address1=#{address1}, state1=#{state1}, 
+       			city1=#{city1}, pincode1=#{pincode1}, address2=#{address2}, state2=#{state2}, city2=#{city2}, pincode2=#{pincode2}, 
+       			phone1=#{phone1}, phone2=#{phone2}, fax=#{fax}, landline1=#{landline1}, landline2=#{landline2}, email=#{email}, 
+       			gender=#{gender}, pancard=#{pancard}, franchisee_id=#{franchiseeId}, franchisee_name=#{franchiseeName}, 
+       			dob=#{dobForDb},  updated_by=#{updatedBy},  
+       			updated_at=#{updatedAt}
+ 			WHERE member_id=#{memberId};
+	</update>
 </mapper> 
