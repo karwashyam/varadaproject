@@ -10,8 +10,6 @@ import com.fnf.utils.JQTableUtils;
 import com.fnf.utils.UUIDGenerator;
 import com.utils.constant.ProjectConstant;
 import com.webapp.daos.MemberDao;
-import com.webapp.dto.FranchiseDto;
-import com.webapp.models.FranchiseModel;
 import com.webapp.models.MemberModel;
 
 @Service("memberService")

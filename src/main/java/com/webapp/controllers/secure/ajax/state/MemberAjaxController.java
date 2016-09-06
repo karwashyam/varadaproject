@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.webapp.controllers.BusinessApiController;
 import com.webapp.dbsession.DbSession;
-import com.webapp.models.FranchiseModel;
 import com.webapp.models.MemberModel;
 import com.webapp.services.MemberService;
 import com.webapp.services.SessionService;

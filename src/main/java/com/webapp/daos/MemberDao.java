@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.fnf.utils.JQTableUtils;
-import com.webapp.models.FranchiseModel;
 import com.webapp.models.MemberModel;
 
 public interface MemberDao {
