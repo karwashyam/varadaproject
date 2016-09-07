@@ -10,46 +10,59 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.webapp.models.FranchiseModel;
+import com.webapp.models.MemberModel;
 import com.webapp.services.FranchiseService;
+import com.webapp.services.MemberService;
 
 @Component
-public class FranchiseValidator implements Validator {
+public class MemberValidator implements Validator {
 
 	private Pattern pattern;
 	private Matcher matcher;
 	private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	private String STRING_PATTERN = "[a-zA-Z ]+";
 	private String MOBILE_PATTERN = "[0-9]{10}";
-	private String PAN_PATTERN = "[A-Z]{5}[0-9]{4}[A-Z]{1}";
 	private String LANDLINE_PATTERN = "\\d{3}[\\s]\\d{3}[\\s]\\d{4}";
 	private String PINCODE_PATTERN ="[1-9][0-9]{5}";
+	private String PAN_PATTERN = "[A-Z]{5}[0-9]{4}[A-Z]{1}";
+
+	@Autowired
+	private MemberService memberService;
 
 	@Autowired
 	private FranchiseService franchiseService;
-
+	
 	public boolean supports(Class<?> clazz) {
-		return FranchiseModel.class.isAssignableFrom(clazz);
+		return MemberModel.class.isAssignableFrom(clazz);
 	}
 
 	public void validate(Object obj, Errors errors) {
-		FranchiseModel model= (FranchiseModel)obj;
+		MemberModel model= (MemberModel)obj;
 		model = trimAllStringValues(model);
-		if(model.getFranchiseeId()==null)
-			model.setFranchiseeId("");
+		if(model.getMemberId()==null)
+			model.setMemberId("");
 		
-		if(model.getFranchiseeName()!= null && !"".equalsIgnoreCase(model.getFranchiseeName()))
+		if(model.getMemberName()!= null && !"".equalsIgnoreCase(model.getMemberName()))
 		{
 			pattern = Pattern.compile(STRING_PATTERN);
-			matcher = pattern.matcher(model.getFranchiseeName());
+			matcher = pattern.matcher(model.getMemberName());
 			if (!matcher.matches()) 
 			{
-				errors.rejectValue("franchiseeName", "franchiseeName.containNonChar","Enter a valid Franchise Name");
+				errors.rejectValue("memberName", "memberName.containNonChar","Enter a valid Member Name");
 			}
 		}
 		else
 		{
-			errors.rejectValue("franchiseeName", "required.franchiseeName","Franchise Name is Required");
+			errors.rejectValue("memberName", "required.memberName","Member Name is Required");
+		}
+		if(model.getFatherName()!= null && !"".equalsIgnoreCase(model.getFatherName()))
+		{
+			pattern = Pattern.compile(STRING_PATTERN);
+			matcher = pattern.matcher(model.getFatherName());
+			if (!matcher.matches()) 
+			{
+				errors.rejectValue("fatherName", "fatherName.containNonChar","Enter a valid Father's Name");
+			}
 		}
 		if(model.getEmail()!= null && !"".equalsIgnoreCase(model.getEmail()))
 		{
@@ -61,7 +74,7 @@ public class FranchiseValidator implements Validator {
 			}
 			else
 			{
-				if(franchiseService.fetchFranByEmail(model)){
+				if(memberService.fetchMemberByEmail(model)){
 					errors.rejectValue("email", "email.incorrect","Email is already Exist");
 				}
 			}
@@ -80,7 +93,7 @@ public class FranchiseValidator implements Validator {
 				errors.rejectValue("phone1", "phone1.incorrect","Enter a correct phone number");
 			}else
 			{
-				if(franchiseService.fetchFranByPhone(model)){
+				if(memberService.fetchMemberByPhone(model)){
 					errors.rejectValue("phone1", "phone1.incorrect","Phone number already Exist");
 				}
 			}
@@ -98,31 +111,40 @@ public class FranchiseValidator implements Validator {
 				errors.rejectValue("phone2", "phone2.incorrect","Enter a correct phone number");
 			}
 		}
-		if(model.getLandLine1()!=null && !"".equalsIgnoreCase(model.getLandLine1()))
+		if(model.getLandline1()!=null && !"".equalsIgnoreCase(model.getLandline1()))
 		{
 			pattern = Pattern.compile(LANDLINE_PATTERN);
-			matcher = pattern.matcher(model.getLandLine1());
+			matcher = pattern.matcher(model.getLandline1());
 			if (!matcher.matches()) 
 			{
-				errors.rejectValue("landLine1", "landLine1.incorrect","Enter a correct Landline number");
+				errors.rejectValue("landline1", "landline1.incorrect","Enter a correct Landline number");
 			}
 		}
-		if(model.getLandLine2()!=null && !"".equalsIgnoreCase(model.getLandLine2()))
+		if(model.getLandline2()!=null && !"".equalsIgnoreCase(model.getLandline2()))
 		{
 			pattern = Pattern.compile(LANDLINE_PATTERN);
-			matcher = pattern.matcher(model.getLandLine2());
+			matcher = pattern.matcher(model.getLandline2());
 			if (!matcher.matches()) 
 			{
-				errors.rejectValue("landLine2", "landLine2.incorrect","Enter a correct Landline number");
+				errors.rejectValue("landline2", "landline1.incorrect","Enter a correct Landline number");
 			}
 		}
-		if(model.getPincode()!=null && !"".equalsIgnoreCase(model.getPincode()))
+		if(model.getPincode1()!=null && !"".equalsIgnoreCase(model.getPincode1()))
 		{
 			pattern = Pattern.compile(PINCODE_PATTERN);
-			matcher = pattern.matcher(model.getPincode());
+			matcher = pattern.matcher(model.getPincode1());
 			if (!matcher.matches()) 
 			{
-				errors.rejectValue("pincode", "pincode.incorrect","Enter a correct Pincode");
+				errors.rejectValue("pincode1", "pincode1.incorrect","Enter a correct Pincode");
+			}
+		}
+		if(model.getPincode2()!=null && !"".equalsIgnoreCase(model.getPincode2()))
+		{
+			pattern = Pattern.compile(PINCODE_PATTERN);
+			matcher = pattern.matcher(model.getPincode2());
+			if (!matcher.matches()) 
+			{
+				errors.rejectValue("pincode1", "pincode1.incorrect","Enter a correct Pincode");
 			}
 		}
 		if(model.getFax()!=null && !"".equalsIgnoreCase(model.getFax()))
@@ -134,39 +156,28 @@ public class FranchiseValidator implements Validator {
 				errors.rejectValue("fax", "fax.incorrect","Enter a correct Fax number");
 			}
 		}
-		if(model.getPan()!=null && !"".equalsIgnoreCase(model.getPan()))
+		if(model.getPancard()!=null && !"".equalsIgnoreCase(model.getPancard()))
 		{
 			pattern = Pattern.compile(PAN_PATTERN);
-			matcher = pattern.matcher(model.getPan());
+			matcher = pattern.matcher(model.getPancard());
 			if (!matcher.matches()) 
 			{
-				errors.rejectValue("pan", "pan.incorrect","Enter a correct Pan Number");
+				errors.rejectValue("pancard", "pancard.incorrect","Enter a correct Pan Number");
 			}else
 			{
-				if(franchiseService.fetchFranByPan(model)){
-					errors.rejectValue("pan", "pan.incorrect","PAN number already Exist");
+				if(memberService.fetchMemberByPan(model)){
+					errors.rejectValue("pancard", "pancard.incorrect","PAN number already Exist");
 				}
 			}
 		}
 		else
 		{
-			errors.rejectValue("pan", "required.pan","PAN Number is Required");
+			errors.rejectValue("pancard", "required.pancard","PAN Number is Required");
 		}
-		if(model.getTds()!=0)
-		{
-			if (!((model.getTds()>0) && (model.getTds()<100))) 
-			{
-				errors.rejectValue("tds", "tds.incorrect","Enter a correct TDS");
-			}
+		if(model.getDob()!=null && !model.getDob().equals("")){
+			if(!validateDate(model.getDob()))
+				errors.rejectValue("dob", "dob,error","Enter Valid Date");
 		}
-		if(model.getCommissionPercentage()!=0)
-		{
-			if (!((model.getCommissionPercentage()>0) && (model.getCommissionPercentage()<100))) 
-			{
-				errors.rejectValue("commissionPercentage", "commissionPercentage.incorrect","Enter a correct Commission %");
-			}
-		}
-		
 	}
 	
 	public boolean validateDate(String date) {
@@ -180,17 +191,21 @@ public class FranchiseValidator implements Validator {
 	    }
 	}
 	
-	public FranchiseModel trimAllStringValues(FranchiseModel model){
+	public MemberModel trimAllStringValues(MemberModel model){
 		if(model.getFranchiseeName()!= null && !"".equalsIgnoreCase(model.getFranchiseeName()))
 			model.setFranchiseeName(model.getFranchiseeName().trim());
+		if(model.getMemberName()!= null && !"".equalsIgnoreCase(model.getMemberName()))
+			model.setMemberName(model.getMemberName().trim());
 		if(model.getEmail()!= null && !"".equalsIgnoreCase(model.getEmail()))
 			model.setEmail(model.getEmail().trim());
-		if(model.getPan()!= null && !"".equalsIgnoreCase(model.getPan()))
-			model.setPan(model.getPan().trim());
-		if(model.getCity()!= null && !"".equalsIgnoreCase(model.getCity()))
-			model.setCity(model.getCity().trim());
-		if(model.getState()!= null && !"".equalsIgnoreCase(model.getState()))
-			model.setState(model.getState().trim());
+		if(model.getCity1()!= null && !"".equalsIgnoreCase(model.getCity1()))
+			model.setCity1(model.getCity1().trim());
+		if(model.getState1()!= null && !"".equalsIgnoreCase(model.getState1()))
+			model.setState1(model.getState1().trim());
+		if(model.getCity2()!= null && !"".equalsIgnoreCase(model.getCity2()))
+			model.setCity2(model.getCity2().trim());
+		if(model.getState2()!= null && !"".equalsIgnoreCase(model.getState2()))
+			model.setState2(model.getState2().trim());
 		return model;
 	}
 }

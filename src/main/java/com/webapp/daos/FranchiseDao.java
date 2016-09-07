@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.fnf.utils.JQTableUtils;
 import com.webapp.dto.FranchiseDto;
+import com.webapp.models.FranchiseCommissionModel;
 import com.webapp.models.FranchiseModel;
 
 
@@ -28,5 +29,13 @@ public interface FranchiseDao {
 	FranchiseModel fetchFranchiseDetail(String franchiseeId);
 
 	int changeFranchiseStatus(FranchiseModel franchiseModel);
+
+	List<FranchiseDto> fetchAllFranchiseList();
+
+	int addFranchiseeCommission(FranchiseCommissionModel franchiseCommissionModel);
+
+	int updateCommissionAmount(@Param("paymentId") String paymentId,@Param("amount")  long amount);
+	
+	List<FranchiseModel> fetchFranchiseCommissionList(@Param("JQTableUtils") JQTableUtils tableUtils);
 	
 }

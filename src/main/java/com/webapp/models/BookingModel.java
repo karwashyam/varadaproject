@@ -13,6 +13,7 @@ public class BookingModel extends AbstractModel{
 	private long downPayment;
 	private long ratePerYard;
 	private String franchiseeId;
+	private String pancard;
 	private String franchiseeName;
 	private String memberId;
 	private String memberName;
@@ -30,6 +31,7 @@ public class BookingModel extends AbstractModel{
 	private long noOfEmi;
 	private long emiPrice;
 	private long nextEmiOn;
+	private String nextEmiOnString;
 	private long interestRate;
 	private String memberCode;
 	private String email;
@@ -42,11 +44,20 @@ public class BookingModel extends AbstractModel{
 	private String issueDate;
 	private String bank;
 	private String accountHolder;
-	
+	private String bookingDate;
+	private String todayDate;
 	private int month;
 	private long bookingCount;
-	
-	
+	private long amount;
+	private String address1;
+	private String state1;
+	private String city1;
+	private String pincode1;
+	private String title;
+	private long remainingPayment;
+	private long discount;
+	private long penalty;
+	private boolean allotmentLetterGiven;
 	public String getBookingId() {
 		return bookingId;
 	}
@@ -298,6 +309,90 @@ public class BookingModel extends AbstractModel{
 	}
 	public void setInterestRate(long interestRate) {
 		this.interestRate = interestRate;
+	}
+	public String getAddress1() {
+		return address1;
+	}
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+	public String getState1() {
+		return state1;
+	}
+	public void setState1(String state1) {
+		this.state1 = state1;
+	}
+	public String getCity1() {
+		return city1;
+	}
+	public void setCity1(String city1) {
+		this.city1 = city1;
+	}
+	public String getPincode1() {
+		return pincode1;
+	}
+	public void setPincode1(String pincode1) {
+		this.pincode1 = pincode1;
+	}
+	public String getBookingDate() {
+		return bookingDate;
+	}
+	public void setBookingDate(String bookingDate) {
+		this.bookingDate = bookingDate;
+	}
+	public String getTodayDate() {
+		return todayDate;
+	}
+	public void setTodayDate(String todayDate) {
+		this.todayDate = todayDate;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public long getRemainingPayment() {
+		return remainingPayment;
+	}
+	public void setRemainingPayment(long remainingPayment) {
+		this.remainingPayment = remainingPayment;
+	}
+	public boolean isAllotmentLetterGiven() {
+		return allotmentLetterGiven;
+	}
+	public void setAllotmentLetterGiven(boolean allotmentLetterGiven) {
+		this.allotmentLetterGiven = allotmentLetterGiven;
+	}
+	public long getAmount() {
+		return amount;
+	}
+	public void setAmount(long amount) {
+		this.amount = amount;
+	}
+	public long getDiscount() {
+		return discount;
+	}
+	public void setDiscount(long discount) {
+		this.discount = discount;
+	}
+	public long getPenalty() {
+		return penalty;
+	}
+	public void setPenalty(long penalty) {
+		this.penalty = penalty;
+	}
+	public String getPancard() {
+		return pancard;
+	}
+	public void setPancard(String pancard) {
+		this.pancard = pancard;
+	}
+	public String getNextEmiOnString() {
+		return nextEmiOnString;
+	}
+	public void setNextEmiOnString(String nextEmiOnString) {
+		this.nextEmiOnString = nextEmiOnString;
 	}
 	
 

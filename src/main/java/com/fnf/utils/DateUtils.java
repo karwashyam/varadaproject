@@ -50,6 +50,14 @@ public class DateUtils {
 		  return cal.getTime().getTime();
 	  }
 	  
+	  public static long getGmtMillisecAfterMonths(int month,Date date)
+	  {
+		  Calendar cal = Calendar.getInstance();
+		  cal.setTime(date);
+		  cal.add(Calendar.MONTH, month); //minus number would decrement the month
+		  return cal.getTime().getTime();
+	  }
+	  
 	  public static String dbTimeStampToSesionDate(long time, String timeZone, String sessionDateFormatStr)
 	  {
 	    Date gmtDate = gmtDateFromDbDateTime(new Date(time));

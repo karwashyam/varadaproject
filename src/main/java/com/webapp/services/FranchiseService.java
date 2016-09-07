@@ -66,4 +66,12 @@ public class FranchiseService {
 	public int changeFranchiseStatus(FranchiseModel franchiseModel) {
 		return franchiseDao.changeFranchiseStatus(franchiseModel);
 	}
+
+	public List<FranchiseDto> fetchAllFranchiseList() {
+		return franchiseDao.fetchAllFranchiseList();
+	}
+
+	public List<FranchiseModel> fetchFranchiseCommissionList(JQTableUtils tableUtils) {
+		return franchiseDao.fetchFranchiseCommissionList(tableUtils);
+	}
 }

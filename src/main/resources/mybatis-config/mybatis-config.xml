@@ -31,6 +31,7 @@
 
   		<typeAlias alias="MemberModel" type="com.webapp.models.MemberModel" />
   		<typeAlias alias="PaymentModel" type="com.webapp.models.PaymentModel" />
+  		<typeAlias alias="FranchiseCommissionModel" type="com.webapp.models.FranchiseCommissionModel" />
 
   		
 	</typeAliases>
@@ -49,6 +50,7 @@
   		<mapper resource="mybatis-config/PaymentScheme.xml" />
   		<mapper resource="mybatis-config/ProjPaymentScheme.xml" />
   		<mapper resource="mybatis-config/Franchise.xml" />
+  		<mapper resource="mybatis-config/FranchiseCommission.xml" />
   		<mapper resource="mybatis-config/Payment.xml" />
 
 	</mappers>

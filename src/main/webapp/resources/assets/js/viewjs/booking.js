@@ -1,7 +1,8 @@
 var oTable;
 var isEditAccess;
 var isDeleteAccess;
-var validateRequireFields = ["memberId","projectId","paymentSchemeId","plotId","ratePerYard","nomineeName","nomineeFather","nomineeAddress","nomineeRelation","paymentDate","nomineeDob"];
+var validateRequireFields = ["memberId","franchiseeId","projectId","paymentSchemeId","plotId","ratePerYard","nomineeName","nomineeFather","nomineeAddress","nomineeRelation","paymentDate","nomineeDob"];
+var validateRequireFields1 = ["bookingId"];
 
 $(document).ready(function() {
 	var isAddAccess = jQuery("#isAddAccess").val();
@@ -108,6 +109,26 @@ $(document).ready(function() {
 		        	$("#accountHolder").show();
 				}
 		    });
+	$('input:radio[name="paymentMode"]').change(
+			function(){
+		        if ($(this).is(':checked') && $(this).val() == 'Cash') {
+		        	$("#chequeNo").hide();	
+		        	$("#issueDate").hide();
+		        	$("#bank").hide();
+		        	$("#accountHolder").hide();
+		        }else  if ($(this).is(':checked') && $(this).val() == 'Cheque') {
+		        	$("#chequeNo").show();
+		        	$("#issueDate").show();
+		        	$("#bank").show();
+		        	$("#accountHolder").show();
+				}else  if ($(this).is(':checked') && $(this).val() == 'Online') {
+					$("#chequeNo").show();
+		        	$("#issueDate").hide();
+		        	$("#bank").show();
+		        	$("#accountHolder").show();
+				}
+		    });
+		        
 	
 	$("#ratePerYard").change(function() {
 		var yardSize=$("#plotSize").text();
@@ -155,8 +176,8 @@ $(document).ready(function() {
 		console.log(interest);
 	});
 	
-	$("#submit").click(function() {
-		
+$("#submit").click(function() {
+	validateRequireFields = ["memberId","franchiseeId","projectId","paymentSchemeId","plotId","ratePerYard","nomineeName","nomineeFather","nomineeAddress","nomineeRelation","paymentDate","nomineeDob"];	
 		var isValid = validateForm();
 		if (!isValid) {
 			window.stop(); //should work in all major browsers
@@ -164,7 +185,81 @@ $(document).ready(function() {
 			return false;
 		}
 	});
+$("#add-payment-button").click(function() {
+	validateRequireFields = ["paymentDate","amount"];
+	var isValid = validateForm();
+	if (!isValid) {
+		window.stop(); //should work in all major browsers
+		document.execCommand("Stop"); //is necessary to support IE
+		return false;
+	}
+});
+	$("#edit-payment-button").click(function() {
+		validateRequireFields = ["emiDateString","paymentAmount"];
+		var isValid = validateForm();
+		if (!isValid) {
+			window.stop(); //should work in all major browsers
+			document.execCommand("Stop"); //is necessary to support IE
+			return false;
+		}
+	});
+	/*if($('input:radio[name="paymentMethod"]').val()=="Cheque"){
+		validateRequireFields = ["chequeNumber","chequeDate","bankName","accountHolderName"];
+		isValid = validateForm();
+		if (!isValid) {
+			window.stop(); //should work in all major browsers
+			document.execCommand("Stop"); //is necessary to support IE
+			return false;
+		}
+	}
+	if($('input:radio[name="paymentMethod"]').val()=="Online"){
+		validateRequireFields = ["chequeNumber"];
+		isValid = validateForm();
+		if (!isValid) {
+			window.stop(); //should work in all major browsers
+			document.execCommand("Stop"); //is necessary to support IE
+			return false;
+		}
+	}*/
+
+$("#add-penalty-button").click(function() {
+	validateRequireFields = ["amount1","description"];
+	var isValid = validateForm();
+	if (!isValid) {
+		window.stop(); //should work in all major browsers
+		document.execCommand("Stop"); //is necessary to support IE
+		return false;
+	}
+});
+
+$("#transfer-button").click(function() {
+	validateRequireFields1 = ["bookingId"];
+	var isValid = validateForm1();
+	if (!isValid) {
+		window.stop(); //should work in all major browsers
+		document.execCommand("Stop"); //is necessary to support IE
+		return false;
+	}
+});
 	
+$(function(){	
+if ( $('input:radio[name="paymentMode"]:checked') == 'Cash') {
+	$("#chequeNo").hide();	
+	$("#issueDate").hide();
+	$("#bank").hide();
+	$("#accountHolder").hide();
+}else  if ( $('input:radio[name="paymentMode"]:checked').val() == 'Cheque') {
+	$("#chequeNo").show();
+	$("#issueDate").show();
+	$("#bank").show();
+	$("#accountHolder").show();
+}else  if ( $('input:radio[name="paymentMode"]:checked').val() == 'Online') {
+	$("#chequeNo").show();
+	$("#issueDate").hide();
+	$("#bank").show();
+	$("#accountHolder").show();
+}	
+});
 	
 });
 
@@ -184,8 +279,8 @@ function citytable() {
 		"columnDefs" : [ {
 			"mRender" : function(data, type, row) {
 				var actionsLinks = '<div style="">'; 
-					actionsLinks += '<a href="javascript:void(0);" '+' onclick="editBooking('+"'" + data+"'" + ');">'
-			        	+'Edit'+'&nbsp; <i class="fa fa-edit font-size-17px"></i></a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" '+' onclick="cancelBooking('+"'" + data+"'" + ');">Cancel&nbsp; <i class="fa fa-trash font-size-17px"></i></a>';
+					actionsLinks += '<a href="javascript:void(0);" '+' onclick="addPayment('+"'" + data+"'" + ');">'
+			        	+'Add Payment'+'&nbsp; <i class="fa fa-edit font-size-17px"></i></a>';
 				actionsLinks += '</div>';
 				return actionsLinks;
 			},
@@ -194,13 +289,8 @@ function citytable() {
 			{
 				"mRender" : function(data, type, row) {
 					var actionsLinks = '<div style="">'; 
-					if(isEditAccess === "true"){
-						actionsLinks += '<a href="javascript:void(0);" '+' onclick="editBooking('+"'" + data+"'" + ');">'
-				        	+'Edit'+'&nbsp; <i class="fa fa-edit font-size-17px"></i></a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" '+' onclick="cancelBooking('+"'" + data+"'" + ');">Cancel&nbsp; <i class="fa fa-trash font-size-17px"></i></a>';
-					}else{
-						actionsLinks += '<a class="disabled" href="javascript:void(0);" '+' onclick="editState('+"'" + data+"'" + ');">'
-			        	+'Edit'+'</a>&nbsp &nbsp';
-					}
+						actionsLinks += '<a href="javascript:void(0);" '+' onclick="viewBooking('+"'" + data+"'" + ');">'
+			        	+'View Details'+'</a>&nbsp &nbsp';
 					actionsLinks += '</div>';
 					return actionsLinks;
 				},
@@ -284,58 +374,97 @@ function handleAjaxError(xhr, textStatus, error) {
 	}
 }
 
-function editBooking(bookingId){
-	if(isEditAccess === "true"){
-		document.location = basePath + "/booking/edit/" + bookingId;
-	}
+function viewBooking(bookingId){
+	document.location = basePath + "/booking/view/" + bookingId;
+}
+
+function addPayment(bookingId){
+	document.location = basePath + "/booking/add-payment/" + bookingId;
 }
 
 function cancelBooking(bookingId){
-	if(isDeleteAccess === "true"){
-		BootstrapDialog.show({
-			message: 'Are you sure you want to cancel this Booking ?',
-			title: 'Alert',
-			buttons: [{
-				label: 'YES',
-				action: function(dialogItself) {
-					$.ajax({
-	
-						type: "DELETE",
-						url: basePath +"/booking/cancel?bookingId="+bookingId,
-	
-						dataType :'json',
-						contentType: 'application/json',
-						mimeType: 'application/json',
-	
-						success: function( response ) {
-							if(response.success){
-								$(".errorMessage").html("");
-								BootstrapDialog.alert("Booking cancelled successfully.");
-								var table = $('#booking-datatable').DataTable();
-								$('#booking-datatable').dataTable().fnDraw();
-								dialogItself.close();
-	
-							} else if(response.error){
-								BootstrapDialog.alert("Some error happened");
-								dialogItself.close();
-							}
+	BootstrapDialog.show({
+		message: 'Are you sure you want to cancel this Booking ?',
+		title: 'Alert',
+		buttons: [{
+			label: 'YES',
+			action: function(dialogItself) {
+				$.ajax({
+
+					type: "DELETE",
+					url: basePath +"/booking/cancel-booking/"+bookingId,
+
+					dataType :'json',
+					contentType: 'application/json',
+					mimeType: 'application/json',
+
+					success: function( response ) {
+						if(response.success){
+							$(".errorMessage").html("");
+							window.location.reload(false);
+							BootstrapDialog.alert("Booking cancelled successfully.");
+
+						} else if(response.error){
+							BootstrapDialog.alert("Some error happened");
 							dialogItself.close();
-						},
-						error : function() {
-							dialogItself.close();
-							return false;
 						}
-					})
-				}
-			}, {
-				label: 'NO',
-				action: function(dialogItself) {
-					dialogItself.close();
-				}
-			}]
-		});
-	}
+						dialogItself.close();
+					},
+					error : function() {
+						dialogItself.close();
+						return false;
+					}
+				})
+			}
+		}, {
+			label: 'NO',
+			action: function(dialogItself) {
+				dialogItself.close();
+			}
+		}]
+	});
 }
+
+function transferBooking(bookingId,memberId){
+	BootstrapDialog.show({
+		message: 'Are you sure you want to transfer amount to another Booking ?',
+		title: 'Alert',
+		buttons: [{
+			label: 'YES',
+			action: function(dialogItself) {
+				$.ajax({
+
+					type: "GET",
+					url: basePath +"/booking/transfer-booking/"+bookingId+"/"+memberId,
+
+					dataType :'json',
+					contentType: 'application/json',
+					mimeType: 'application/json',
+
+					success: function( response ) {
+						if(response.success){
+							$(".errorMessage").html("");
+							document.location = basePath + "/booking/transfer/"+bookingId+"/"+memberId;
+
+						} else if(response.error){
+							BootstrapDialog.alert("This member doesnot have any other active booking");
+						}
+						dialogItself.close();
+					},
+					error : function() {
+						dialogItself.close();
+						return false;
+					}
+				})
+			}
+		}, {
+			label: 'NO',
+			action: function(dialogItself) {
+				dialogItself.close();
+			}
+		}]
+	});
+};
 
 
 function loadTable(){

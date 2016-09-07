@@ -9,9 +9,11 @@ public class PaymentModel extends AbstractModel{
 	private String memberId;
 	private String memberName;
 	private long emiDate;
+	private String emiDateString;
 	private String paymentId;
     private String paymentMode;
     private long chequeDate;
+    private String chequeDateString;
     private long paymentAmount;
     private String chequeNumber;
     private String bank;
@@ -20,7 +22,12 @@ public class PaymentModel extends AbstractModel{
     private String description;
     private String status;
     private String type;
-    
+    private String srNo;
+    private String fullName;
+    private Long receiptNo;
+    private String projectName;
+    private String plotName;
+    private String bookingCode;
 	public String getBookingId() {
 		return bookingId;
 	}
@@ -128,6 +135,54 @@ public class PaymentModel extends AbstractModel{
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public String getSrNo() {
+		return srNo;
+	}
+	public void setSrNo(String srNo) {
+		this.srNo = srNo;
+	}
+	public String getEmiDateString() {
+		return emiDateString;
+	}
+	public void setEmiDateString(String emiDateString) {
+		this.emiDateString = emiDateString;
+	}
+	public String getChequeDateString() {
+		return chequeDateString;
+	}
+	public void setChequeDateString(String chequeDateString) {
+		this.chequeDateString = chequeDateString;
+	}
+	public String getFullName() {
+		return fullName;
+	}
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+	public Long getReceiptNo() {
+		return receiptNo;
+	}
+	public void setReceiptNo(Long receiptNo) {
+		this.receiptNo = receiptNo;
+	}
+	public String getProjectName() {
+		return projectName;
+	}
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+	public String getPlotName() {
+		return plotName;
+	}
+	public void setPlotName(String plotName) {
+		this.plotName = plotName;
+	}
+	public String getBookingCode() {
+		return bookingCode;
+	}
+	public void setBookingCode(String bookingCode) {
+		this.bookingCode = bookingCode;
 	}
 
 

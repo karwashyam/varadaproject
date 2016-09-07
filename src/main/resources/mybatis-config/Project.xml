@@ -91,6 +91,11 @@
 	<update id="updatePlotStatus" parameterType="String">
 		update project_plots set status='3' where project_plot_id=#{plotId};
 	</update>
+	
+	<update id="updatePlotStatusToAvailable" parameterType="String">
+		update project_plots set status='1' where project_plot_id=#{plotId};
+	</update>
+	
 	<select id="getProjectDetailsById" parameterType="String"	resultMap="projectResultMap">
 		SELECT * FROM projects
 		WHERE project_id = #{projectId} AND record_status = 'A'

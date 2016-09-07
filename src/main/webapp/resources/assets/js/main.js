@@ -11,7 +11,19 @@
 
 
 
+function validateForm1(){
 
+		$('.errorMessage').remove();
+		requireFieldArray =  validateRequireFields1;
+		
+		var isValid = validateFormFields();
+		
+		if(!isValid){
+			return false;
+		}
+		
+		return isValid;
+	};
 	
 	function validateForm(){
 
@@ -20,7 +32,7 @@
 		
 		var isValid = validateFormFields();
 		
-		if(!isValid || !isValidFN){
+		if(!isValid){
 			return false;
 		}
 		

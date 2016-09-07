@@ -37,6 +37,9 @@
 		<result property="pan" column="pan" />
 		<result property="tds" column="tds" />
 		<result property="commissionPercentage" column="commission_percentage" />
+		<result property="commissionPaid" column="commission_paid" />
+		<result property="tdsPaid" column="tds_paid" />
+		<result property="commissionUnpaid" column="commission_unpaid" />
 	</resultMap>
 	
 	<select id="fetchFranchiseList" parameterType="JQTableUtils" resultMap="FranchiseMap">
@@ -146,6 +149,27 @@
             		#{commissionPercentage});
 	</insert>
 	
+	
+	<update id="updateCommissionAmount">
+		update franchisee_commission set commission_amount=#{amount}
+		Where payment_id=#{paymentId}
+	</update>
+	
+	<insert id="addFranchiseeCommission" parameterType="FranchiseCommissionModel">
+		INSERT INTO franchisee_commission(
+            franchisee_commission_id, franchisee_id, franchisee_name, booking_id, 
+            payment_id, project_id, tds, payment_mode, payment_amount, cheque_number, 
+            bank, account_holder, transaction_number, status, created_by, 
+            updated_by, created_at, updated_at, record_status, commission_amount, 
+            tds_amount, cheque_date)
+    	VALUES (#{franchiseeCommissionId}, #{franchiseeId}, #{franchiseeName}, #{bookingId}, 
+            #{paymentId}, #{projectId}, #{tds}, #{paymentMode}, #{paymentAmount}, #{chequeNumber}, 
+            #{bank}, #{accountHolder}, #{transactionNumber}, #{status}, #{createdBy}, 
+            #{updatedBy}, #{createdAt}, #{updatedAt}, 'A', #{commissionAmount}, 
+            #{tdsAmount}, #{chequeDate})
+	</insert>
+	
+	
 	<update id="editFranchise" parameterType="FranchiseModel">
 		UPDATE franchisee
    			SET franchisee_name=#{franchiseeName}, email=#{email}, address=#{address}, state=#{state}, 
@@ -185,5 +209,62 @@
 			SET record_status=(SELECT CASE WHEN record_status = 'A' THEN 'D' ELSE 'A' end as record_status from franchisee where franchisee_id=#{franchiseeId} ), updated_by=#{updatedBy}, updated_at=#{updatedAt}
 			WHERE franchisee_id=#{franchiseeId}
 	</update>
+	
+	<select id="fetchAllFranchiseList" resultMap="FranchiseMap">
+		SELECT f.franchisee_id,f.franchisee_name
+  		FROM franchisee f
+  		WHERE f.record_status='A'
+	</select>
+	
+	<select id="fetchFranchiseCommissionList" parameterType="JQTableUtils" resultMap="FranchiseModel">
+		SELECT f.franchisee_id,f.franchisee_name,f.pan,f.tds,f.commission_paid, f.tds_paid, f.commission_unpaid
+  		FROM franchisee f
+  		WHERE 1=1
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+			f.franchisee_name ilike #{JQTableUtils.searchParams}
+			OR
+			f.pan ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+		ORDER BY
+		<choose>
+			<when test="JQTableUtils.sortColumn == 2">
+				f.franchisee_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 3">
+				f.pan
+			</when>
+			<when test="JQTableUtils.sortColumn == 4">
+				f.commission_paid
+			</when>
+			<when test="JQTableUtils.sortColumn == 5">
+				f.commission_unpaid
+			</when>
+			<when test="JQTableUtils.sortColumn == 6">
+				f.tds
+			</when>
+			<when test="JQTableUtils.sortColumn == 7">
+				f.tds_paid
+			</when>
+			<otherwise>
+				f.franchisee_name
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="JQTableUtils.sortingDirection == 'desc'">
+				DESC
+			</when>
+			<otherwise>
+				ASC
+			</otherwise>
+		</choose> 
+		<if test="JQTableUtils.iDisplayLength!=-1">
+			LIMIT #{JQTableUtils.iDisplayLength}
+			OFFSET #{JQTableUtils.iDisplayStart}
+		</if>
+		
+	</select>
 	
 </mapper> 

@@ -43,6 +43,17 @@
                           <form:errors path="memberId" class="errorMessage" />
                         </div>
                       </div>
+                      
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Franchisee</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <select id="franchiseeId" name="franchiseeId" class=" selectpicker" data-live-search="true" title="Select Franchisee">
+                            <c:forEach items="${franchiseeModelList}" var="franchisee" >
+							<option value="${franchisee['franchiseeId']}_${franchisee['franchiseeName']}">${franchisee['franchiseeName']}</option></c:forEach>
+                          </select>
+                          <form:errors path="franchiseeId" class="errorMessage" />
+                        </div>
+                      </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Project</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">

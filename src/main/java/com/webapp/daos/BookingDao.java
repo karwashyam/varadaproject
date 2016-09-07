@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.fnf.utils.JQTableUtils;
 import com.webapp.models.BookingModel;
+import com.webapp.models.PaymentModel;
 
 public interface BookingDao {
 
@@ -17,10 +18,30 @@ public interface BookingDao {
 	int addBooking(BookingModel bookingModel);
 	List<BookingModel> fetchBookingListByCurrentYear(Map<String, Object> inputMap);
 
+	BookingModel getBookingDetailsById(@Param("bookingId") String bookingId);
+
+	void changePaidPayment(@Param("bookingId") String bookingId,@Param("paidAmount") long paidAmount,
+			@Param("addRemainingBalance") long addRemainingBalance);
+
+	void changeAllotmentLetterGiven(@Param("bookingId") String bookingId);
+
+	void cancelBooking(BookingModel bookingModel);
+
+	void changePaidPaymentForCancelledBooking(@Param("bookingId") String bookingId);
+
+	boolean transferBookingCheck(@Param("bookingId") String bookingId, @Param("memberId") String memberId);
+
+	List<Map<String, Object>> transferBookingIds(@Param("bookingId") String bookingId, @Param("memberId") String memberId);
 	List<Map<String, Object>> fetchBookingListByDate(Map<String, Object> inputMap);
 	public List<String> fethBookedPlotsIdListOfProjects();
 	long fetchTotalBookingListByDate(Map<String, Object> inputMap);
 
-	
+	List<BookingModel> getBookings();
+
+	int changeDiscount(@Param("bookingId") String bookingId,@Param("discount")  long discount,@Param("penalty")  long penalty,@Param("remainingBalance")  long remainingBalance);
+
+	Long getUnclearAmount(@Param("bookingId") String bookingId);
+
+	int changePaidPaymentForFutureEmi(@Param("list") List<PaymentModel> paymentModelList);
 
 }
