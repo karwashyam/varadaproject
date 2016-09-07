@@ -18,7 +18,7 @@ function validateForm1(){
 		
 		var isValid = validateFormFields();
 		
-		if(!isValid || !isValidFN){
+		if(!isValid){
 			return false;
 		}
 		
@@ -32,7 +32,7 @@ function validateForm1(){
 		
 		var isValid = validateFormFields();
 		
-		if(!isValid || !isValidFN){
+		if(!isValid){
 			return false;
 		}
 		

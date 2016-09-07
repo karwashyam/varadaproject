@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.fnf.utils.JQTableUtils;
 import com.webapp.models.BookingModel;
+import com.webapp.models.PaymentModel;
 
 public interface BookingDao {
 
@@ -35,6 +36,12 @@ public interface BookingDao {
 	public List<String> fethBookedPlotsIdListOfProjects();
 	long fetchTotalBookingListByDate(Map<String, Object> inputMap);
 
-	
+	List<BookingModel> getBookings();
+
+	int changeDiscount(@Param("bookingId") String bookingId,@Param("discount")  long discount,@Param("penalty")  long penalty,@Param("remainingBalance")  long remainingBalance);
+
+	Long getUnclearAmount(@Param("bookingId") String bookingId);
+
+	int changePaidPaymentForFutureEmi(@Param("list") List<PaymentModel> paymentModelList);
 
 }

@@ -37,6 +37,7 @@ import com.webapp.models.ProjectModel;
 import com.webapp.models.TransferModel;
 import com.webapp.services.BookingService;
 import com.webapp.services.MemberService;
+import com.webapp.services.PaymentService;
 import com.webapp.services.ProjectSerivce;
 import com.webapp.validator.BookingValidator;
 
@@ -53,6 +54,9 @@ public class BookingController extends BusinessController{
 
 	@Autowired
 	private BookingService bookingService;
+	
+	@Autowired
+	private PaymentService paymentService;
 	
 	@Autowired
 	private ProjectSerivce projectSerivce;
@@ -109,6 +113,11 @@ public class BookingController extends BusinessController{
 		bookingModel.setBookingDate(DateUtils.fetchDateStrFromMilisec(bookingModel.getCreatedAt(), "IST", "dd/MM/yyyy"));
 		bookingModel.setTodayDate(DateUtils.fetchDateStrFromMilisec(DateUtils.nowAsGmtMillisec(), "IST", "dd/MM/yyyy"));
 		model.addAttribute("bookingModel",bookingModel);
+		Long unclearAmount=bookingService.getUnclearAmount(bookingId);
+		if(unclearAmount==null){
+			unclearAmount=0l;
+		}
+		model.addAttribute("unclearAmount", unclearAmount);
 		List<PaymentModel> paymentModelList= bookingService.getPaymentDetailsByBookingId(bookingId);
 		for (PaymentModel paymentModel : paymentModelList) {
 			paymentModel.setEmiDateString(DateUtils.fetchDateStrFromMilisec(paymentModel.getEmiDate(), "IST", "dd/MM/yyyy"));
@@ -219,6 +228,40 @@ public class BookingController extends BusinessController{
 		return "add-payment";
 	}
 	
+	@RequestMapping(value = "/edit-payment/{paymentId}",method = RequestMethod.GET)
+	public String editPayment(@PathVariable("paymentId") String paymentId,Model model, HttpServletRequest req, HttpServletResponse res) 
+	throws ServletException, IOException {
+		preprocessRequest(model, req, res);
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url = "/login";
+			return "redirect:" + url;
+		}
+		PaymentModel paymentModel1= paymentService.getPaymentDetailsById(paymentId);
+		if(paymentModel1.getPaymentMode().equalsIgnoreCase("Online")){
+			paymentModel1.setChequeNumber(paymentModel1.getTransactionNumber());
+		}
+		paymentModel1.setEmiDateString(DateUtils.fetchDateStrFromMilisec(paymentModel1.getEmiDate(), "IST", "dd/MM/yyyy"));
+		if(paymentModel1.getChequeDate()>0)
+		paymentModel1.setChequeDateString(DateUtils.fetchDateStrFromMilisec(paymentModel1.getChequeDate(),"IST", "dd/MM/yyyy"));
+		
+		model.addAttribute("paymentModel",paymentModel1);
+		BookingModel bookingModel= bookingService.getBookingDetailsById(paymentModel1.getBookingId());
+		bookingModel.setNomineeDob(DateUtils.fetchDateStrFromMilisec(bookingModel.getNomineeDobLong(), "IST", "dd/MM/yyyy"));
+		bookingModel.setBookingDate(DateUtils.fetchDateStrFromMilisec(bookingModel.getCreatedAt(), "IST", "dd/MM/yyyy"));
+		bookingModel.setTodayDate(DateUtils.fetchDateStrFromMilisec(DateUtils.nowAsGmtMillisec(), "IST", "dd/MM/yyyy"));
+		model.addAttribute("bookingModel",bookingModel);
+		List<PaymentModel> paymentModelList= bookingService.getPaymentDetailsByBookingId(paymentModel1.getBookingId());
+		for (PaymentModel paymentModel : paymentModelList) {
+			paymentModel.setEmiDateString(DateUtils.fetchDateStrFromMilisec(paymentModel.getEmiDate(), "IST", "dd/MM/yyyy"));
+			if(paymentModel.getChequeDate()>0){
+				paymentModel.setChequeDateString(DateUtils.fetchDateStrFromMilisec(paymentModel.getChequeDate(), "IST", "dd/MM/yyyy"));
+			}
+		}
+		
+		model.addAttribute("paymentModelList",paymentModelList);
+		return "edit-payment";
+	}
+	
 	@RequestMapping(value = "/cancel-booking/{bookingId}",method = RequestMethod.DELETE)
 	public @ResponseBody ModelAndView cancelBooking(@PathVariable("bookingId") String bookingId,Model model, HttpServletRequest req, HttpServletResponse res) 
 	throws ServletException, IOException {
@@ -301,6 +344,20 @@ public class BookingController extends BusinessController{
 		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
 		bookingService.addPayment(bookingModel,userId);
 		return "redirect:/booking/view/"+bookingModel.getBookingId();
+	}
+	
+	@RequestMapping(value = "/edit-payment",method = RequestMethod.POST)
+	public String editPayment(Model model, PaymentModel paymentModel,BindingResult result,
+			 HttpServletRequest req,HttpServletResponse res) throws ServletException, IOException { 
+		preprocessRequest(model, req, res);
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url = "/login";
+			return "redirect:" + url;
+		}
+		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
+		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
+		bookingService.editPayment(paymentModel,userId);
+		return "redirect:/booking/view/"+paymentModel.getBookingId();
 	}
 	
 	@RequestMapping(value = "/add-penalty",method = RequestMethod.POST)

@@ -63,7 +63,8 @@
                   <li><a><i class="fa fa-dollar"></i> Payment <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="${pageContext.request.contextPath}/payment">Payment History</a></li>
-                      <li><a href="${pageContext.request.contextPath}/add-payment">Add Payment</a></li>
+                      <li><a href="${pageContext.request.contextPath}/payment/add">Add Payment</a></li>
+                      <li><a href="${pageContext.request.contextPath}/payment/cheque">Unclear Cheques</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-sitemap"></i> Others <span class="fa fa-chevron-down"></span></a>
