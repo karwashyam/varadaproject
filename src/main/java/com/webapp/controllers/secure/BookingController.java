@@ -113,6 +113,11 @@ public class BookingController extends BusinessController{
 		bookingModel.setBookingDate(DateUtils.fetchDateStrFromMilisec(bookingModel.getCreatedAt(), "IST", "dd/MM/yyyy"));
 		bookingModel.setTodayDate(DateUtils.fetchDateStrFromMilisec(DateUtils.nowAsGmtMillisec(), "IST", "dd/MM/yyyy"));
 		model.addAttribute("bookingModel",bookingModel);
+		Long unclearAmount=bookingService.getUnclearAmount(bookingId);
+		if(unclearAmount==null){
+			unclearAmount=0l;
+		}
+		model.addAttribute("unclearAmount", unclearAmount);
 		List<PaymentModel> paymentModelList= bookingService.getPaymentDetailsByBookingId(bookingId);
 		for (PaymentModel paymentModel : paymentModelList) {
 			paymentModel.setEmiDateString(DateUtils.fetchDateStrFromMilisec(paymentModel.getEmiDate(), "IST", "dd/MM/yyyy"));

@@ -138,10 +138,15 @@ public class PaymentController extends BusinessController{
 			return "redirect:" + url;
 		}
 		PaymentModel paymentModel= paymentService.getPaymentDetailsById(paymentId);
-//		bookingModel.setNomineeDob(DateUtils.fetchDateStrFromMilisec(bookingModel.getNomineeDobLong(), "IST", "dd/MM/yyyy"));
-//		bookingModel.setBookingDate(DateUtils.fetchDateStrFromMilisec(bookingModel.getCreatedAt(), "IST", "dd/MM/yyyy"));
-//		bookingModel.setTodayDate(DateUtils.fetchDateStrFromMilisec(DateUtils.nowAsGmtMillisec(), "IST", "dd/MM/yyyy"));
+		paymentModel.setChequeDateString(DateUtils.fetchDateStrFromMilisec(paymentModel.getChequeDate(), "IST", "dd/MM/yyyy"));
+		paymentModel.setEmiDateString(DateUtils.fetchDateStrFromMilisec(paymentModel.getEmiDate(), "IST", "dd/MM/yyyy"));
+		BookingModel bookingModel= bookingService.getBookingDetailsById(paymentModel.getBookingId());
+		bookingModel.setTodayDate(DateUtils.fetchDateStrFromMilisec(DateUtils.nowAsGmtMillisec(), "IST", "dd/MM/yyyy"));
+		bookingModel.setNextEmiOnString(DateUtils.fetchDateStrFromMilisec(bookingModel.getNextEmiOn(), "IST", "dd/MM/yyyy"));
+		long remainingAmount=bookingModel.getPrice()-bookingModel.getPaymentMadeTillNow()+bookingModel.getPenalty()-bookingModel.getDiscount();
+		bookingModel.setRemainingPayment(remainingAmount);
 		model.addAttribute("paymentModel",paymentModel);
+		model.addAttribute("bookingModel",bookingModel);
 		return "print-receipt";
 	}
 	
@@ -151,6 +156,24 @@ public class PaymentController extends BusinessController{
 		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
 		int status = paymentService.clearCheque(paymentId,userId);
+		Map<String, Object> outputFinalMap= new HashMap<String,Object>();
+		if (status ==0) {
+
+			outputFinalMap.put("error", "done");
+		} else {
+
+			outputFinalMap.put("success", "done");
+		}
+
+		return getOutputResponse(outputFinalMap );
+	}
+	
+	@RequestMapping(value = "/reject/{paymentId}",method = RequestMethod.GET)
+	public @ResponseBody ModelAndView rejectCheque(@PathVariable("paymentId") String paymentId,Model model, HttpServletRequest req, HttpServletResponse res) 
+	throws ServletException, IOException {
+		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
+		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
+		int status = paymentService.rejectCheque(paymentId,userId);
 		Map<String, Object> outputFinalMap= new HashMap<String,Object>();
 		if (status ==0) {
 

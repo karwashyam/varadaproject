@@ -66,4 +66,9 @@ public class FranchiseService {
 	public int changeFranchiseStatus(FranchiseModel franchiseModel) {
 		return franchiseDao.changeFranchiseStatus(franchiseModel);
 	}
+
+	public List<FranchiseDto> fetchAllFranchiseList() {
+		// TODO Auto-generated method stub
+		return franchiseDao.fetchAllFranchiseList();
+	}
 }

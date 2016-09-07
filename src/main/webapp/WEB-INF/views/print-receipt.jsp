@@ -19,59 +19,55 @@
 	<table cellpadding="0" cellspacing="0" style="width: 100%; line-height: inherit; text-align: left;">
 		<tbody>
 			<tr style="">
-				<td colspan="2" style="padding: 5px; vertical-align: top; align-self: center; /* padding-bottom: 40px; */">
+				<td colspan="2" style="padding: 5px; vertical-align: top; align-self: center;font-size:18px; /* padding-bottom: 40px; */">
 						<center><b>Payment Receipt</b></center><br>
 				</td>
 			</tr>
 			<tr>	
-				<td colspan="1" style="width:50%;">Receipt No: ${paymentModel.receiptNo}</td>
-				<td colspan="1" style="width:50%;">Date: ${paymentModel.receiptNo}</td>
+				<td colspan="1" style="width:50%;">Receipt No:<b> ${paymentModel.receiptNo}</b></td>
+				<td colspan="1" style="width:50%;">Date: <b>${bookingModel.todayDate}</b></td>
 			</tr>
 			<tr>	
-				<td colspan="1" style="width:50%;">Booking No : ${paymentModel.receiptNo}</td>
-				<td colspan="1" style="width:50%;">Franchise Name : ${paymentModel.receiptNo}</td>
+				<td colspan="1" style="width:50%;">Booking No : <b>${bookingModel.bookingCode}</b></td>
+				<td colspan="1" style="width:50%;">Franchise Name : ${bookingModel.franchiseeName}</td>
 			</tr>
 			<tr>	
-				<td colspan="1" style="width:50%;">Payment Date: ${paymentModel.receiptNo}</td>
-				<td colspan="1" style="width:50%;">Reference Member: ${paymentModel.receiptNo}</td>
+				<td colspan="1" style="width:50%;">Payment Date: <b>${paymentModel.emiDateString}</b></td>
 			</tr>
 			<tr>	
-				<td colspan="2" >Customer Name : ${paymentModel.receiptNo}</td>
+				<td colspan="2" >Customer Name : <b>${bookingModel.memberName}</b></td>
 			</tr>
 			<tr>	
-				<td colspan="1" style="width:50%;">Contact No : ${paymentModel.receiptNo}</td>
-				<td colspan="1" style="width:50%;">Pancard No : ${paymentModel.receiptNo}</td>
+				<td colspan="1" style="width:50%;">Contact No : <b>${bookingModel.phone1}</b></td>
+				<td colspan="1" style="width:50%;">Pancard No : <b>${bookingModel.pancard}</b></td>
 			</tr>
 			<tr>	
-				<td colspan="1" style="width:50%;">Project : ${paymentModel.receiptNo}</td>
-				<td colspan="1" style="width:50%;">Plot No : ${paymentModel.receiptNo}</td>
+				<td colspan="1" style="width:50%;">Project : <b>${bookingModel.projectName}</b></td>
+				<td colspan="1" style="width:50%;">Plot No :<b> ${bookingModel.plotName}</b></td>
 			</tr>
 			<tr>	
-				<td colspan="1" style="width:50%;">Remaining Amount : ${paymentModel.receiptNo}</td>
-				<td colspan="1" style="width:50%;">Payment Mode : ${paymentModel.receiptNo}</td>
+				<td colspan="1" style="width:50%;">Remaining Amount : <b>${bookingModel.remainingPayment}</b></td>
+				<td colspan="1" style="width:50%;">Payment Mode : <b>${paymentModel.paymentMode}</b></td>
 			</tr>
 			<tr>	
-				<td colspan="1" style="width:50%;">Bank Name : ${paymentModel.receiptNo}</td>
-				<td colspan="1" style="width:50%;">Cheque No : ${paymentModel.receiptNo}</td>
+				<td colspan="1" style="width:50%;">Bank Name : <b>${paymentModel.bank}</b></td>
+				<td colspan="1" style="width:50%;">Cheque No : <b>${paymentModel.chequeNumber}</b></td>
 			</tr>
 			<tr>	
-				<td colspan="1" style="width:50%;">Cheque Date : ${paymentModel.receiptNo}</td>
+				<td colspan="1" style="width:50%;">Cheque Date : <b>${paymentModel.chequeDateString}</b></td>
 			</tr>
 			<tr>	
-				<td colspan="2" >Amount: ${paymentModel.receiptNo}</td>
+				<td colspan="2" >Amount: <b>${paymentModel.paymentAmount}</b></td>
 			</tr>
 			<tr>	
-				<td colspan="2" >Remarks : ${paymentModel.receiptNo}</td>
-			</tr>
-			<tr>	
-				<td colspan="2" >Next Due Amount : ${paymentModel.receiptNo}</td>
+				<td colspan="2" >Next Due Amount : <b>${bookingModel.emi}&nbsp;(${bookingModel.nextEmiOnString})</b></td>
 			</tr>
 			<tr>	
 				<td colspan="2" >Note: Cheque payment is subject to realization.</td>
 			</tr>
 			<tr>	
-				<td colspan="1" style="width:50%;">Customer's Signature __________________________</td>
-				<td colspan="1" style="width:50%;">Authorized Signature __________________________</td>
+				<td colspan="1" style="width:50%;"><br><br>Customer's Signature</td>
+				<td colspan="1" style="width:50%;"><br><br>Authorized Signature</td>
 			</tr>
 			
 		</tbody>

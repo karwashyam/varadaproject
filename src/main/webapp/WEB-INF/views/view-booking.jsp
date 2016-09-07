@@ -135,6 +135,12 @@
 											  <c:if test="${paymentModel['description'] != NULL}">
 											  &nbsp;(${paymentModel['description']})
 											  </c:if>
+											  <c:if test="${paymentModel['status'] == '1'}">
+											  &nbsp;(unclear)
+											  </c:if>
+											  <c:if test="${paymentModel['status'] == '5'}">
+											  &nbsp;(reject)
+											  </c:if>
 											  </td>
 											</c:otherwise>
 										</c:choose>
@@ -185,6 +191,18 @@
                                 <tr>
                                   <th>Amount Paid:</th>
                                   <td>Rs ${bookingModel.paymentMadeTillNow}</td>
+                                </tr>
+                                <tr>
+                                  <th>Discount Amount:</th>
+                                  <td>Rs ${bookingModel.discount}</td>
+                                </tr>
+                                <tr>
+                                  <th>Penalty Amount:</th>
+                                  <td>Rs ${bookingModel.penalty}</td>
+                                </tr>
+                                <tr>
+                                  <th>Unclear Amount:</th>
+                                  <td>Rs ${unclearAmount}</td>
                                 </tr>
                                 <tr>
                                 	<th>Payment Due:</th>

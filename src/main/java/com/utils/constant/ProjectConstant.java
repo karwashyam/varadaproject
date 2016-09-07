@@ -37,4 +37,6 @@ public class ProjectConstant {
 	public static final String PAYMENT_STATUS_FUTURE_EMI="3";
 	
 	public static final String PAYMENT_STATUS_ADDED_EMI="4";
+	
+	public static final String PAYMENT_STATUS_REJECTED="5";
 }

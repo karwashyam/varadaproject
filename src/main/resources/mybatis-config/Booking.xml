@@ -45,6 +45,7 @@
 		<result property="state1" column="state1" />
 		<result property="city1" column ="city1"/>
 		<result property="title" column ="title"/>
+		<result property="pancard" column ="pancard"/>
 		<result property="pincode1" column="pincode1" />
 		<result property="remainingPayment" column="remaining_payment" />
 		<result property="month" column ="month" />
@@ -86,7 +87,8 @@
 		<result property="createdBy" column="created_by" />
 		<result property="createdAt" column="created_at" />
 		<result property="updatedBy" column="updated_by" />
-		
+		<result property="penalty" column="penalty" />
+		<result property="discount" column="discount" />
 		<result property="updatedAt" column="updated_at" />
 		<result property="recordStatus" column="record_status" />	</resultMap>
 	
@@ -97,8 +99,8 @@
 	       b.nominee_dob, b.remarks, b.price, b.payment_made_till_now, b.emi, b.no_of_emi, 
 	       b.emi_price, b.next_emi_on,b.interest_rate,b.rate_per_yard,
 	       b.down_payment,b.payment_scheme_id,m.phone1,m.phone2,m.email,m.member_code,b.record_status,
-	       m.address1, m.state1, m.city1, m.pincode1,ps.title,ps.payment_scheme_id,ps.title,b.created_at,b.remaining_payment,
-	       b.allotment_letter_given
+	       m.address1, m.state1, m.city1, m.pincode1,m.pancard,ps.title,ps.payment_scheme_id,ps.title,b.created_at,b.remaining_payment,
+	       b.allotment_letter_given,b.penalty,b.discount
   		FROM bookings b
   		INNER JOIN members m
   			ON m.member_id=b.member_id
@@ -284,13 +286,13 @@
             plot_name, plot_size, franchisee_id, franchisee_name, member_id, 
             member_name, nominee_name, nominee_father, nominee_address, nominee_relation, 
             nominee_dob, remarks, price, payment_made_till_now, emi, no_of_emi, 
-            next_emi_on, created_by, updated_by, created_at, updated_at, 
+            next_emi_on, created_by, updated_by, created_at, updated_at, discount,penalty,
             record_status, interest_rate, rate_per_yard, down_payment, payment_scheme_id,remaining_payment)
     	VALUES (#{bookingId}, #{bookingCode}, #{projectId}, #{projectName}, #{plotId}, 
             #{plotName}, #{plotSize}, #{franchiseeId}, #{franchiseeName}, #{memberId}, 
             #{memberName}, #{nomineeName}, #{nomineeFather}, #{nomineeAddress}, #{nomineeRelation}, 
             #{nomineeDobLong}, #{remarks}, #{price}, 0, #{emi}, #{noOfEmi}, 
-            #{nextEmiOn}, #{createdBy}, #{updatedBy}, #{createdAt}, #{updatedAt}, 
+            #{nextEmiOn}, #{createdBy}, #{updatedBy}, #{createdAt}, #{updatedAt}, 0,0,
             'A', #{interestRate}, #{ratePerYard}, #{downPayment}, #{paymentSchemeId}, #{remainingPayment});
 	</insert>
 	
@@ -321,6 +323,22 @@
 		AND record_status='A'
 	</update>
 	
+	<update id="changePaidPaymentForFutureEmi" parameterType="java.util.List" >
+         <foreach collection="list" item="model" separator=";"> 
+            update bookings set remaining_payment=remaining_payment+#{model.paymentAmount}, no_of_emi=no_of_emi-1,
+            					next_emi_on=#{model.emiDate}
+			WHERE booking_id=#{model.bookingId}
+			AND record_status='A'
+         </foreach>
+	</update>
+	
+	<update id="changeDiscount">
+		update bookings set remaining_payment=remaining_payment+#{remainingBalance},
+							discount=discount+#{discount},penalty=penalty+#{penalty}
+		WHERE booking_id=#{bookingId}
+		AND record_status='A'
+	</update>
+	
 	<update id="changePaidPaymentForCancelledBooking">
 		update bookings set remaining_payment=0
 		WHERE booking_id=#{bookingId}
@@ -340,6 +358,10 @@
 	<select id="transferBookingCheck" resultType="boolean">
 		select count(*) from bookings 
 		WHERE member_id=#{memberId} AND booking_id!=#{bookingId} AND record_status='A'
+	</select>
+	
+	<select id="getUnclearAmount" resultType="Long">
+		select sum(payment_amount) from payments where booking_id=#{bookingId} AND record_status='A' and status='1'
 	</select>
 	<select id="transferBookingIds" resultType="map">
 		select booking_id as id,booking_code as code from bookings 

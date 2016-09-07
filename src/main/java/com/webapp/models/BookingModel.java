@@ -13,6 +13,7 @@ public class BookingModel extends AbstractModel{
 	private long downPayment;
 	private long ratePerYard;
 	private String franchiseeId;
+	private String pancard;
 	private String franchiseeName;
 	private String memberId;
 	private String memberName;
@@ -30,6 +31,7 @@ public class BookingModel extends AbstractModel{
 	private long noOfEmi;
 	private long emiPrice;
 	private long nextEmiOn;
+	private String nextEmiOnString;
 	private long interestRate;
 	private String memberCode;
 	private String email;
@@ -53,6 +55,8 @@ public class BookingModel extends AbstractModel{
 	private String pincode1;
 	private String title;
 	private long remainingPayment;
+	private long discount;
+	private long penalty;
 	private boolean allotmentLetterGiven;
 	public String getBookingId() {
 		return bookingId;
@@ -365,6 +369,30 @@ public class BookingModel extends AbstractModel{
 	}
 	public void setAmount(long amount) {
 		this.amount = amount;
+	}
+	public long getDiscount() {
+		return discount;
+	}
+	public void setDiscount(long discount) {
+		this.discount = discount;
+	}
+	public long getPenalty() {
+		return penalty;
+	}
+	public void setPenalty(long penalty) {
+		this.penalty = penalty;
+	}
+	public String getPancard() {
+		return pancard;
+	}
+	public void setPancard(String pancard) {
+		this.pancard = pancard;
+	}
+	public String getNextEmiOnString() {
+		return nextEmiOnString;
+	}
+	public void setNextEmiOnString(String nextEmiOnString) {
+		this.nextEmiOnString = nextEmiOnString;
 	}
 	
 

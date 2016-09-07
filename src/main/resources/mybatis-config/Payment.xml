@@ -44,7 +44,17 @@
   		FROM payments p
   		INNER JOIN users e ON e.user_id=p.created_by
   		WHERE p.booking_id=#{bookingId}
-  		AND p.record_status='A' AND p.status IN ('1','2','4')	
+  		AND p.record_status='A' AND p.status IN ('1','2','4','5')	
+	</select>
+	
+	<select id="getFutureEmi" resultMap="paymentMap">
+		SELECT p.payment_id, p.member_id, p.franchisee_id, p.franchisee_name, p.member_name, 
+		       p.booking_id, p.project_id, p.emi_date, p.payment_mode, p.cheque_date, 
+		       p.payment_amount, p.cheque_number, p.bank, p.account_holder, p.transaction_number, 
+		       p.description, p.status, p.created_by, p.updated_by, p.created_at, p.updated_at, 
+		       p.record_status, p.type,p.receipt_no
+  		FROM payments p
+  		WHERE p.record_status='A' AND p.status ='3' AND p.emi_date &lt;= #{todayDate}	
 	</select>
 	
 	<select id="fetchTotalChequeList" parameterType="JQTableUtils" resultType="long">
@@ -283,11 +293,18 @@
 	</insert>
 	
 	
+	<update id="updateFutureEmi" parameterType="java.util.List" >
+         <foreach collection="list" item="model" separator=";"> 
+            update payments set status='4' where payment_id=#{model.paymentId} AND record_status='A'
+         </foreach>
+	</update>
+	
+	
 	<update id="disableFuturePayment" parameterType="PaymentModel">
 		update payments set record_status='D' where booking_id=#{bookingId} AND emi_date &gt; #{updatedAt}
 	</update>
 	
-	<update id="disableFuturePayment" parameterType="String">
+	<update id="updatePaymentStatus" parameterType="String">
 		update payments set status=#{paymentStatusCleared} where payment_id=#{paymentId}
 	    AND record_status='A'
 	</update>

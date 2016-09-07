@@ -29,7 +29,11 @@ public interface PaymentDao {
 
 	long fetchTotalChequeList(@Param("JQTableUtils") JQTableUtils tableUtils);
 
-	void updatePaymentStatus(@Param("paymentId") String paymentId,@Param("paymentStatusCleared")  String paymentStatusCleared);
+	int updatePaymentStatus(@Param("paymentId") String paymentId,@Param("paymentStatusCleared")  String paymentStatusCleared);
+
+	List<PaymentModel> getFutureEmi(@Param("todayDate") long todayDate);
+
+	void updateFutureEmi(@Param("list") List<PaymentModel> paymentModelList);
 
 
 	

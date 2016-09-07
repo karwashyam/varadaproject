@@ -399,11 +399,12 @@ public class BookingService {
 		if(penaltyModel.getType().equalsIgnoreCase("penalty")){
 			paymentModel.setStatus(ProjectConstant.PAYMENT_STATUS_ADDED_EMI);
 			paymentModel.setType(ProjectConstant.PAYMENT_TYPE_DEBIT);
-			bookingDao.changePaidPayment(paymentModel.getBookingId(),paymentModel.getPaymentAmount(),-paymentModel.getPaymentAmount());
+//			bookingDao.changePaidPayment(paymentModel.getBookingId(),paymentModel.getPaymentAmount(),-paymentModel.getPaymentAmount());
+			bookingDao.changeDiscount(paymentModel.getBookingId(),0l,paymentModel.getPaymentAmount(),paymentModel.getPaymentAmount());
 		}else if(penaltyModel.getType().equalsIgnoreCase("discount")){
 			paymentModel.setStatus(ProjectConstant.PAYMENT_STATUS_CLEARED);
 			paymentModel.setType(ProjectConstant.PAYMENT_TYPE_CREDIT);
-			bookingDao.changePaidPayment(paymentModel.getBookingId(),paymentModel.getPaymentAmount(),-paymentModel.getPaymentAmount());
+			bookingDao.changeDiscount(paymentModel.getBookingId(),paymentModel.getPaymentAmount(),0l,-paymentModel.getPaymentAmount());
 		}
 		BookingModel bookingModel = bookingDao.getBookingDetailsById(penaltyModel.getBookingId());
 		
@@ -415,6 +416,7 @@ public class BookingService {
 		paymentModelList.add(paymentModel);
 		paymentDao.addPayments(paymentModelList);
 	}
+		
 	public List<Map<String, Object>> fetchBookingListByDate(
 			int iDisplayLength, int iDisplayStart, int serialNo, String sSortDir, String columnName, String sSearch, Map<String, Object> inputMap) {
 //		return bookingDao.fetchBookingListByDate(inputMap);
@@ -476,6 +478,12 @@ public class BookingService {
 			bookingDao.changePaidPayment(oldPaymentModel.getBookingId(),paymentModel.getPaymentAmount()-oldPaymentModel.getPaymentAmount(),-paymentModel.getPaymentAmount()+oldPaymentModel.getPaymentAmount());
 		}
 		paymentDao.editPayment(paymentModel);
+	}
+
+
+	public Long getUnclearAmount(String bookingId) {
+		// TODO Auto-generated method stub
+		return bookingDao.getUnclearAmount(bookingId);
 	}
 
 

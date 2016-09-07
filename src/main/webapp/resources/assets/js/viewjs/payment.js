@@ -34,9 +34,9 @@ function chequetable() {
 		{
 			"mRender" : function(data, type, row) {
 				var actionsLinks = '<div style="">'; 
-					actionsLinks += '<a href="javascript:void(0);" '+' onclick="clearedCheque('+"'" + data+"'" + ');">Cleared</a> / ';
+					actionsLinks += '<a href="javascript:void(0);" '+' onclick="clearedCheque('+"'" + data+"'" + ');">Clear</a> / ';
 				actionsLinks += '</div>';
-				actionsLinks += '<div style="cursor:pointer;" onclick="rejectedCheque('+"'" + data+"'" + ')">Rejected'; 
+				actionsLinks += '<div style="cursor:pointer;" onclick="rejectedCheque('+"'" + data+"'" + ')">Reject'; 
 				actionsLinks += '</div>';
 				return actionsLinks;
 				paymentId=data;
@@ -257,7 +257,6 @@ function loadTable(){
 }
 
 function clearedCheque(paymentId){
-	if(isDeleteAccess === "true"){
 		BootstrapDialog.show({
 			message: 'This cheque got cleared ?',
 			title: 'Alert',
@@ -303,11 +302,9 @@ function clearedCheque(paymentId){
 				}
 			}]
 		});
-	}
 }
 
 function rejectedCheque(paymentId){
-	if(isDeleteAccess === "true"){
 		BootstrapDialog.show({
 			message: 'This cheque got rejected ?',
 			title: 'Alert',
@@ -353,7 +350,6 @@ function rejectedCheque(paymentId){
 				}
 			}]
 		});
-	}
 }
 function editPayment(paymentId){
 	document.location = basePath + "/booking/edit-payment/" + paymentId;
