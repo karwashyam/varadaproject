@@ -15,11 +15,14 @@ import com.fnf.utils.JQTableUtils;
 import com.fnf.utils.UUIDGenerator;
 import com.utils.constant.ProjectConstant;
 import com.webapp.daos.BookingDao;
+import com.webapp.daos.FranchiseDao;
 import com.webapp.daos.MemberDao;
 import com.webapp.daos.PaymentDao;
 import com.webapp.daos.PaymentSchemeDao;
 import com.webapp.daos.ProjectDao;
 import com.webapp.models.BookingModel;
+import com.webapp.models.FranchiseCommissionModel;
+import com.webapp.models.FranchiseModel;
 import com.webapp.models.MemberModel;
 import com.webapp.models.PaymentModel;
 import com.webapp.models.PaymentSchemeModel;
@@ -35,6 +38,9 @@ public class BookingService {
 
 	@Autowired
 	private BookingDao bookingDao;
+	
+	@Autowired
+	private FranchiseDao franchiseDao;
 	
 	@Autowired
 	private PaymentSchemeDao paymentSchemeDao;
@@ -103,15 +109,15 @@ public class BookingService {
 		bookingModel.setPlotSize(plotDetails[1]);
 		bookingModel.setPlotName(plotDetails[2]);
 		String[] memberDetails=bookingModel.getMemberId().split("_");
+		String[] franchiseeDetails=bookingModel.getFranchiseeId().split("_");
 		bookingModel.setMemberId(memberDetails[0]);
 		bookingModel.setMemberName(memberDetails[1]);
 		String[] paymentScheme=bookingModel.getPaymentSchemeId().split("_");
 		bookingModel.setPaymentSchemeId(paymentScheme[0]);
 		bookingModel.setNoOfEmi(Long.parseLong(paymentScheme[1]));
 		bookingModel.setInterestRate(Long.parseLong(paymentScheme[2]));
-		MemberModel memberModel=memberDao.fetchMemberById(memberDetails[0]);
-		bookingModel.setFranchiseeId(memberModel.getFranchiseeId());
-		bookingModel.setFatherName(memberModel.getFranchiseeName());
+		bookingModel.setFranchiseeId(franchiseeDetails[0]);
+		bookingModel.setFranchiseeName(franchiseeDetails[1]);
 		bookingModel.setNomineeDobLong(DateUtils.getMilesecFromDateStr(bookingModel.getNomineeDob(), "dd/mm/yyyy", "GMT"));
 		bookingModel.setNextEmiOn(DateUtils.getGmtMillisecAfterMonths(ProjectConstant.ONE_MONTH));
 		bookingModel.setRemainingPayment(0l);
@@ -148,6 +154,7 @@ public class BookingService {
 			paymentModelList.add(paymentModel);
 			
 		}
+		FranchiseCommissionModel franchiseCommissionModel=null;
 		if(bookingModel.getDownPayment()>0){
 			PaymentModel paymentModel = new PaymentModel();
 			paymentModel.setPaymentId(UUIDGenerator.generateUUID());
@@ -168,6 +175,23 @@ public class BookingService {
 				paymentModel.setStatus(ProjectConstant.PAYMENT_STATUS_CLEARED);
 				paymentModel.setType(ProjectConstant.PAYMENT_TYPE_CREDIT);
 				bookingDao.changePaidPayment(paymentModel.getBookingId(),paymentModel.getPaymentAmount(),-paymentModel.getPaymentAmount());
+				FranchiseModel franchiseModel= franchiseDao.fetchFranchiseDetail(bookingModel.getFranchiseeId());
+				franchiseCommissionModel= new FranchiseCommissionModel();
+				franchiseCommissionModel.setFranchiseeCommissionId(UUIDGenerator.generateUUID());
+				franchiseCommissionModel.setFranchiseeId(bookingModel.getFranchiseeId());
+				franchiseCommissionModel.setFranchiseeName(bookingModel.getFranchiseeName());
+				franchiseCommissionModel.setBookingId(paymentModel.getBookingId());
+				franchiseCommissionModel.setPaymentId(paymentModel.getPaymentId());
+				franchiseCommissionModel.setProjectId(paymentModel.getProjectId());
+				franchiseCommissionModel.setCommissionAmount((long)(paymentModel.getPaymentAmount()/100*franchiseModel.getCommissionPercentage()));
+				franchiseCommissionModel.setStatus(ProjectConstant.PAYMENT_TYPE_CREDIT);
+				
+				franchiseCommissionModel.setCreatedBy(userId);
+				franchiseCommissionModel.setUpdatedAt(time);
+				franchiseCommissionModel.setUpdatedBy(userId);
+				franchiseCommissionModel.setCreatedAt(time);
+				
+				
 			}else if(bookingModel.getPaymentMethod().equalsIgnoreCase("Cheque")){
 				paymentModel.setPaymentMode(bookingModel.getPaymentMethod());
 				paymentModel.setStatus(ProjectConstant.PAYMENT_STATUS_UNCLEARED);
@@ -186,6 +210,22 @@ public class BookingService {
 				paymentModel.setBank(bookingModel.getBank());
 				paymentModel.setAccountHolder(bookingModel.getAccountHolder());
 				bookingDao.changePaidPayment(paymentModel.getBookingId(),paymentModel.getPaymentAmount(),-paymentModel.getPaymentAmount());
+				FranchiseModel franchiseModel= franchiseDao.fetchFranchiseDetail(bookingModel.getFranchiseeId());
+				franchiseCommissionModel= new FranchiseCommissionModel();
+				franchiseCommissionModel.setFranchiseeCommissionId(UUIDGenerator.generateUUID());
+				franchiseCommissionModel.setFranchiseeId(bookingModel.getFranchiseeId());
+				franchiseCommissionModel.setFranchiseeName(bookingModel.getFranchiseeName());
+				franchiseCommissionModel.setBookingId(paymentModel.getBookingId());
+				franchiseCommissionModel.setPaymentId(paymentModel.getPaymentId());
+				franchiseCommissionModel.setProjectId(paymentModel.getProjectId());
+				franchiseCommissionModel.setCommissionAmount((long)(paymentModel.getPaymentAmount()/100*franchiseModel.getCommissionPercentage()));
+				franchiseCommissionModel.setStatus(ProjectConstant.PAYMENT_TYPE_CREDIT);
+				
+				franchiseCommissionModel.setCreatedBy(userId);
+				franchiseCommissionModel.setUpdatedAt(time);
+				franchiseCommissionModel.setUpdatedBy(userId);
+				franchiseCommissionModel.setCreatedAt(time);
+				
 			}
 			paymentModelList.add(paymentModel);
 		}
@@ -209,6 +249,9 @@ public class BookingService {
 			paymentModelList.add(paymentModel);
 		}
 		int status=paymentDao.addPayments(paymentModelList);
+		if(franchiseCommissionModel!=null){
+			franchiseDao.addFranchiseeCommission(franchiseCommissionModel);
+		}
 		return status;
 	}
 
@@ -349,11 +392,34 @@ public class BookingService {
 			receiptNo++;
 		}
 		paymentModel.setReceiptNo(receiptNo);
+		paymentModel.setPaymentId(UUIDGenerator.generateUUID());
+		
+		BookingModel bookingModel1 = bookingDao.getBookingDetailsById(bookingModel.getBookingId());
+		long time = DateUtils.nowAsGmtMillisec();
+		FranchiseCommissionModel franchiseCommissionModel= null;
+		
 		if(bookingModel.getPaymentMethod().equalsIgnoreCase("Cash")){
 			paymentModel.setPaymentMode(bookingModel.getPaymentMethod());
 			paymentModel.setStatus(ProjectConstant.PAYMENT_STATUS_CLEARED);
 			paymentModel.setType(ProjectConstant.PAYMENT_TYPE_CREDIT);
 			bookingDao.changePaidPayment(paymentModel.getBookingId(),paymentModel.getPaymentAmount(),-paymentModel.getPaymentAmount());
+			FranchiseModel franchiseModel= franchiseDao.fetchFranchiseDetail(bookingModel1.getFranchiseeId());
+			franchiseCommissionModel = new FranchiseCommissionModel();
+			franchiseCommissionModel.setFranchiseeCommissionId(UUIDGenerator.generateUUID());
+			franchiseCommissionModel.setFranchiseeId(bookingModel1.getFranchiseeId());
+			franchiseCommissionModel.setFranchiseeName(bookingModel1.getFranchiseeName());
+			franchiseCommissionModel.setBookingId(paymentModel.getBookingId());
+			franchiseCommissionModel.setPaymentId(paymentModel.getPaymentId());
+			franchiseCommissionModel.setProjectId(paymentModel.getProjectId());
+			franchiseCommissionModel.setCommissionAmount((long)(paymentModel.getPaymentAmount()/100*franchiseModel.getCommissionPercentage()));
+			franchiseCommissionModel.setStatus(ProjectConstant.PAYMENT_TYPE_CREDIT);
+			
+			franchiseCommissionModel.setCreatedBy(userId);
+			franchiseCommissionModel.setUpdatedAt(time);
+			franchiseCommissionModel.setUpdatedBy(userId);
+			franchiseCommissionModel.setCreatedAt(time);
+			
+			
 		}else if(bookingModel.getPaymentMethod().equalsIgnoreCase("Cheque")){
 			paymentModel.setPaymentMode(bookingModel.getPaymentMethod());
 			paymentModel.setStatus(ProjectConstant.PAYMENT_STATUS_UNCLEARED);
@@ -372,16 +438,34 @@ public class BookingService {
 			paymentModel.setBank(bookingModel.getBank());
 			paymentModel.setAccountHolder(bookingModel.getAccountHolder());
 			bookingDao.changePaidPayment(paymentModel.getBookingId(),paymentModel.getPaymentAmount(),-paymentModel.getPaymentAmount());
+			FranchiseModel franchiseModel= franchiseDao.fetchFranchiseDetail(bookingModel1.getFranchiseeId());
+			franchiseCommissionModel = new FranchiseCommissionModel();
+			franchiseCommissionModel.setFranchiseeCommissionId(UUIDGenerator.generateUUID());
+			franchiseCommissionModel.setFranchiseeId(bookingModel1.getFranchiseeId());
+			franchiseCommissionModel.setFranchiseeName(bookingModel1.getFranchiseeName());
+			franchiseCommissionModel.setBookingId(paymentModel.getBookingId());
+			franchiseCommissionModel.setPaymentId(paymentModel.getPaymentId());
+			franchiseCommissionModel.setProjectId(paymentModel.getProjectId());
+			franchiseCommissionModel.setCommissionAmount((long)(paymentModel.getPaymentAmount()/100*franchiseModel.getCommissionPercentage()));
+			franchiseCommissionModel.setStatus(ProjectConstant.PAYMENT_TYPE_CREDIT);
+			
+			franchiseCommissionModel.setCreatedBy(userId);
+			franchiseCommissionModel.setUpdatedAt(time);
+			franchiseCommissionModel.setUpdatedBy(userId);
+			franchiseCommissionModel.setCreatedAt(time);
+			
 		}
-		bookingModel = bookingDao.getBookingDetailsById(bookingModel.getBookingId());
 		
-		paymentModel.setPaymentId(UUIDGenerator.generateUUID());
-		paymentModel.setMemberId(bookingModel.getMemberId());
-		paymentModel.setMemberName(bookingModel.getMemberName());
-		paymentModel.setFranchiseeId(bookingModel.getFranchiseeId());
-		paymentModel.setFranchiseeName(bookingModel.getFranchiseeName());
+		
+		
+		paymentModel.setMemberId(bookingModel1.getMemberId());
+		paymentModel.setMemberName(bookingModel1.getMemberName());
+		paymentModel.setFranchiseeId(bookingModel1.getFranchiseeId());
+		paymentModel.setFranchiseeName(bookingModel1.getFranchiseeName());
 		paymentModelList.add(paymentModel);
 		paymentDao.addPayments(paymentModelList);
+		if(franchiseCommissionModel!=null)
+		franchiseDao.addFranchiseeCommission(franchiseCommissionModel);
 	}
 
 	@Transactional
@@ -399,7 +483,6 @@ public class BookingService {
 		if(penaltyModel.getType().equalsIgnoreCase("penalty")){
 			paymentModel.setStatus(ProjectConstant.PAYMENT_STATUS_ADDED_EMI);
 			paymentModel.setType(ProjectConstant.PAYMENT_TYPE_DEBIT);
-//			bookingDao.changePaidPayment(paymentModel.getBookingId(),paymentModel.getPaymentAmount(),-paymentModel.getPaymentAmount());
 			bookingDao.changeDiscount(paymentModel.getBookingId(),0l,paymentModel.getPaymentAmount(),paymentModel.getPaymentAmount());
 		}else if(penaltyModel.getType().equalsIgnoreCase("discount")){
 			paymentModel.setStatus(ProjectConstant.PAYMENT_STATUS_CLEARED);
@@ -461,6 +544,9 @@ public class BookingService {
 			paymentModel.setStatus(ProjectConstant.PAYMENT_STATUS_CLEARED);
 			paymentModel.setType(ProjectConstant.PAYMENT_TYPE_CREDIT);
 			bookingDao.changePaidPayment(oldPaymentModel.getBookingId(),paymentModel.getPaymentAmount()-oldPaymentModel.getPaymentAmount(),-paymentModel.getPaymentAmount()+oldPaymentModel.getPaymentAmount());
+			FranchiseModel franchiseModel= franchiseDao.fetchFranchiseDetail(oldPaymentModel.getFranchiseeId());
+			
+			franchiseDao.updateCommissionAmount(oldPaymentModel.getPaymentId(),(long)(paymentModel.getPaymentAmount()*franchiseModel.getCommissionPercentage()/100));
 		}else if(paymentModel.getPaymentMode().equalsIgnoreCase("Cheque")){
 			paymentModel.setStatus(ProjectConstant.PAYMENT_STATUS_UNCLEARED);
 			paymentModel.setType(ProjectConstant.PAYMENT_TYPE_CREDIT);
@@ -468,6 +554,9 @@ public class BookingService {
 			paymentModel.setChequeDate(DateUtils.getMilesecFromDateStr(paymentModel.getChequeDateString(), "dd/mm/yyyy", "GMT"));
 			if(oldPaymentModel.getStatus().equalsIgnoreCase(ProjectConstant.PAYMENT_STATUS_CLEARED)){
 				bookingDao.changePaidPayment(oldPaymentModel.getBookingId(),paymentModel.getPaymentAmount()-oldPaymentModel.getPaymentAmount(),-paymentModel.getPaymentAmount()+oldPaymentModel.getPaymentAmount());
+				FranchiseModel franchiseModel= franchiseDao.fetchFranchiseDetail(oldPaymentModel.getFranchiseeId());
+				
+				franchiseDao.updateCommissionAmount(oldPaymentModel.getPaymentId(),(long)(paymentModel.getPaymentAmount()*franchiseModel.getCommissionPercentage()/100));
 			}
 		}else if(paymentModel.getPaymentMode().equalsIgnoreCase("Online")){
 			paymentModel.setStatus(ProjectConstant.PAYMENT_STATUS_CLEARED);
@@ -476,6 +565,9 @@ public class BookingService {
 			paymentModel.setTransactionNumber(paymentModel.getChequeNumber());
 			paymentModel.setChequeNumber(null);
 			bookingDao.changePaidPayment(oldPaymentModel.getBookingId(),paymentModel.getPaymentAmount()-oldPaymentModel.getPaymentAmount(),-paymentModel.getPaymentAmount()+oldPaymentModel.getPaymentAmount());
+			FranchiseModel franchiseModel= franchiseDao.fetchFranchiseDetail(oldPaymentModel.getFranchiseeId());
+			
+			franchiseDao.updateCommissionAmount(oldPaymentModel.getPaymentId(),(long)(paymentModel.getPaymentAmount()*franchiseModel.getCommissionPercentage()/100));
 		}
 		paymentDao.editPayment(paymentModel);
 	}

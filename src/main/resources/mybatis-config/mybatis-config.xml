@@ -31,6 +31,7 @@
 
   		<typeAlias alias="MemberModel" type="com.webapp.models.MemberModel" />
   		<typeAlias alias="PaymentModel" type="com.webapp.models.PaymentModel" />
+  		<typeAlias alias="FranchiseCommissionModel" type="com.webapp.models.FranchiseCommissionModel" />
 
   		
 	</typeAliases>

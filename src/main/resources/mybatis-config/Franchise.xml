@@ -146,6 +146,27 @@
             		#{commissionPercentage});
 	</insert>
 	
+	
+	<update id="updateCommissionAmount">
+		update franchisee_commission set commission_amount=#{amount}
+		Where payment_id=#{paymentId}
+	</update>
+	
+	<insert id="addFranchiseeCommission" parameterType="FranchiseCommissionModel">
+		INSERT INTO franchisee_commission(
+            franchisee_commission_id, franchisee_id, franchisee_name, booking_id, 
+            payment_id, project_id, tds, payment_mode, payment_amount, cheque_number, 
+            bank, account_holder, transaction_number, status, created_by, 
+            updated_by, created_at, updated_at, record_status, commission_amount, 
+            tds_amount, cheque_date)
+    	VALUES (#{franchiseeCommissionId}, #{franchiseeId}, #{franchiseeName}, #{bookingId}, 
+            #{paymentId}, #{projectId}, #{tds}, #{paymentMode}, #{paymentAmount}, #{chequeNumber}, 
+            #{bank}, #{accountHolder}, #{transactionNumber}, #{status}, #{createdBy}, 
+            #{updatedBy}, #{createdAt}, #{updatedAt}, 'A', #{commissionAmount}, 
+            #{tdsAmount}, #{chequeDate})
+	</insert>
+	
+	
 	<update id="editFranchise" parameterType="FranchiseModel">
 		UPDATE franchisee
    			SET franchisee_name=#{franchiseeName}, email=#{email}, address=#{address}, state=#{state}, 

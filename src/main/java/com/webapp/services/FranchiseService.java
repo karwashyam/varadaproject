@@ -71,4 +71,5 @@ public class FranchiseService {
 		// TODO Auto-generated method stub
 		return franchiseDao.fetchAllFranchiseList();
 	}
+
 }

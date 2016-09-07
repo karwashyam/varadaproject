@@ -1,6 +1,5 @@
 package com.webapp.services;
 
-import java.lang.annotation.Target;
 import java.util.Date;
 import java.util.List;
 
@@ -11,9 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fnf.utils.DateUtils;
 import com.fnf.utils.JQTableUtils;
+import com.fnf.utils.UUIDGenerator;
 import com.utils.constant.ProjectConstant;
 import com.webapp.daos.BookingDao;
+import com.webapp.daos.FranchiseDao;
 import com.webapp.daos.PaymentDao;
+import com.webapp.models.FranchiseCommissionModel;
+import com.webapp.models.FranchiseModel;
 import com.webapp.models.PaymentModel;
 
 @Service("paymentService")
@@ -26,6 +29,9 @@ public class PaymentService {
 	
 	@Autowired
 	private BookingDao bookingDao;
+	
+	@Autowired
+	private FranchiseDao franchiseDao;
 
 	@Transactional
 	public List<PaymentModel> fetchPaymentList(JQTableUtils tableUtils) {
@@ -52,6 +58,25 @@ public class PaymentService {
 		PaymentModel paymentModel=paymentDao.getPaymentDetailsById(paymentId);
 		int status=paymentDao.updatePaymentStatus(paymentId,ProjectConstant.PAYMENT_STATUS_CLEARED);
 		bookingDao.changePaidPayment(paymentModel.getBookingId(),paymentModel.getPaymentAmount(),-paymentModel.getPaymentAmount());
+		
+		FranchiseModel franchiseModel= franchiseDao.fetchFranchiseDetail(paymentModel.getFranchiseeId());
+		FranchiseCommissionModel franchiseCommissionModel= new FranchiseCommissionModel();
+		franchiseCommissionModel.setFranchiseeCommissionId(UUIDGenerator.generateUUID());
+		franchiseCommissionModel.setFranchiseeId(franchiseModel.getFranchiseeId());
+		franchiseCommissionModel.setFranchiseeName(franchiseModel.getFranchiseeName());
+		franchiseCommissionModel.setBookingId(paymentModel.getBookingId());
+		franchiseCommissionModel.setPaymentId(paymentId);
+		franchiseCommissionModel.setProjectId(paymentModel.getProjectId());
+		franchiseCommissionModel.setCommissionAmount((long)(paymentModel.getPaymentAmount()/100*franchiseModel.getCommissionPercentage()));
+		franchiseCommissionModel.setStatus(ProjectConstant.PAYMENT_TYPE_CREDIT);
+		long time = DateUtils.nowAsGmtMillisec();
+		
+		franchiseCommissionModel.setCreatedBy(userId);
+		franchiseCommissionModel.setUpdatedAt(time);
+		franchiseCommissionModel.setUpdatedBy(userId);
+		franchiseCommissionModel.setCreatedAt(time);
+		
+		franchiseDao.addFranchiseeCommission(franchiseCommissionModel);
 		return status;
 	}
 	

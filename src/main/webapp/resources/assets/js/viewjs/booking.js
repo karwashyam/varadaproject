@@ -1,7 +1,7 @@
 var oTable;
 var isEditAccess;
 var isDeleteAccess;
-var validateRequireFields = ["memberId","projectId","paymentSchemeId","plotId","ratePerYard","nomineeName","nomineeFather","nomineeAddress","nomineeRelation","paymentDate","nomineeDob"];
+var validateRequireFields = ["memberId","franchiseeId","projectId","paymentSchemeId","plotId","ratePerYard","nomineeName","nomineeFather","nomineeAddress","nomineeRelation","paymentDate","nomineeDob"];
 var validateRequireFields1 = ["bookingId"];
 
 $(document).ready(function() {
@@ -177,7 +177,7 @@ $(document).ready(function() {
 	});
 	
 $("#submit").click(function() {
-	validateRequireFields = ["memberId","projectId","paymentSchemeId","plotId","ratePerYard","nomineeName","nomineeFather","nomineeAddress","nomineeRelation","paymentDate","nomineeDob"];	
+	validateRequireFields = ["memberId","franchiseeId","projectId","paymentSchemeId","plotId","ratePerYard","nomineeName","nomineeFather","nomineeAddress","nomineeRelation","paymentDate","nomineeDob"];	
 		var isValid = validateForm();
 		if (!isValid) {
 			window.stop(); //should work in all major browsers

@@ -29,13 +29,16 @@ import com.fnf.utils.JQTableUtils;
 import com.webapp.controllers.BusinessController;
 import com.webapp.controllers.DataTablesTO;
 import com.webapp.dbsession.DbSession;
+import com.webapp.dto.FranchiseDto;
 import com.webapp.models.BookingModel;
+import com.webapp.models.FranchiseModel;
 import com.webapp.models.MemberModel;
 import com.webapp.models.PaymentModel;
 import com.webapp.models.PenaltyModel;
 import com.webapp.models.ProjectModel;
 import com.webapp.models.TransferModel;
 import com.webapp.services.BookingService;
+import com.webapp.services.FranchiseService;
 import com.webapp.services.MemberService;
 import com.webapp.services.PaymentService;
 import com.webapp.services.ProjectSerivce;
@@ -60,6 +63,9 @@ public class BookingController extends BusinessController{
 	
 	@Autowired
 	private ProjectSerivce projectSerivce;
+	
+	@Autowired
+	private FranchiseService franchiseService;
 	
 	@Autowired
 	private MemberService memberService;
@@ -98,6 +104,10 @@ public class BookingController extends BusinessController{
 		model.addAttribute("projectModel",projectModel);
 		List<MemberModel> memberModelList = memberService.fetchMembersList();
 		model.addAttribute("memberModelList",memberModelList);
+		
+		List<FranchiseDto> franchiseeModelList = franchiseService.fetchAllFranchiseList();
+		model.addAttribute("franchiseeModelList",franchiseeModelList);
+		
 		return "add-booking";
 	}
 	
