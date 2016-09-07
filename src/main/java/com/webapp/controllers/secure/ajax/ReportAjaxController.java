@@ -192,7 +192,7 @@ public class ReportAjaxController extends BusinessApiController {
 		System.out.println("\n\t ====reprtType=>"+reportType+"\t -sdate=>"+startDate);
 		
 		if("2".equals(reportType)){
-			inputMap.put("recordStatus", "D");
+			inputMap.put("recordStatus", "C");
 		}else {
 			inputMap.put("recordStatus", "A");
 		}
