@@ -36,4 +36,6 @@ public interface FranchiseDao {
 
 	int updateCommissionAmount(@Param("paymentId") String paymentId,@Param("amount")  long amount);
 	
+	List<FranchiseModel> fetchFranchiseCommissionList(@Param("JQTableUtils") JQTableUtils tableUtils);
+	
 }

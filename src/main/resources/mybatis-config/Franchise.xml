@@ -37,6 +37,9 @@
 		<result property="pan" column="pan" />
 		<result property="tds" column="tds" />
 		<result property="commissionPercentage" column="commission_percentage" />
+		<result property="commissionPaid" column="commission_paid" />
+		<result property="tdsPaid" column="tds_paid" />
+		<result property="commissionUnpaid" column="commission_unpaid" />
 	</resultMap>
 	
 	<select id="fetchFranchiseList" parameterType="JQTableUtils" resultMap="FranchiseMap">
@@ -211,6 +214,57 @@
 		SELECT f.franchisee_id,f.franchisee_name
   		FROM franchisee f
   		WHERE f.record_status='A'
+	</select>
+	
+	<select id="fetchFranchiseCommissionList" parameterType="JQTableUtils" resultMap="FranchiseModel">
+		SELECT f.franchisee_id,f.franchisee_name,f.pan,f.tds,f.commission_paid, f.tds_paid, f.commission_unpaid
+  		FROM franchisee f
+  		WHERE 1=1
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+			f.franchisee_name ilike #{JQTableUtils.searchParams}
+			OR
+			f.pan ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+		ORDER BY
+		<choose>
+			<when test="JQTableUtils.sortColumn == 2">
+				f.franchisee_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 3">
+				f.pan
+			</when>
+			<when test="JQTableUtils.sortColumn == 4">
+				f.commission_paid
+			</when>
+			<when test="JQTableUtils.sortColumn == 5">
+				f.commission_unpaid
+			</when>
+			<when test="JQTableUtils.sortColumn == 6">
+				f.tds
+			</when>
+			<when test="JQTableUtils.sortColumn == 7">
+				f.tds_paid
+			</when>
+			<otherwise>
+				f.franchisee_name
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="JQTableUtils.sortingDirection == 'desc'">
+				DESC
+			</when>
+			<otherwise>
+				ASC
+			</otherwise>
+		</choose> 
+		<if test="JQTableUtils.iDisplayLength!=-1">
+			LIMIT #{JQTableUtils.iDisplayLength}
+			OFFSET #{JQTableUtils.iDisplayStart}
+		</if>
+		
 	</select>
 	
 </mapper> 
