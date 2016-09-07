@@ -109,6 +109,26 @@ $(document).ready(function() {
 		        	$("#accountHolder").show();
 				}
 		    });
+	$('input:radio[name="paymentMode"]').change(
+			function(){
+		        if ($(this).is(':checked') && $(this).val() == 'Cash') {
+		        	$("#chequeNo").hide();	
+		        	$("#issueDate").hide();
+		        	$("#bank").hide();
+		        	$("#accountHolder").hide();
+		        }else  if ($(this).is(':checked') && $(this).val() == 'Cheque') {
+		        	$("#chequeNo").show();
+		        	$("#issueDate").show();
+		        	$("#bank").show();
+		        	$("#accountHolder").show();
+				}else  if ($(this).is(':checked') && $(this).val() == 'Online') {
+					$("#chequeNo").show();
+		        	$("#issueDate").hide();
+		        	$("#bank").show();
+		        	$("#accountHolder").show();
+				}
+		    });
+		        
 	
 	$("#ratePerYard").change(function() {
 		var yardSize=$("#plotSize").text();
@@ -173,25 +193,34 @@ $("#add-payment-button").click(function() {
 		document.execCommand("Stop"); //is necessary to support IE
 		return false;
 	}
-//	if($('input:radio[name="paymentMethod"]').val()=="Cheque"){
-//		validateRequireFields = ["chequeNumber","chequeDate","bankName","accountHolderName"];
-//		isValid = validateForm();
-//		if (!isValid) {
-//			window.stop(); //should work in all major browsers
-//			document.execCommand("Stop"); //is necessary to support IE
-//			return false;
-//		}
-//	}
-//	if($('input:radio[name="paymentMethod"]').val()=="Online"){
-//		validateRequireFields = ["chequeNumber"];
-//		isValid = validateForm();
-//		if (!isValid) {
-//			window.stop(); //should work in all major browsers
-//			document.execCommand("Stop"); //is necessary to support IE
-//			return false;
-//		}
-//	}
 });
+	$("#edit-payment-button").click(function() {
+		validateRequireFields = ["emiDateString","paymentAmount"];
+		var isValid = validateForm();
+		if (!isValid) {
+			window.stop(); //should work in all major browsers
+			document.execCommand("Stop"); //is necessary to support IE
+			return false;
+		}
+	});
+	/*if($('input:radio[name="paymentMethod"]').val()=="Cheque"){
+		validateRequireFields = ["chequeNumber","chequeDate","bankName","accountHolderName"];
+		isValid = validateForm();
+		if (!isValid) {
+			window.stop(); //should work in all major browsers
+			document.execCommand("Stop"); //is necessary to support IE
+			return false;
+		}
+	}
+	if($('input:radio[name="paymentMethod"]').val()=="Online"){
+		validateRequireFields = ["chequeNumber"];
+		isValid = validateForm();
+		if (!isValid) {
+			window.stop(); //should work in all major browsers
+			document.execCommand("Stop"); //is necessary to support IE
+			return false;
+		}
+	}*/
 
 $("#add-penalty-button").click(function() {
 	validateRequireFields = ["amount1","description"];
@@ -213,8 +242,24 @@ $("#transfer-button").click(function() {
 	}
 });
 	
-	
-	
+$(function(){	
+if ( $('input:radio[name="paymentMode"]:checked') == 'Cash') {
+	$("#chequeNo").hide();	
+	$("#issueDate").hide();
+	$("#bank").hide();
+	$("#accountHolder").hide();
+}else  if ( $('input:radio[name="paymentMode"]:checked').val() == 'Cheque') {
+	$("#chequeNo").show();
+	$("#issueDate").show();
+	$("#bank").show();
+	$("#accountHolder").show();
+}else  if ( $('input:radio[name="paymentMode"]:checked').val() == 'Online') {
+	$("#chequeNo").show();
+	$("#issueDate").hide();
+	$("#bank").show();
+	$("#accountHolder").show();
+}	
+});
 	
 });
 
@@ -419,7 +464,7 @@ function transferBooking(bookingId,memberId){
 			}
 		}]
 	});
-}
+};
 
 
 function loadTable(){

@@ -4,7 +4,7 @@
 <head>
 <%@ page session="false"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Varada Home</title>
+<title>Edit Payment</title>
 <script type="text/javascript">
 	var basePath = '${pageContext.request.contextPath}';
 </script> 
@@ -26,7 +26,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                 	<div class="x_title">
-                    <h2>Booking Details</h2>
+                    <h2>Edit Payment</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -104,7 +104,88 @@
                       <!-- /.row -->
 						</div>
 						<div class="ln_solid"></div>
+						<div class="row">
+                        	<div class="col-md-6 col-sm-6 col-xs-6">
+	                          	<form:form id="addPayment" style="border:1px solid;" class="form-horizontal form-label-left" method="POST" action="${pageContext.request.contextPath}/booking/edit-payment" commandName="paymentModel">
+	                          		<input type="hidden" id="paymentId" name="paymentId" value="${paymentModel['paymentId']}" />	
+	                          		<div class="form-group">
+	                          			<b><u><center>Edit Payment</center></u></b>
+	                          		</div>
+	                          		<div class="form-group">
+				                        <label class="control-label col-md-6 col-sm-6 col-xs-12">Payment Mode*</label>
+				                        <div class="col-md-6 col-sm-6 col-xs-12">
+				                        	<div class="radio">
+					                        	<label>
+						                        	<form:radiobutton id="cash" path="paymentMode" value="Cash"  placeholder="" /> Cash
+					                          	</label>
+				                          	</div>
+				                          	<div class="radio">
+					                        	<label>
+						                        	<form:radiobutton id="cheque" path="paymentMode" value="Cheque"  placeholder="" /> Cheque
+					                          	</label>
+				                          	</div>
+				                          	<div class="radio">
+					                        	<label>
+						                        	<form:radiobutton id="online" path="paymentMode" value="Online"  placeholder="" /> Online
+						                          	<form:errors path="paymentMode" class="errorMessage" />
+					                          	</label>
+				                          	</div>
+				                        </div>
+				                      </div>
+				                      <div class="form-group">
+				                        <label class="control-label col-md-6 col-sm-6 col-xs-12">Amount* (INR)</label>
+				                        <div class="col-md-6 col-sm-6 col-xs-12">
+				                        	<form:input id="paymentAmount" path="paymentAmount" class="form-control" placeholder="" />
+				                          	<form:errors path="paymentAmount" class="errorMessage" />
+				                        </div>
+				                      </div>
+				                      <div class="form-group">
+				                        <label class="control-label col-md-6 col-sm-6 col-xs-12">Payment Date</label>
+				                        <div class="col-md-6 col-sm-6 col-xs-12">
+				                        	<form:input id="emiDateString" path="emiDateString" class="form-control" placeholder="dd/mm/yyyy" />
+				                          	<form:errors path="emiDateString" class="errorMessage" />
+				                        </div>
+				                      </div>
+				                      <div class="form-group" id="chequeNo" style="display: none;">
+				                        <label class="control-label col-md-6 col-sm-6 col-xs-12">Cheque No./Transaction Id</label>
+				                        <div class="col-md-6 col-sm-6 col-xs-12">
+				                        	<form:input id="chequeNumber" path="chequeNumber" class="form-control" placeholder="" />
+				                          	<form:errors path="chequeNumber" class="errorMessage" />
+				                        </div>
+				                      </div>
+				                      <div class="form-group" id="issueDate" style="display: none;">
+				                        <label class="control-label col-md-6 col-sm-6 col-xs-12">Issue Date</label>
+				                        <div class="col-md-6 col-sm-6 col-xs-12">
+				                        	<form:input id="chequeDateString" path="chequeDateString" class="form-control" placeholder="dd/mm/yyyy" />
+				                          	<form:errors path="chequeDateString" class="errorMessage" />
+				                        </div>
+				                      </div>
+				                      <div class="form-group" id="bank" style="display: none;">
+				                        <label class="control-label col-md-6 col-sm-6 col-xs-12">Bank</label>
+				                        <div class="col-md-6 col-sm-6 col-xs-12">
+				                        	<form:input id="bankName" path="bank" class="form-control" placeholder="" />
+				                          	<form:errors path="bank" class="errorMessage" />
+				                        </div>
+				                      </div>
+				                      <div class="form-group"  id="accountHolder" style="display: none;">
+				                        <label class="control-label col-md-6 col-sm-6 col-xs-12">Account Holder</label>
+				                        <div class="col-md-6 col-sm-6 col-xs-12">
+				                        	<form:input id="accountHolderName" path="accountHolder" class="form-control" placeholder="" />
+				                          	<form:errors path="accountHolder" class="errorMessage" />
+				                        </div>
+				                      </div>
+				                      <div class="form-group">
+				                      	<label class="control-label col-md-6 col-sm-6 col-xs-12"></label>
+				                        <div class="col-md-6 col-sm-6 col-xs-12">
+				                        	<button id="edit-payment-button" type="submit" class="btn btn-success">Edit Payment</button>
+				                        </div>
+				                      </div>
+				                   </form:form>
+                        		</div>
+                        		
+                      	</div>
                       <!-- Table row -->
+                      <div class="ln_solid"></div>
                       <div class="row">
                         <div class="col-xs-12 table">
                           <table class="table table-striped">
@@ -138,13 +219,7 @@
 											  </td>
 											</c:otherwise>
 										</c:choose>
-										<c:if test="${paymentModel['receiptNo'] == NULL}">
-										<td>${paymentModel['receiptNo']}</td>
-										</c:if>
-										<c:if test="${paymentModel['receiptNo'] != NULL}">
-										<td style="cursor:pointer;" onclick="printReceipt('${paymentModel['paymentId']}')">${paymentModel['receiptNo']}</td>
-										</c:if>
-		                                
+		                                <td>${paymentModel['receiptNo']}</td>
 		                                <td>${paymentModel['emiDateString']}</td>
 		                                <td>${paymentModel['chequeNumber']}${paymentModel['transactionNumber']}</td>
 		                                <td>${paymentModel['chequeDateString']}</td>
@@ -199,17 +274,6 @@
                       <!-- /.row -->
 
                       <!-- this row will not appear when printing -->
-                      <div class="row no-print">
-                        <div class="col-xs-12">
-                          <button class="btn btn-default" onclick="printFunction()"><i class="fa fa-print"></i> Print</button>
-                          <c:if test="${bookingModel['recordStatus'] == 'A'}">
-                          <button onclick="allotmentLetter('${bookingModel.bookingId}')" class="btn btn-default"><i class="fa fa-print"></i> Print Allotment Letter</button>
-                          <button id="transferBooking" onclick="transferBooking('${bookingModel.bookingId}','${bookingModel.memberId}')"  class="btn btn-primary pull-right" style="margin-right: 5px;"> Transfer Booking</button>
-                          <button id="cancelBooking" onclick="cancelBooking('${bookingModel.bookingId}')" class="btn btn-primary pull-right" style="margin-right: 5px;"> Cancel Booking</button>
-                          <button id="addPayment" onclick="addPayment('${bookingModel.bookingId}')" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Add Payment</button>
-                          </c:if>
-                        </div>
-                      </div>
                     </section>
                   </div>
                 </div>
@@ -222,30 +286,19 @@
 
 <%@ include file="/WEB-INF/views/includes/footer.jsp"%>
 <script type="text/javascript">
-function printFunction(){
-	var printContents = document.getElementById("printableArea").innerHTML;
-    var originalContents = document.body.innerHTML;
-
-    document.body.innerHTML = printContents;
-
-    window.print();
-
-    document.body.innerHTML = originalContents;
-};
-function allotmentLetter(bookingId){
-	window.open(
-			  basePath+'/booking/allotment-letter/'+bookingId,
-			  '_blank' // <- This is what makes it open in a new window.
-			);
-};
-
-function printReceipt(paymentId){
-	window.open(
-			  basePath+'/payment/print-receipt/'+paymentId,
-			  '_blank' // <- This is what makes it open in a new window.
-			);
-};
-
-
+$( function() {
+	$("#emiDateString").datepicker({
+		changeMonth: true,
+		changeYear: true,
+		format : "dd/mm/yyyy",
+		yearRange: "-100:+0"
+	});
+	$("#chequeDateString").datepicker({
+		changeMonth: true,
+		changeYear: true,
+		format : "dd/mm/yyyy",
+		yearRange: "-100:+0"
+	});
+  } );
 </script>
 </html>

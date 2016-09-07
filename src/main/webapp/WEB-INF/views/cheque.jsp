@@ -4,7 +4,7 @@
 <head>
 <%@ page session="false"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Payment History</title>
+<title>Unclear cheques</title>
 <script type="text/javascript">
 	var basePath = '${pageContext.request.contextPath}';
 </script> 
@@ -22,7 +22,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Payments</h2>
+                    <h2>Unclear cheques</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -41,17 +41,19 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <table id="city-datatable" class="table table-striped table-bordered">
+                    <table id="cheque-datatable" class="table table-striped table-bordered">
                       <thead>
                         <tr>
                         	<th>Receipt No</th>
                         	<th>Project</th>
-                          	<th>Franchisee</th>
                           	<th>Member</th>
                           	<th>Booking Code</th>
-                          	<th>Plot No</th>
                           	<th>Amount</th>
                           	<th>Payment Date</th>
+                          	<th>Cheque Number</th>
+                          	<th>Cheque Date</th>
+                          	<th>Bank</th>
+                          	<th>Account Holder</th>
                           	<th>Action</th>
                         </tr>
                       </thead>

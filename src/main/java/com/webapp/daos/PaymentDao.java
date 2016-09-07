@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.fnf.utils.JQTableUtils;
 import com.webapp.models.PaymentModel;
 
 public interface PaymentDao {
@@ -17,6 +18,18 @@ public interface PaymentDao {
 	Long getLatestReceiptNo();
 
 	PaymentModel getPaymentDetailsById(@Param("paymentId") String paymentId);
+
+	List<PaymentModel> fetchPaymentList(@Param("JQTableUtils") JQTableUtils tableUtils);
+
+	long fetchTotalPaymentList(@Param("JQTableUtils") JQTableUtils tableUtils);
+
+	void editPayment(PaymentModel paymentModel);
+
+	List<PaymentModel> fetchChequeList(@Param("JQTableUtils") JQTableUtils tableUtils);
+
+	long fetchTotalChequeList(@Param("JQTableUtils") JQTableUtils tableUtils);
+
+	void updatePaymentStatus(@Param("paymentId") String paymentId,@Param("paymentStatusCleared")  String paymentStatusCleared);
 
 
 	

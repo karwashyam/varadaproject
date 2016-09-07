@@ -106,6 +106,12 @@
   			ON ps.payment_scheme_id=b.payment_scheme_id
   		WHERE b.booking_id=#{bookingId} AND b.record_status !='D'
   	</select>
+  	
+	<select id="getBookings" resultMap="BookingMap">
+		SELECT b.booking_id, b.booking_code
+  		FROM bookings b
+  		WHERE b.record_status='A'
+  	</select>
 	<select id="fetchBookingList" parameterType="JQTableUtils" resultMap="BookingMap">
 		SELECT b.booking_id, b.booking_code, b.project_id, b.project_name, b.plot_id, 
 	       b.plot_name, b.plot_size, b.franchisee_id, b.franchisee_name, b.member_id, 

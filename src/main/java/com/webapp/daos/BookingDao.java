@@ -35,6 +35,8 @@ public interface BookingDao {
 	public List<String> fethBookedPlotsIdListOfProjects();
 	long fetchTotalBookingListByDate(Map<String, Object> inputMap);
 
+	List<BookingModel> getBookings();
+
 	
 
 }

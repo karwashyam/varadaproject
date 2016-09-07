@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fnf.utils.JQTableUtils;
+import com.utils.constant.ProjectConstant;
 import com.webapp.daos.PaymentDao;
-import com.webapp.dto.CityDto;
 import com.webapp.models.PaymentModel;
 
 @Service("paymentService")
@@ -21,17 +21,30 @@ public class PaymentService {
 	private PaymentDao paymentDao;
 
 	@Transactional
-	public List<CityDto> fetchPaymentList(JQTableUtils tableUtils) {
-		return null;//cityDao.fetchCityList(tableUtils);
+	public List<PaymentModel> fetchPaymentList(JQTableUtils tableUtils) {
+		return paymentDao.fetchPaymentList(tableUtils);
 	}
-
 	public long fetchTotalPaymentList(JQTableUtils tableUtils) {
-		return 0;//cityDao.fetchTotalCityList(tableUtils);
+		return paymentDao.fetchTotalPaymentList(tableUtils);
 	}
 
 	public PaymentModel getPaymentDetailsById(String paymentId) {
 		// TODO Auto-generated method stub
 		return paymentDao.getPaymentDetailsById(paymentId);
+	}
+	public List<PaymentModel> fetchChequeList(JQTableUtils tableUtils) {
+		return paymentDao.fetchChequeList(tableUtils);
+	}
+	public long fetchTotalChequeList(JQTableUtils tableUtils) {
+		// TODO Auto-generated method stub
+		return paymentDao.fetchTotalChequeList(tableUtils);
+	}
+	
+	@Transactional
+	public int clearCheque(String paymentId, String userId) {
+		PaymentModel paymentModel=paymentDao.getPaymentDetailsById(paymentId);
+		paymentDao.updatePaymentStatus(paymentId,ProjectConstant.PAYMENT_STATUS_CLEARED);
+		return 0;
 	}
 
 }

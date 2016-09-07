@@ -30,6 +30,9 @@
 		<result property="srNo" column="srno" />
 		<result property="fullName" column="full_name" />
 		<result property="receiptNo" column="receipt_no" />
+		<result property="projectName" column="project_name" />
+		<result property="plotName" column="plot_name" />
+		<result property="bookingCode" column="booking_code" />
 	</resultMap>
 	
 	<select id="getPaymentDetailsByBookingId" resultMap="paymentMap">
@@ -42,6 +45,198 @@
   		INNER JOIN users e ON e.user_id=p.created_by
   		WHERE p.booking_id=#{bookingId}
   		AND p.record_status='A' AND p.status IN ('1','2','4')	
+	</select>
+	
+	<select id="fetchTotalChequeList" parameterType="JQTableUtils" resultType="long">
+		SELECT count(*)
+  		FROM payments p
+  		INNER JOIN bookings b ON b.booking_id=p.booking_id
+  		AND b.record_status='A' AND p.type='C' AND p.payment_mode='Cheque' AND p.status='1'	
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+			cast(p.receipt_no as character varying) ilike #{JQTableUtils.searchParams}
+			OR
+			b.project_name ilike #{JQTableUtils.searchParams}
+			OR
+			p.franchisee_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.member_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.booking_code ilike #{JQTableUtils.searchParams}
+			OR
+			b.plot_name ilike #{JQTableUtils.searchParams}
+			OR
+			cast(p.payment_amount as character varying) ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+	</select>
+	
+	<select id="fetchChequeList" parameterType="JQTableUtils" resultMap="paymentMap">
+		SELECT p.receipt_no,p.payment_id, p.member_id, p.franchisee_id, p.franchisee_name, p.member_name, 
+		       p.booking_id,b.project_name,b.plot_name,b.booking_code, p.emi_date, p.payment_mode, p.cheque_date, 
+		       p.payment_amount, p.cheque_number, p.bank, p.account_holder, p.transaction_number, 
+		       p.description, p.status, p.created_by, p.updated_by, p.created_at, p.updated_at, 
+		       p.record_status, p.type
+  		FROM payments p
+  		INNER JOIN bookings b ON b.booking_id=p.booking_id
+  		AND b.record_status='A' AND p.type='C' AND p.payment_mode='Cheque' AND p.status='1'	
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+			cast(p.receipt_no as character varying) ilike #{JQTableUtils.searchParams}
+			OR
+			b.project_name ilike #{JQTableUtils.searchParams}
+			OR
+			p.franchisee_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.member_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.booking_code ilike #{JQTableUtils.searchParams}
+			OR
+			b.plot_name ilike #{JQTableUtils.searchParams}
+			OR
+			cast(p.payment_amount as character varying) ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+		ORDER BY
+		<choose>
+			<when test="JQTableUtils.sortColumn == 0">
+				p.receipt_no
+			</when>
+			<when test="JQTableUtils.sortColumn == 1">
+				b.project_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 2">
+				p.franchisee_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 3">
+				p.member_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 4">
+				b.booking_code
+			</when>
+			<when test="JQTableUtils.sortColumn == 5">
+				b.plot_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 6">
+				p.payment_amount
+			</when>
+			<when test="JQTableUtils.sortColumn == 7">
+				p.emi_date
+			</when>
+			<otherwise>
+				p.receipt_no
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="JQTableUtils.sortingDirection == 'desc'">
+				ASC
+			</when>
+			<otherwise>
+				DESC
+			</otherwise>
+		</choose> 
+		<if test="JQTableUtils.iDisplayLength!=-1">
+			LIMIT #{JQTableUtils.iDisplayLength}
+			OFFSET #{JQTableUtils.iDisplayStart}
+		</if>
+	</select>
+	
+	<select id="fetchPaymentList" parameterType="JQTableUtils" resultMap="paymentMap">
+		SELECT p.receipt_no,p.payment_id, p.member_id, p.franchisee_id, p.franchisee_name, p.member_name, 
+		       p.booking_id,b.project_name,b.plot_name,b.booking_code, p.emi_date, p.payment_mode, p.cheque_date, 
+		       p.payment_amount, p.cheque_number, p.bank, p.account_holder, p.transaction_number, 
+		       p.description, p.status, p.created_by, p.updated_by, p.created_at, p.updated_at, 
+		       p.record_status, p.type
+  		FROM payments p
+  		INNER JOIN bookings b ON b.booking_id=p.booking_id
+  		AND b.record_status='A' AND p.type='C'	
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+			cast(p.receipt_no as character varying) ilike #{JQTableUtils.searchParams}
+			OR
+			b.project_name ilike #{JQTableUtils.searchParams}
+			OR
+			p.franchisee_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.member_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.booking_code ilike #{JQTableUtils.searchParams}
+			OR
+			b.plot_name ilike #{JQTableUtils.searchParams}
+			OR
+			cast(p.payment_amount as character varying) ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+		ORDER BY
+		<choose>
+			<when test="JQTableUtils.sortColumn == 0">
+				p.receipt_no
+			</when>
+			<when test="JQTableUtils.sortColumn == 1">
+				b.project_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 2">
+				p.franchisee_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 3">
+				p.member_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 4">
+				b.booking_code
+			</when>
+			<when test="JQTableUtils.sortColumn == 5">
+				b.plot_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 6">
+				p.payment_amount
+			</when>
+			<when test="JQTableUtils.sortColumn == 7">
+				p.emi_date
+			</when>
+			<otherwise>
+				p.receipt_no
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="JQTableUtils.sortingDirection == 'desc'">
+				ASC
+			</when>
+			<otherwise>
+				DESC
+			</otherwise>
+		</choose> 
+		<if test="JQTableUtils.iDisplayLength!=-1">
+			LIMIT #{JQTableUtils.iDisplayLength}
+			OFFSET #{JQTableUtils.iDisplayStart}
+		</if>
+	</select>
+	
+	<select id="fetchTotalPaymentList" parameterType="JQTableUtils" resultType="long">
+		SELECT count(*)
+  		FROM payments p
+  		INNER JOIN bookings b ON b.booking_id=p.booking_id
+  		AND b.record_status='A' AND p.type='C'	
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+			cast(p.receipt_no as character varying) ilike #{JQTableUtils.searchParams}
+			OR
+			b.project_name ilike #{JQTableUtils.searchParams}
+			OR
+			p.franchisee_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.member_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.booking_code ilike #{JQTableUtils.searchParams}
+			OR
+			b.plot_name ilike #{JQTableUtils.searchParams}
+			OR
+			cast(p.payment_amount as character varying) ilike #{JQTableUtils.searchParams}
+			)
+		</if>
 	</select>
 	
 	<select id="getPaymentDetailsById" resultMap="paymentMap">
@@ -58,6 +253,13 @@
 	
 	
 	
+	<update id="editPayment" >
+		update payments set emi_date=#{emiDate},payment_mode=#{paymentMode}, cheque_date=#{chequeDate}, 
+	            payment_amount=#{paymentAmount}, cheque_number=#{chequeNumber}, bank=#{bank}, account_holder=#{accountHolder}, transaction_number=#{transactionNumber},
+	              updated_by=#{updatedBy},updated_at=#{updatedAt}
+	    where payment_id=#{paymentId}
+	    AND record_status='A'
+	</update>
 	<insert id="addPayments" parameterType="java.util.List" >
 	
             INSERT INTO payments(
@@ -83,6 +285,11 @@
 	
 	<update id="disableFuturePayment" parameterType="PaymentModel">
 		update payments set record_status='D' where booking_id=#{bookingId} AND emi_date &gt; #{updatedAt}
+	</update>
+	
+	<update id="disableFuturePayment" parameterType="String">
+		update payments set status=#{paymentStatusCleared} where payment_id=#{paymentId}
+	    AND record_status='A'
 	</update>
 	
 	<select id="getLatestReceiptNo" resultType="Long">

@@ -414,7 +414,7 @@ public class BookingService {
 		paymentModel.setFranchiseeName(bookingModel.getFranchiseeName());
 		paymentModelList.add(paymentModel);
 		paymentDao.addPayments(paymentModelList);
-		
+	}
 	public List<Map<String, Object>> fetchBookingListByDate(
 			int iDisplayLength, int iDisplayStart, int serialNo, String sSortDir, String columnName, String sSearch, Map<String, Object> inputMap) {
 //		return bookingDao.fetchBookingListByDate(inputMap);
@@ -439,6 +439,43 @@ public class BookingService {
 
 	public List<String> fethBookedPlotsIdListOfProjects() {
 		return bookingDao.fethBookedPlotsIdListOfProjects();
+	}
+
+
+	public List<BookingModel> getBookings() {
+		return bookingDao.getBookings();
+	}
+
+
+	public void editPayment(PaymentModel paymentModel, String userId) {
+
+		List<PaymentModel> paymentModelList = new ArrayList<PaymentModel>();
+		PaymentModel oldPaymentModel = paymentDao.getPaymentDetailsById(paymentModel.getPaymentId());
+		paymentModel.setBookingId(oldPaymentModel.getBookingId());
+		paymentModel.setUpdatedAt(DateUtils.nowAsGmtMillisec());
+		paymentModel.setUpdatedBy(userId);
+		paymentModel.setEmiDate(DateUtils.getMilesecFromDateStr(paymentModel.getEmiDateString(), "dd/MM/yyyy", "GMT"));
+		if(paymentModel.getPaymentMode().equalsIgnoreCase("Cash")){
+			paymentModel.setStatus(ProjectConstant.PAYMENT_STATUS_CLEARED);
+			paymentModel.setType(ProjectConstant.PAYMENT_TYPE_CREDIT);
+			bookingDao.changePaidPayment(oldPaymentModel.getBookingId(),paymentModel.getPaymentAmount()-oldPaymentModel.getPaymentAmount(),-paymentModel.getPaymentAmount()+oldPaymentModel.getPaymentAmount());
+		}else if(paymentModel.getPaymentMode().equalsIgnoreCase("Cheque")){
+			paymentModel.setStatus(ProjectConstant.PAYMENT_STATUS_UNCLEARED);
+			paymentModel.setType(ProjectConstant.PAYMENT_TYPE_CREDIT);
+			
+			paymentModel.setChequeDate(DateUtils.getMilesecFromDateStr(paymentModel.getChequeDateString(), "dd/mm/yyyy", "GMT"));
+			if(oldPaymentModel.getStatus().equalsIgnoreCase(ProjectConstant.PAYMENT_STATUS_CLEARED)){
+				bookingDao.changePaidPayment(oldPaymentModel.getBookingId(),paymentModel.getPaymentAmount()-oldPaymentModel.getPaymentAmount(),-paymentModel.getPaymentAmount()+oldPaymentModel.getPaymentAmount());
+			}
+		}else if(paymentModel.getPaymentMode().equalsIgnoreCase("Online")){
+			paymentModel.setStatus(ProjectConstant.PAYMENT_STATUS_CLEARED);
+			paymentModel.setType(ProjectConstant.PAYMENT_TYPE_CREDIT);
+			
+			paymentModel.setTransactionNumber(paymentModel.getChequeNumber());
+			paymentModel.setChequeNumber(null);
+			bookingDao.changePaidPayment(oldPaymentModel.getBookingId(),paymentModel.getPaymentAmount()-oldPaymentModel.getPaymentAmount(),-paymentModel.getPaymentAmount()+oldPaymentModel.getPaymentAmount());
+		}
+		paymentDao.editPayment(paymentModel);
 	}
 
 

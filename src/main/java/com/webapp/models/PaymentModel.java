@@ -25,7 +25,9 @@ public class PaymentModel extends AbstractModel{
     private String srNo;
     private String fullName;
     private Long receiptNo;
-    
+    private String projectName;
+    private String plotName;
+    private String bookingCode;
 	public String getBookingId() {
 		return bookingId;
 	}
@@ -163,6 +165,24 @@ public class PaymentModel extends AbstractModel{
 	}
 	public void setReceiptNo(Long receiptNo) {
 		this.receiptNo = receiptNo;
+	}
+	public String getProjectName() {
+		return projectName;
+	}
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+	public String getPlotName() {
+		return plotName;
+	}
+	public void setPlotName(String plotName) {
+		this.plotName = plotName;
+	}
+	public String getBookingCode() {
+		return bookingCode;
+	}
+	public void setBookingCode(String bookingCode) {
+		this.bookingCode = bookingCode;
 	}
 
 
