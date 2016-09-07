@@ -1,6 +1,8 @@
 package com.webapp.models;
 
 public class FranchiseModel extends AbstractModel{
+	
+	private long srNo;
 
 	private String franchiseeId;
 
@@ -32,6 +34,22 @@ public class FranchiseModel extends AbstractModel{
 	
 	private int commissionPercentage;
 	
+	private long commissionPaid;
+	
+	private long tdsPaid;
+	
+	private long commissionUnpaid;
+	
+	private String action;
+	
+	public long getSrNo() {
+		return srNo;
+	}
+
+	public void setSrNo(long srNo) {
+		this.srNo = srNo;
+	}
+
 	public String getFranchiseeId() {
 		return franchiseeId;
 	}
@@ -150,6 +168,38 @@ public class FranchiseModel extends AbstractModel{
 
 	public void setCommissionPercentage(int commissionPercentage) {
 		this.commissionPercentage = commissionPercentage;
+	}
+
+	public long getCommissionPaid() {
+		return commissionPaid;
+	}
+
+	public void setCommissionPaid(long commissionPaid) {
+		this.commissionPaid = commissionPaid;
+	}
+
+	public long getTdsPaid() {
+		return tdsPaid;
+	}
+
+	public void setTdsPaid(long tdsPaid) {
+		this.tdsPaid = tdsPaid;
+	}
+
+	public long getCommissionUnpaid() {
+		return commissionUnpaid;
+	}
+
+	public void setCommissionUnpaid(long commissionUnpaid) {
+		this.commissionUnpaid = commissionUnpaid;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
 	}
 
 }

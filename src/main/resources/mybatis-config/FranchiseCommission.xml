@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.FranchiseCommissionDao">
+
+	<resultMap id="FranchiseCommissionMap" type="FranchiseCommissionModel" >
+		<result property="franchiseeCommissionId" column="franchisee_commission_id" />
+		<result property="franchiseeId" column="franchisee_id" />
+		<result property="franchiseeName" column="franchisee_name" />
+		<result property="bookingId" column="booking_id" />
+		<result property="paymentId" column="payment_id" />
+		<result property="projectId" column="project_id" />
+		<result property="tds" column="tds" />
+		<result property="paymentMode" column="payment_mode" />
+		<result property="chequeDate" column="cheque_date" />
+		<result property="paymentAmount" column="payment_amount" />
+		<result property="chequeNumber" column="cheque_number" />
+		<result property="bank" column="bank" />
+		<result property="accountHolder" column="account_holder" />
+		<result property="transactionNumber" column="transaction_number" />
+		<result property="status" column="status" />
+		<result property="commissionAmount" column="commission_amount" />
+		<result property="tdsAmount" column="tds_amount" />
+		<result property="recordStatus" column="record_status"/>
+		<result property="bookingCode" column="booking_code"/>
+		<result property="projectName" column="project_name"/>
+		<result property="memberName" column="member_name"/>
+	</resultMap>
+	
+	<select id="fetchFranchiseCommissionList" parameterType="String" resultMap="FranchiseCommissionMap">
+		SELECT fc.payment_mode, fc.cheque_date, fc.payment_amount, 
+       			fc.cheque_number, fc.bank, fc.account_holder, fc.transaction_number, fc.status, 
+       			fc.commission_amount, b.booking_code, b.project_name, b.member_name
+  		FROM franchisee_commission fc
+  		INNER JOIN bookings b
+  		ON fc.booking_id = b.booking_id
+  		WHERE fc.franchisee_id = #{franchiseeId}
+	</select>
+	
+</mapper> 

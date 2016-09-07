@@ -68,7 +68,10 @@ public class FranchiseService {
 	}
 
 	public List<FranchiseDto> fetchAllFranchiseList() {
-		// TODO Auto-generated method stub
 		return franchiseDao.fetchAllFranchiseList();
+	}
+
+	public List<FranchiseModel> fetchFranchiseCommissionList(JQTableUtils tableUtils) {
+		return franchiseDao.fetchFranchiseCommissionList(tableUtils);
 	}
 }

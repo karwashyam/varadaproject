@@ -31,4 +31,6 @@ public interface FranchiseDao {
 
 	List<FranchiseDto> fetchAllFranchiseList();
 	
+	List<FranchiseModel> fetchFranchiseCommissionList(@Param("JQTableUtils") JQTableUtils tableUtils);
+	
 }
