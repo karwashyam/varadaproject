@@ -54,7 +54,7 @@ public class StateController extends BusinessController{
 		}
 		StateDto stateDto=new StateDto();
 		
-		model.addAttribute("stateFrm", stateDto);
+		model.addAttribute("stateDto", stateDto);
 		return "secure/master/state";
 	}
 
@@ -75,7 +75,7 @@ public class StateController extends BusinessController{
 		model.addAttribute("stateFrm",stateDto);
 		System.out.println("\n\t\t =========result.hasErrors()=======>"+result.hasErrors());
 		if (result.hasErrors()) {
-			model.addAttribute("stateFrm",stateDto);
+			model.addAttribute("stateDto",stateDto);
 			return "secure/master/state";
 		}
 

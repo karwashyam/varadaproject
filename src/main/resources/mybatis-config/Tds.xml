@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.daos.TdsDao">
+
+	<resultMap id="tdsMap" type="TdsModel" >
+		<result property="tdsId" column="tds_id" />
+		<result property="franchiseeId" column="franchisee_id" />
+		<result property="franchiseeName" column="franchisee_name" />
+		<result property="paymentMode" column="payment_mode" />
+		<result property="chequeDate" column="cheque_date" />
+		<result property="tdsAmount" column="tds_amount" />
+		<result property="chequeNumber" column="cheque_number" />
+		<result property="bank" column="bank" />
+		<result property="accountHolder" column="account_holder" />
+		<result property="status" column="status" />
+		<result property="createdBy" column="created_by" />
+		<result property="createdAt" column="created_at" />
+		<result property="updatedBy" column="updated_by" />
+		<result property="updatedAt" column="updated_at" />
+		<result property="recordStatus" column="record_status" />
+		<result property="srNo" column="srno" />
+		<result property="franchiseeCommissionId" column="franchisee_commission_id" />
+	</resultMap>
+	
+	
+	<select id="fetchTdsList" parameterType="JQTableUtils" resultMap="tdsMap">
+		SELECT row_number() over (ORDER BY created_at DESC) as srno,tds_id, franchisee_id, franchisee_name, franchisee_commission_id, 
+		       tds, payment_mode, tds_amount, cheque_number, bank, account_holder, 
+		       status, created_by, updated_by, created_at, 
+		       updated_at, record_status, cheque_date
+  		FROM tds
+  		WHERE record_status='A'	
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+			cast(tds_amount as character varying) ilike #{JQTableUtils.searchParams}
+			OR
+			franchisee_name ilike #{JQTableUtils.searchParams}
+			OR
+			cheque_number ilike #{JQTableUtils.searchParams}
+			OR
+			bank ilike #{JQTableUtils.searchParams}
+			OR
+			account_holder ilike #{JQTableUtils.searchParams}
+			OR
+			cast(tds as character varying) ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+		ORDER BY
+		created_at DESC
+		<if test="JQTableUtils.iDisplayLength!=-1">
+			LIMIT #{JQTableUtils.iDisplayLength}
+			OFFSET #{JQTableUtils.iDisplayStart}
+		</if>
+	</select>
+	
+	<select id="fetchTotalTdsList" parameterType="JQTableUtils" resultType="long">
+		SELECT count(*)
+  		FROM tds
+  		WHERE record_status='A'	
+  		<if test="JQTableUtils.searchParams!=''">
+			AND
+			(
+			cast(tds_amount as character varying) ilike #{JQTableUtils.searchParams}
+			OR
+			franchisee_name ilike #{JQTableUtils.searchParams}
+			OR
+			cheque_number ilike #{JQTableUtils.searchParams}
+			OR
+			bank ilike #{JQTableUtils.searchParams}
+			OR
+			account_holder ilike #{JQTableUtils.searchParams}
+			OR
+			cast(tds as character varying) ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+	</select>
+	
+	<select id="fetchTdsDue" resultType="Long">
+		select (select sum(tds_amount) from tds where record_status='A' AND status='C')-(select sum(tds_amount) from tds where record_status='A' AND status='D') as tds_due
+	</select>
+	
+	<select id="fetchTdsCreditDue" resultType="Long">
+		select sum(tds_amount) from tds where record_status='A' AND status='C'
+	</select>
+	
+	
+</mapper> 

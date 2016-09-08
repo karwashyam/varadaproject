@@ -30,7 +30,7 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form:form name="stateFrm" modelAttribute="state" commandName="stateFrm" id="stateFrm" class="form-horizontal form-label-left" action="${pageContext.request.contextPath}/add-state.do"  method="POST" >
+                    <form:form name="stateFrm" modelAttribute="state" commandName="stateDto" id="stateFrm" class="form-horizontal form-label-left" action="${pageContext.request.contextPath}/add-state.do"  method="POST" >
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">State Name <span class="required">*</span>

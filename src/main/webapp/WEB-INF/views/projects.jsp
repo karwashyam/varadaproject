@@ -37,7 +37,7 @@
                         <th>Project Id</th>
                           <th>Project Name</th>
                              <th>Overview</th>
-                          <th>No Plots</th>
+                          <th>Total No. Of Plots</th>
                           <th>Action</th>
                         </tr>
                       </thead>

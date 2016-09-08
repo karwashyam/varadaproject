@@ -101,6 +101,7 @@ function stateManagement() {
 					        "sLoadingRecords": "Please wait - loading...",
 					        "sInfo": "Got a total of _TOTAL_ entries to show (_START_ to _END_)"
 					    },
+						"sPaginationType" : "full_numbers",
                         "fnDrawCallback" : function(oSettings) {
                        	 var iTotalDisplayRecords = oTable.fnSettings().fnRecordsDisplay();
 
