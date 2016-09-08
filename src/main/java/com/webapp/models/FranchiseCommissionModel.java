@@ -1,236 +1,245 @@
 package com.webapp.models;
 
-public class FranchiseCommissionModel extends AbstractModel{
- 
- private long srNo;
+public class FranchiseCommissionModel extends AbstractModel {
 
- private String franchiseeCommissionId;
+	private long srNo;
 
- private String franchiseeId;
- 
- private String franchiseeName;
- 
- private String bookingId;
- 
- private String paymentId;
- 
- private String projectId;
- 
- private String tds;
- 
- private String paymentMode;
- 
- private long chequeDate;
- 
- private String chequeDateString;
- 
- private long paymentAmount;
- 
- private String chequeNumber;
- 
- private String bank;
- 
- private String accountHolder;
- 
- private String transactionNumber;
- 
- private String status;
- 
- private long commissionAmount;
- 
- private String tdsAmount;
- 
- private String recordStatus;
- 
- private String bookingCode;
- 
- private String projectName;
- 
- private String memberName;
+	private String franchiseeCommissionId;
 
-public long getSrNo() {
-	return srNo;
-}
+	private String franchiseeId;
 
-public void setSrNo(long srNo) {
-	this.srNo = srNo;
-}
+	private String franchiseeName;
 
-public String getFranchiseeCommissionId() {
-	return franchiseeCommissionId;
-}
+	private String bookingId;
 
-public void setFranchiseeCommissionId(String franchiseeCommissionId) {
-	this.franchiseeCommissionId = franchiseeCommissionId;
-}
+	private String paymentId;
 
-public String getFranchiseeId() {
-	return franchiseeId;
-}
+	private String projectId;
 
-public void setFranchiseeId(String franchiseeId) {
-	this.franchiseeId = franchiseeId;
-}
+	private String tds;
 
-public String getFranchiseeName() {
-	return franchiseeName;
-}
+	private String paymentMode;
 
-public void setFranchiseeName(String franchiseeName) {
-	this.franchiseeName = franchiseeName;
-}
+	private long chequeDate;
 
-public String getBookingId() {
-	return bookingId;
-}
+	private String chequeDateString;
 
-public void setBookingId(String bookingId) {
-	this.bookingId = bookingId;
-}
+	private long paymentAmount;
 
-public String getPaymentId() {
-	return paymentId;
-}
+	private String chequeNumber;
 
-public void setPaymentId(String paymentId) {
-	this.paymentId = paymentId;
-}
+	private String bank;
 
-public String getProjectId() {
-	return projectId;
-}
+	private String accountHolder;
 
-public void setProjectId(String projectId) {
-	this.projectId = projectId;
-}
+	private String transactionNumber;
 
-public String getTds() {
-	return tds;
-}
+	private String status;
 
-public void setTds(String tds) {
-	this.tds = tds;
-}
+	private long commissionAmount;
 
-public String getPaymentMode() {
-	return paymentMode;
-}
+	private String tdsAmount;
 
-public void setPaymentMode(String paymentMode) {
-	this.paymentMode = paymentMode;
-}
+	private String recordStatus;
 
-public long getChequeDate() {
-	return chequeDate;
-}
+	private String bookingCode;
 
-public void setChequeDate(long chequeDate) {
-	this.chequeDate = chequeDate;
-}
+	private String projectName;
 
-public String getChequeDateString() {
-	return chequeDateString;
-}
+	private String memberName;
 
-public void setChequeDateString(String chequeDateString) {
-	this.chequeDateString = chequeDateString;
-}
+	private String pan;
 
-public long getPaymentAmount() {
-	return paymentAmount;
-}
+	public long getSrNo() {
+		return srNo;
+	}
 
-public void setPaymentAmount(long paymentAmount) {
-	this.paymentAmount = paymentAmount;
-}
+	public void setSrNo(long srNo) {
+		this.srNo = srNo;
+	}
 
-public String getChequeNumber() {
-	return chequeNumber;
-}
+	public String getFranchiseeCommissionId() {
+		return franchiseeCommissionId;
+	}
 
-public void setChequeNumber(String chequeNumber) {
-	this.chequeNumber = chequeNumber;
-}
+	public void setFranchiseeCommissionId(String franchiseeCommissionId) {
+		this.franchiseeCommissionId = franchiseeCommissionId;
+	}
 
-public String getBank() {
-	return bank;
-}
+	public String getFranchiseeId() {
+		return franchiseeId;
+	}
 
-public void setBank(String bank) {
-	this.bank = bank;
-}
+	public void setFranchiseeId(String franchiseeId) {
+		this.franchiseeId = franchiseeId;
+	}
 
-public String getAccountHolder() {
-	return accountHolder;
-}
+	public String getFranchiseeName() {
+		return franchiseeName;
+	}
 
-public void setAccountHolder(String accountHolder) {
-	this.accountHolder = accountHolder;
-}
+	public void setFranchiseeName(String franchiseeName) {
+		this.franchiseeName = franchiseeName;
+	}
 
-public String getTransactionNumber() {
-	return transactionNumber;
-}
+	public String getBookingId() {
+		return bookingId;
+	}
 
-public void setTransactionNumber(String transactionNumber) {
-	this.transactionNumber = transactionNumber;
-}
+	public void setBookingId(String bookingId) {
+		this.bookingId = bookingId;
+	}
 
-public String getStatus() {
-	return status;
-}
+	public String getPaymentId() {
+		return paymentId;
+	}
 
-public void setStatus(String status) {
-	this.status = status;
-}
+	public void setPaymentId(String paymentId) {
+		this.paymentId = paymentId;
+	}
 
-public long getCommissionAmount() {
-	return commissionAmount;
-}
+	public String getProjectId() {
+		return projectId;
+	}
 
-public void setCommissionAmount(long commissionAmount) {
-	this.commissionAmount = commissionAmount;
-}
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
 
-public String getTdsAmount() {
-	return tdsAmount;
-}
+	public String getTds() {
+		return tds;
+	}
 
-public void setTdsAmount(String tdsAmount) {
-	this.tdsAmount = tdsAmount;
-}
+	public void setTds(String tds) {
+		this.tds = tds;
+	}
 
-public String getRecordStatus() {
-	return recordStatus;
-}
+	public String getPaymentMode() {
+		return paymentMode;
+	}
 
-public void setRecordStatus(String recordStatus) {
-	this.recordStatus = recordStatus;
-}
+	public void setPaymentMode(String paymentMode) {
+		this.paymentMode = paymentMode;
+	}
 
-public String getBookingCode() {
-	return bookingCode;
-}
+	public long getChequeDate() {
+		return chequeDate;
+	}
 
-public void setBookingCode(String bookingCode) {
-	this.bookingCode = bookingCode;
-}
+	public void setChequeDate(long chequeDate) {
+		this.chequeDate = chequeDate;
+	}
 
-public String getProjectName() {
-	return projectName;
-}
+	public String getChequeDateString() {
+		return chequeDateString;
+	}
 
-public void setProjectName(String projectName) {
-	this.projectName = projectName;
-}
+	public void setChequeDateString(String chequeDateString) {
+		this.chequeDateString = chequeDateString;
+	}
 
-public String getMemberName() {
-	return memberName;
-}
+	public long getPaymentAmount() {
+		return paymentAmount;
+	}
 
-public void setMemberName(String memberName) {
-	this.memberName = memberName;
-}
- 
- 
+	public void setPaymentAmount(long paymentAmount) {
+		this.paymentAmount = paymentAmount;
+	}
+
+	public String getChequeNumber() {
+		return chequeNumber;
+	}
+
+	public void setChequeNumber(String chequeNumber) {
+		this.chequeNumber = chequeNumber;
+	}
+
+	public String getBank() {
+		return bank;
+	}
+
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+
+	public String getAccountHolder() {
+		return accountHolder;
+	}
+
+	public void setAccountHolder(String accountHolder) {
+		this.accountHolder = accountHolder;
+	}
+
+	public String getTransactionNumber() {
+		return transactionNumber;
+	}
+
+	public void setTransactionNumber(String transactionNumber) {
+		this.transactionNumber = transactionNumber;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public long getCommissionAmount() {
+		return commissionAmount;
+	}
+
+	public void setCommissionAmount(long commissionAmount) {
+		this.commissionAmount = commissionAmount;
+	}
+
+	public String getTdsAmount() {
+		return tdsAmount;
+	}
+
+	public void setTdsAmount(String tdsAmount) {
+		this.tdsAmount = tdsAmount;
+	}
+
+	public String getRecordStatus() {
+		return recordStatus;
+	}
+
+	public void setRecordStatus(String recordStatus) {
+		this.recordStatus = recordStatus;
+	}
+
+	public String getBookingCode() {
+		return bookingCode;
+	}
+
+	public void setBookingCode(String bookingCode) {
+		this.bookingCode = bookingCode;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
+	public String getPan() {
+		return pan;
+	}
+
+	public void setPan(String pan) {
+		this.pan = pan;
+	}
+
 }

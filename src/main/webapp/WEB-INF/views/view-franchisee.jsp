@@ -91,8 +91,8 @@
                                 <th>Bank</th>
                                 <th>Account Holder</th>
                                 <th>Entry By</th>
-                                <th>Amount</th>
-                                <th>Commission Amount</th>
+                                <th>Credit</th>
+                                <th>Debit</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -109,7 +109,6 @@
 		                                <td>${FranchiseCommissionModel['commissionAmount']}&nbsp;${FranchiseCommissionModel['status']}</td>
 		                            </tr>
 								</c:forEach>
-                              
                             </tbody>
                           </table>
                         </div>

@@ -25,6 +25,7 @@
 		<result property="bookingCode" column="booking_code"/>
 		<result property="projectName" column="project_name"/>
 		<result property="memberName" column="member_name"/>
+		<result property="pan" column="pan"/>
 	</resultMap>
 	
 	<select id="fetchFranchiseCommissionList" parameterType="String" resultMap="FranchiseCommissionMap">
@@ -35,6 +36,19 @@
   		INNER JOIN bookings b
   		ON fc.booking_id = b.booking_id
   		WHERE fc.franchisee_id = #{franchiseeId}
+  		ORDER BY b.project_name
 	</select>
 	
+	<select id="fetchAllFranchiseCommissionList" resultMap="FranchiseCommissionMap">
+		SELECT fc.payment_mode, fc.cheque_date, fc.payment_amount,fc.franchisee_name, 
+       			fc.cheque_number, fc.bank, fc.account_holder, fc.transaction_number, fc.status, 
+       			fc.commission_amount, b.booking_code, b.project_name, b.member_name,f.pan
+  		FROM franchisee_commission fc
+  		INNER JOIN franchisee f
+  		ON f.franchisee_id = fc.franchisee_id
+  		INNER JOIN bookings b
+  		ON fc.booking_id = b.booking_id
+  		WHERE f.commission_percentage>0 AND f.record_status='A'
+  		ORDER BY fc.franchisee_name
+	</select>
 </mapper> 
