@@ -52,9 +52,16 @@ public class PaymentSchemeSerivce {
 
 		return resultList;
 	}
-	public Long fetchTotalPaymentSchemeListCount(){
+	public Long fetchTotalPaymentSchemeListCount(int iDisplayLength, int iDisplayStart, int serialNo, String sSortDir, String columnName, String sSearch){
 		Long count=0l;
-		count=paymentSchemeDao.fetchTotalPaymentSchemeListCount();
+		Map<String, Object> inputMap = new HashMap<>();
+		inputMap.put("sSortDir", sSortDir);
+		inputMap.put("columnName", columnName);
+		inputMap.put("sSearch", sSearch);
+		inputMap.put("iDisplayStart", iDisplayStart);
+		inputMap.put("iDisplayLength", iDisplayLength);
+
+		count=paymentSchemeDao.fetchTotalPaymentSchemeListCount(inputMap);
 		if(count!=null){
 			return count;
 		}else{

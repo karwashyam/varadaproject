@@ -26,24 +26,23 @@ jQuery(document).ready(function() {
 	  
 	var startDate=$("#startDate").val();
  	var endDate=$("#endDate").val();
-	var reportType=$("#reportType").val();
-
-
+//	var reportType=$("#reportType").val();
 	 
 	 $("#btnReport").click(function(event){
 		 	  $('.nav-tabs li').removeClass('active'); // remove active class from tabs
 		       $(this).addClass('active');
-		   	 reportType=$("#reportType").val();
-
-		       if(reportType=='3'){
-		    	   alert("hi");
-		    	   console.log("unbooked");
-		    	   unbookingReportDetails();
-		       }else{
-		    	   bookingReportDetails();
-		       }
-		       
-			 });
+		       bookingReportDetails();
+	 });
+     
+ 	$("#btnExport").click(function(event) {
+		 var fromDate=$("#fromDate").val();
+		 var toDate=$("#toDate").val();
+		var searchString=$("#tapHistoryForBar_filter .input-group > [aria-controls='tapHistoryForBar']").val();
+		var limit=$("#tapHistoryForBar_length option:selected").val();
+		url=basePath + "/secure/users/admin/admin-dashboard/manage-users/export.json?fromDate="+startDate+"&toDate="+endDate+"&start="+startLen+"&end="+limit+"&searchString="+searchString,
+		window.open(url);
+	});
+	
 	
 });
 
@@ -52,7 +51,6 @@ jQuery(document).ready(function() {
 function bookingReportDetails() {
 	var startDate=$("#startDate").val();
  	var endDate=$("#endDate").val();
-	var reportType=$("#reportType").val();
 	$("#tapHistoryForBar").dataTable({
 		"info": false,
 		"bProcesing" : true,
@@ -60,7 +58,7 @@ function bookingReportDetails() {
 		"bServerSide" : true,
 		"oLanguage": {"sSearch": ""},
 		"bLengthChange": false,
-		"sAjaxSource" : basePath+"/report/ajax/bookingdata.json?startDate="+startDate+"&endDate="+endDate+"&reportType="+reportType,
+		"sAjaxSource" : basePath+"/report/ajax/unbookeddata.json?startDate="+startDate+"&endDate="+endDate,
 		
 		"aoColumns" : [
 		               
@@ -71,28 +69,8 @@ function bookingReportDetails() {
 				}, 
 				
 				{
-					"sTitle" : "bookingId",
-					"mData" : "bookingId",
-					"bVisible":false 
-				}, 
-				{
-					"sTitle" : "Booking Code",
-					"mData" : "bookingCode",
-					"bVisible":true 
-				}, 
-				{
-					"sTitle" : "Franchisee Name",
-					"mData" : "franchiseeName",
-					"bVisible":true 
-				},
-				{
-					"sTitle" : "Member Name",
-					"mData" : "memberName",
-					"bVisible":true 
-				},
-				{
 					"sTitle" : "Project Name",
-					"mData" : "projectName"
+					"mData" : "title"
 				}, 
 				{
 					"sTitle" : "Plot Name",
@@ -101,13 +79,7 @@ function bookingReportDetails() {
 				{
 					"sTitle" : "Plot Size",
 					"mData" : "plotSize"
-				},
-				{
-					"sTitle" : "Date",
-					"mData" : "month"
 				}
-				
-				
 
 		],
 
@@ -127,7 +99,7 @@ function bookingReportDetails() {
 	
 		
 }
-
+/*
 
 function unbookingReportDetails() {
 	   console.log("unbooked");
@@ -200,7 +172,7 @@ function unbookingReportDetails() {
 		});// dataTable
 	
 		
-}
+}*/
 
 function fnServerData ( sSource, aoData, fnCallback ) {
 	isSessionExtend = true;

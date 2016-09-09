@@ -50,6 +50,8 @@ public class PaymentSchemeManagementController extends BusinessController {
 
 		List<String> requiredJS = new ArrayList<String>();
 		requiredJS.add("js/viewjs/payscheme_management.js");
+		requiredJS.add("js/vendor/bootstrap-filestyle.min.js");
+
 		requiredJS.add("js/bootstrap/bootstrap-dialog.js");
 		return requiredJS.toArray(new String[requiredJS.size()]);
 	}

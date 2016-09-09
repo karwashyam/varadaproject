@@ -8,7 +8,7 @@
 
 <%@ page session="false"%>
 <!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> -->
-<title>Booking Report</title>
+<title>Reports</title>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
 	var basePath = '${pageContext.request.contextPath}';
@@ -29,7 +29,7 @@
                 
            
                   <div class="x_title">
-                    <h2>Report</h2>
+                    <h2>Franchisee Collection Report</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -37,21 +37,8 @@
                     </ul>
                     <div class="clearfix"></div>
                       <div class="clearfix"></div>
-                     <div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12">Select Report Type</label>
-							<div class="col-md-3 col-sm-3 col-xs-12">
-                     <select name="reportType" id="reportType" class="form-control" data-live-search="true" title="Search">
-                                       			<option value="NONE"  >Select Report</option>
-											
-												<option value="1">Booking Report</option>
-											    <option value="2">Cancelled Booking Report</option>
-<!-- 											<option value="3">Unbooked Report</option> -->
-												
-                                    </select>
-                                    </div>
-                                    </div> 
+                   
                                     
-                             <div class="clearfix"></div>
                              <div class="clearfix"></div>
                              
                               <div class="form-group">
@@ -85,29 +72,31 @@
 						  <div class="clearfix"></div>
                   </div>
                                    
+                                   
                         <div class="x_content">
 <!--                           		<div class="tab-content"> -->
 <!-- 					  <div class="main-container"> -->
 <!-- 						<div role="tabpanel" class="tab-pane" id="tapHist"> -->
-								<table id="tapHistoryForBar"
-									class="display table-container mainbarpage" cellspacing="0">
-									<thead>
-										<tr>
-											<th>Sr.No.</th>
-											<th>bookingId</th>
-											<th>Booking Code</th>
-											<th>Franchisee Name</th>
-											<th>Member Name</th>
-											<th>Project Name</th>
-											<th>Plot Name</th>
-												<th>Plot Size</th>
-											<th>Date</th>
-										</tr>
-									</thead>
-									<tbody>
-									</tbody>
-								</table>
-<!-- 							</div> -->
+								  <table id="franchisee-datatable" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Project</th>
+                          <th>Booking No.</th>
+<!--                           <th>Plot No.</th> -->
+                          <th>Franchisee</th>
+                          <th>Customer</th>
+                          <th>Member Code</th>
+                          <th>Phone</th>
+                          <th>Email</th>
+                          <th>Remaining Payment</th>
+<!--                           <th>Action</th> -->
+                        </tr>
+                      </thead>
+						<tbody>
+                		</tbody>
+
+                    </table>		
+                    </div>
 <!-- 						</div> -->
 					</div>
                 </div>

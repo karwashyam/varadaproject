@@ -148,15 +148,16 @@
 		WHERE  project_id = #{projectId} AND record_status = 'A'
 	</update>
 
-	<select id="fetchTotalProjectListCount" resultType="Long">
+	<select id="fetchTotalProjectListCount"  parameterType="Map" resultType="Long">
 		 SELECT 
-				 p.project_id
+				count(p.project_id)
 			 FROM 
 				projects p
 			 WHERE 
-				p.title=#{title}
-				AND
         		p.record_status = 'A'
+        		  <if test="sSearch!='%%'">
+      		 AND	 p.title iLIKE #{sSearch}
+       </if>  		
 	</select>
 	<select id="isProjectNameExists" parameterType="String"	resultType="boolean">
 		SELECT (count(*)>0) FROM projects 
@@ -263,10 +264,12 @@
         		p.record_status = 'A'
        
         AND
-        	 pp.project_plot_id NOT IN
+        
+        pp.status='1'
+      <!--   	 pp.project_plot_id NOT IN
         	 	<foreach item="plotId" index="index" collection="plotIdList" open="(" separator="," close=")">
       					#{plotId}
-   				</foreach>
+   				</foreach> -->
         	
        <if test="sSearch!='%%'">
        	AND pp.plot_name iLIKE #{sSearch}
@@ -296,11 +299,11 @@
         		p.record_status = 'A'
        
         AND
-        	 pp.project_plot_id NOT IN
+        <!-- 	 pp.project_plot_id NOT IN
         	 	<foreach item="plotId" index="index" collection="plotIdList" open="(" separator="," close=")">
       					#{plotId}
-   				</foreach>
-        	
+   				</foreach> -->
+        	   pp.status='1'
        <if test="sSearch!='%%'">
        	AND pp.plot_name iLIKE #{sSearch}
        </if>  		

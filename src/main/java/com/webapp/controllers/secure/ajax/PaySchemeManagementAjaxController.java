@@ -75,7 +75,7 @@ public class PaySchemeManagementAjaxController extends BusinessApiController {
 		DatatableModel<Map<String, Object> > dtData = new DatatableModel<Map<String, Object> >();
 		dtData.setAaData(aDData);
 		
-		int totalRecords= Integer.valueOf(paymentSchemeSerivce.fetchTotalPaymentSchemeListCount().toString());
+		int totalRecords= Integer.valueOf(paymentSchemeSerivce.fetchTotalPaymentSchemeListCount(iDisplayLength, iDisplayStart, serialNo, sSortDir, columnName, sSearch).toString());
 		dtData.setiTotalDisplayRecords(totalRecords);
 		dtData.setiTotalRecords(totalRecords);
 		dtData.setsEcho(sEcho);
@@ -139,7 +139,7 @@ public class PaySchemeManagementAjaxController extends BusinessApiController {
 		DatatableModel<Map<String, Object> > dtData = new DatatableModel<Map<String, Object> >();
 		dtData.setAaData(aDData);
 		
-		int totalRecords= Integer.valueOf(projPaymentSchemeSerivce.fetchTotalProjPaymentSchemeListCount().toString());
+		int totalRecords= Integer.valueOf(projPaymentSchemeSerivce.fetchTotalProjPaymentSchemeListCount(iDisplayLength, iDisplayStart, serialNo, sSortDir, columnName, sSearch).toString());
 		dtData.setiTotalDisplayRecords(totalRecords);
 		dtData.setiTotalRecords(totalRecords);
 		dtData.setsEcho(sEcho);

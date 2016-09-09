@@ -15,7 +15,7 @@ public interface ProjectDao {
 	public boolean isProjectNameExists(String title);
 	public int deleteProjectById(ProjectModel projectModel);
 	public List<Map<String, Object>> fetchProjectsList(Map<String, Object> inputMap);
-	public Long fetchTotalProjectListCount();
+	public Long fetchTotalProjectListCount(Map<String, Object> inputMap);
 	public void editProject(ProjectModel projectModel);
 	
 	int addProjectPlots(@Param("projectPlotsList") List<ProjectPlotsModel> projPlotsModels);

@@ -77,9 +77,17 @@ public class StateSerivce {
 
 		return resultList;
 	}
-	public Long fetchTotalStatesListCount(){
+	public Long fetchTotalStatesListCount(int iDisplayLength, int iDisplayStart, int serialNo, String sSortDir, String columnName, String sSearch){
 		Long count=0l;
-		count=stateDao.fetchTotalStatesListCount();
+		Map<String, Object> inputMap = new HashMap<>();
+		inputMap.put("sSortDir", sSortDir);
+		inputMap.put("columnName", columnName);
+		inputMap.put("sSearch", sSearch);
+		inputMap.put("iDisplayStart", iDisplayStart);
+		inputMap.put("iDisplayLength", iDisplayLength);
+
+
+		count=stateDao.fetchTotalStatesListCount(inputMap);
 		if(count!=null){
 			return count;
 		}else{

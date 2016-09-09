@@ -18,7 +18,7 @@ public interface StateDao {
 
 	int deleteStateById(State stateModel);
 
-	Long fetchTotalStatesListCount();
+	Long fetchTotalStatesListCount(Map<String, Object> inputMap);
 	
 	List<State> fetchAllStateList();
 

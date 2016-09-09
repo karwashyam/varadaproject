@@ -109,13 +109,19 @@
 				record_status = 'A'
 	</update>
 
-	<select id="fetchTotalProjPaymentSchemeListCount" resultType="Long">
+	<select id="fetchTotalProjPaymentSchemeListCount"  parameterType="Map"  resultType="Long">
 		 SELECT 
 				 count(p.project_payment_scheme_id)
 			 FROM 
 				project_payment_scheme p
 			 WHERE 
         		p.record_status = 'A'
+        		 <if test="sSearch!='%%'">
+       	AND (p.title iLIKE #{sSearch}
+       OR 
+           ps.title iLIKE #{sSearch})
+       	
+       </if>  	
 	</select>
 	<select id="isProjPaymentSchemeExists" parameterType="String" resultType="boolean">
 		SELECT (count(*)>0) 

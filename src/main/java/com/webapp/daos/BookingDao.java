@@ -44,4 +44,8 @@ public interface BookingDao {
 
 	int changePaidPaymentForFutureEmi(@Param("list") List<PaymentModel> paymentModelList);
 
+	List<BookingModel> fetchOverduePaymentBookingList(@Param("JQTableUtils") JQTableUtils tableUtils);
+
+	long fetchTotalOverduePaymentBooking(@Param("JQTableUtils") JQTableUtils tableUtils);
+
 }

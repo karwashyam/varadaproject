@@ -223,7 +223,11 @@ public class ProjPaymentSchemeController extends BusinessController{
 	
 	@Override
 	protected String[] requiredJs() {
-		return new String[] {"js/vendor/jquery.validation.min.js", "js/vendor/addition-medthods-min.js", "js/viewjs/add-proj-payment-scheme.js","js/vendor/bootstrap-filestyle.min.js","js/viewjs/proj-payscheme_management.js",
+		return new String[] {"js/vendor/jquery.validation.min.js",
+				"js/vendor/addition-medthods-min.js",
+				"js/viewjs/add-proj-payment-scheme.js",
+				"js/vendor/bootstrap-filestyle.min.js",
+				"js/viewjs/proj-payscheme_management.js",
 				"js/bootstrap/bootstrap-dialog.js"};
 	}
 

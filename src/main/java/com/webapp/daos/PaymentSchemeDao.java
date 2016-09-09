@@ -15,7 +15,7 @@ public interface PaymentSchemeDao {
 	public void deletePaymentScheme(PaymentSchemeModel projectModel);
 	public PaymentSchemeModel getPaymentSchemeDetailsById(String paymentSchemeId);
 	public List<Map<String, Object>> fetchPaymentSchemeList(Map<String, Object> inputMap);
-	public Long fetchTotalPaymentSchemeListCount();
+	public Long fetchTotalPaymentSchemeListCount(Map<String, Object> inputMap);
 	public boolean isPaymentSchemeExists(String title);
 	
 	public List<PaymentSchemeModel> fetchPaymentSchemeForProject(@Param("projectId") String projectId);

@@ -8,7 +8,7 @@
 
 <%@ page session="false"%>
 <!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> -->
-<title>Booking Report</title>
+<title>Unbooked Plots</title>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
 	var basePath = '${pageContext.request.contextPath}';
@@ -35,23 +35,7 @@
                       </li>
 
                     </ul>
-                    <div class="clearfix"></div>
-                      <div class="clearfix"></div>
-                     <div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12">Select Report Type</label>
-							<div class="col-md-3 col-sm-3 col-xs-12">
-                     <select name="reportType" id="reportType" class="form-control" data-live-search="true" title="Search">
-                                       			<option value="NONE"  >Select Report</option>
-											
-												<option value="1">Booking Report</option>
-											    <option value="2">Cancelled Booking Report</option>
-<!-- 											<option value="3">Unbooked Report</option> -->
-												
-                                    </select>
-                                    </div>
-                                    </div> 
-                                    
-                             <div class="clearfix"></div>
+                   
                              <div class="clearfix"></div>
                              
                               <div class="form-group">
@@ -82,9 +66,17 @@
 								<button type="button" name="btnReport" id="btnReport" class="btn btn-success">Search</button>
 							</div>
 						</div>
+						
+						<div class="form-group">
+							<div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+								<button type="button" name="btnExport" id="btnExport" class="btn btn-success">Export</button>
+							</div>
+						</div>
 						  <div class="clearfix"></div>
                   </div>
                                    
+                                   
+                     
                         <div class="x_content">
 <!--                           		<div class="tab-content"> -->
 <!-- 					  <div class="main-container"> -->
@@ -94,14 +86,9 @@
 									<thead>
 										<tr>
 											<th>Sr.No.</th>
-											<th>bookingId</th>
-											<th>Booking Code</th>
-											<th>Franchisee Name</th>
-											<th>Member Name</th>
 											<th>Project Name</th>
 											<th>Plot Name</th>
-												<th>Plot Size</th>
-											<th>Date</th>
+											<th>Plot Size</th>
 										</tr>
 									</thead>
 									<tbody>

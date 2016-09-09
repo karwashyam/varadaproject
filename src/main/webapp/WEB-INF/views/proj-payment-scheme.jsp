@@ -4,7 +4,7 @@
 <head>
 <%@ page session="false"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Projects</title>
+<title>Project Payment Scheme</title>
 <script type="text/javascript">
 	var basePath = '${pageContext.request.contextPath}';
 </script> 

@@ -5,12 +5,12 @@ var isDeleteAccess;
 jQuery(document).ready(function() {
 	
 	var isAddAccess = jQuery("#isAddAccess").val();
-	isEditAccess = jQuery("#isEditAccess").val();
+	isEdiisAddAccesstAccess = jQuery("#isEditAccess").val();
 	isDeleteAccess = jQuery("#isDeleteAccess").val();
 	
-	if(isAddAccess !== "true"){
+//	if(isAddAccess !== "true"){
 		$("#addState").prop("disabled", true);
-	}
+//	}
 
 //	webApp.datatables();
 	
@@ -103,7 +103,6 @@ function stateManagement() {
 					    },
                         "fnDrawCallback" : function(oSettings) {
                        	 var iTotalDisplayRecords = oTable.fnSettings().fnRecordsDisplay();
-
                        	 if (iTotalDisplayRecords == 0) {
                        		 $('#stateManageTable_info').css("visibility","hidden");
                        		 $('.dataTables_paginate').css("visibility","hidden");
@@ -113,7 +112,18 @@ function stateManagement() {
                        		 $('#stateManageTable_info').css("visibility","visible");
                        		 $('.dataTables_paginate').css("visibility","visible");
                        	 }
-                        }
+                        },
+                        "fnServerData" : function(sSource, aoData, fnCallback) {
+                			$.ajax({
+                				"dataType" : 'json',
+                				"type" : "GET",
+                				"url" : sSource,
+                				"data" : aoData,
+                				"success" : fnCallback,
+                				"error" : handleAjaxError
+                			});
+                		},
+                        "sPaginationType" : "full_numbers"
 
 					});
 }

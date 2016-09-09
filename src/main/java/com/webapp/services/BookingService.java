@@ -579,4 +579,15 @@ public class BookingService {
 	}
 
 
+	public List<BookingModel> fetchOverduePaymentBookingList(
+			JQTableUtils tableUtils) {
+		return bookingDao.fetchOverduePaymentBookingList(tableUtils);
+	}
+
+
+	public long fetchTotalOverduePaymentBooking(JQTableUtils tableUtils) {
+		return bookingDao.fetchTotalOverduePaymentBooking(tableUtils);
+	}
+
+
 }

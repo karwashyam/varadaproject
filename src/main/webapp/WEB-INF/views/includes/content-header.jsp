@@ -78,8 +78,8 @@
                       <li><a href="${pageContext.request.contextPath}/report/booking">Booking</a></li>
                       <li><a href="${pageContext.request.contextPath}/report/cancelledbooking">Cancelled Booking</a></li>
                          <li><a href="${pageContext.request.contextPath}/report/bookingdata">Booking Reports Details</li>
-                      <li><a href="${pageContext.request.contextPath}/unbooked-plots-report">Unbooked Plots</a></li>
-                      <li><a href="${pageContext.request.contextPath}/overdue-payments-report">Overdue Payments</a></li>
+                      <li><a href="${pageContext.request.contextPath}/report/unbooking">Unbooked Plots</a></li>
+                      <li><a href="${pageContext.request.contextPath}/overdue">Overdue Payments</a></li>
                     </ul>
                   </li>
                 </ul>
