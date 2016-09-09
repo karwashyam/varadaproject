@@ -4,7 +4,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Booking Tool</span></a>
+              <a href="${pageContext.request.contextPath}/home" class="site_title"><i class="fa fa-paw"></i> <span>Booking Tool</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -65,6 +65,7 @@
                       <li><a href="${pageContext.request.contextPath}/payment">Payment History</a></li>
                       <li><a href="${pageContext.request.contextPath}/payment/add">Add Payment</a></li>
                       <li><a href="${pageContext.request.contextPath}/payment/cheque">Unclear Cheques</a></li>
+                      <li><a href="${pageContext.request.contextPath}/tds">Tds History</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-sitemap"></i> Others <span class="fa fa-chevron-down"></span></a>

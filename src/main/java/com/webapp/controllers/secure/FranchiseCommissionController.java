@@ -97,7 +97,7 @@ public class FranchiseCommissionController extends BusinessController{
 	
 	
 	@RequestMapping(value = "/view-franchisee/{franchiseeId}", method = RequestMethod.GET)
-	public String editEmployee(Model model, @PathVariable("franchiseeId") String franchiseeId, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	public String viewFranchisee(Model model, @PathVariable("franchiseeId") String franchiseeId, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		preprocessRequest(model, req, res);
 		
@@ -119,7 +119,38 @@ public class FranchiseCommissionController extends BusinessController{
 		model.addAttribute("franchiseCommissionList",franchiseCommissionList);
 		return "/view-franchisee";
 	}
-	
+	@RequestMapping(value = "/view-franchisee-commission", method = RequestMethod.GET)
+	public String viewFranchiseeList(Model model, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
+		preprocessRequest(model, req, res);
+		
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url ="/login.do";
+			return "redirect:" + url;
+		}
+		List<FranchiseCommissionModel> franchiseCommissionList = franchiseCommissionService.fetchAllFranchiseCommissionList();
+		int i=1;
+		/*//For Testing purpose
+		FranchiseCommissionModel test=new FranchiseCommissionModel();
+		for(int j=0;j<10;j++)
+		{
+			test=new FranchiseCommissionModel();
+			test.setFranchiseeName("test"+j);
+			test.setPan("PANTest"+j);
+			test.setCommissionAmount(20000*j);
+			test.setTds(20+j+"");
+			test.setTdsAmount(((20000*j)*20+j)/100+"");
+			franchiseCommissionList.add(test);
+		}*/
+		for (FranchiseCommissionModel franchiseCommissionModel : franchiseCommissionList) {
+			franchiseCommissionModel.setSrNo((i++));
+			if(franchiseCommissionModel.getChequeDate()>0){
+				franchiseCommissionModel.setChequeDateString(DateUtils.fetchDateStrFromMilisec(franchiseCommissionModel.getChequeDate(), "IST", "dd/MM/yyyy"));
+			}
+		}
+		model.addAttribute("franchiseCommissionList",franchiseCommissionList);
+		return "/view-franchisee-commission";
+	}
 	@RequestMapping(value = "/edit-franchisee", method = RequestMethod.POST)
 	public String editStatePost(Model model, @Validated FranchiseModel franchiseModel, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 

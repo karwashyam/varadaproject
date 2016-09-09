@@ -34,4 +34,8 @@ public class FranchiseCommissionService {
 		return franchiseCommissionDao.fetchTotalFranchiseList();
 	}
 
+	public List<FranchiseCommissionModel> fetchAllFranchiseCommissionList() {
+		return franchiseCommissionDao.fetchAllFranchiseCommissionList();
+	}
+
 }

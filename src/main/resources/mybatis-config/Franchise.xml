@@ -240,13 +240,10 @@
 				f.commission_paid
 			</when>
 			<when test="JQTableUtils.sortColumn == 5">
-				f.commission_unpaid
-			</when>
-			<when test="JQTableUtils.sortColumn == 6">
 				f.tds
 			</when>
-			<when test="JQTableUtils.sortColumn == 7">
-				f.tds_paid
+			<when test="JQTableUtils.sortColumn == 6">
+				f.commission_unpaid
 			</when>
 			<otherwise>
 				f.franchisee_name

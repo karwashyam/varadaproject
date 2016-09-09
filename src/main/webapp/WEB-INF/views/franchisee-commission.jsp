@@ -20,9 +20,9 @@
 		<div class="clearfix"></div>
 		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12">
-				<div class="x_panel">
+				<div id="printableArea" class="x_panel">
 					<div class="x_title">
-						<h2>Franchise Commission</h2>
+						<h2>Franchisee Commission</h2>
 						<ul class="nav navbar-right panel_toolbox">
 							<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 							</li>
@@ -48,7 +48,7 @@
 							<thead>
 								<tr>
 									<th>S.No.</th>
-									<th>Franchise Id</th>
+									<th>Franchisee Id</th>
 									<th>Franchise Name</th>
 									<th>PAN Card</th>
 									<th>Commission Paid</th>
@@ -57,18 +57,17 @@
 									<th>View Detail</th>
 								</tr>
 							</thead>
-							<tbody>
-							</tbody>
 						</table>
+						<div class="row no-print">
+                        <div class="col-xs-12">
+                        <a href="franchisee-commission/view-franchisee-commission" class="actionbtn" style="float:left;"><button type="button" class="btn btn-round btn-primary">Print</button></a>
+                        </div>
+                      </div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
-
-
-
 <%@ include file="/WEB-INF/views/includes/footer.jsp"%>
 </html>
