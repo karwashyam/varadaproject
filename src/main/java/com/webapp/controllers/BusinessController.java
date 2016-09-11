@@ -1,13 +1,17 @@
 package com.webapp.controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
@@ -24,6 +28,7 @@ public class BusinessController extends BaseController {
 
 	private static final String REDIRECT="redirect:";
 	public static final String SINGLE_OBJECT_RESPONSE = "responseObject";
+	protected static final long MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
 
 	private static final Logger logger = Logger.getLogger(BusinessController.class);
 	
@@ -166,5 +171,27 @@ public class BusinessController extends BaseController {
 	public String pageRedirect(String url) {
 		return REDIRECT + url;
 	}
+
+	
+	
+
+    public void WriteFileToStream(HttpServletResponse res, String contentType, String fileName, String path) throws IOException{ 
+             
+//            res.setContentType("application/vnd.ms-excel"); 
+    	  	res.setContentType("application/vnd-xls"); 
+            res.setHeader("Content-Disposition", "attachment;filename="+fileName); 
+             
+            ServletOutputStream os = null; 
+            File file = new File(path); 
+            FileInputStream fileInputStream = new FileInputStream(file); 
+            byte[] byteArray = new byte[(int) file.length()];//IOUtils.toByteArray(fileInputStream); 
+            IOUtils.readFully(fileInputStream, byteArray); 
+            os = res.getOutputStream(); 
+            os.write(byteArray); 
+            fileInputStream.close(); 
+            os.flush(); 
+            //deleted xls file from server 
+            if(file.exists())file.delete(); 
+        } 
 
 }

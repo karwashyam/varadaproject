@@ -213,9 +213,12 @@
 	</select>
 	
 	<select id="fetchProjects" resultMap="projectPlotListResultMap">
-		SELECT * FROM projects
-			WHERE 
-			record_status = 'A'
+		SELECT  project_id, title, booking_prefix, project_overview, total_plots, super_buildup_percentage,last_booking_postfix,
+            completion_date, created_by, updated_by, created_at, updated_at, 
+            record_status
+          FROM projects
+		WHERE 
+		record_status = 'A'
 	</select>
 	
 	<select id="fetchProjectPlots" parameterType="Map" resultMap="projectPlotListResultMap">

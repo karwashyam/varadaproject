@@ -10,7 +10,7 @@ jQuery(document).ready(function() {
 //google.charts.setOnLoadCallback(drawChart);
 
 
-handleGraphData();
+//handleGraphData();
 
 
 jQuery("#year").on('change',function(){

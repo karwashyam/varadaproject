@@ -1,5 +1,6 @@
-var startLen;
-
+var startLen=-1,limit=0,display;
+var oTable;
+var tableTotalRows=0;
 jQuery(document).ready(function() {
 	var today = new Date();
 	  $('#startDate')
@@ -42,8 +43,37 @@ jQuery(document).ready(function() {
 		       }else{
 		    	   bookingReportDetails();
 		       }
-		       
+		       console.log("\t\t display="+display);
+		       if(display==undefined){
+		    	   console.log('123');
+		       }
+		       if(display!='undefined' && display!=''){
+		    	   $("#btnExport").attr("disabled",false);
+		       }
 			 });
+	 
+	 
+	/* $("#btnReport").click(function(event){
+		 	  $('.nav-tabs li').removeClass('active'); // remove active class from tabs
+		       $(this).addClass('active');
+		       bookingReportDetails();
+	 });*/
+     
+ 	$("#btnExport").click(function(event) {
+		 var fromDate=$("#startDate").val();
+		 var toDate=$("#endDate").val();
+			var reportType=$("#reportType").val();
+
+	var searchString=$('.tapHistoryForBar_filter .input').val();
+//		url=basePath + "/report/unbooking/export.json?fromDate="+startDate+"&toDate="+endDate+"&start="+startLen+"&end="+limit+"&searchString="+searchString,
+//	var tableLen=oTable.fnSettings().aoData.length;
+//	  var totalDisplayRecord =oTable.page.info().recordsDisplay
+	console.log("\t\t oTable totalDisplayRecord=\t\t --"+searchString);
+		 url=basePath + "/report/bookingdata/export.json?fromDate="+fromDate+"&toDate="+toDate+"&start="+startLen+"&end="+limit+"&reportType="+reportType;
+
+//	window.open(url);
+	});
+	
 	
 });
 
@@ -53,11 +83,15 @@ function bookingReportDetails() {
 	var startDate=$("#startDate").val();
  	var endDate=$("#endDate").val();
 	var reportType=$("#reportType").val();
-	$("#tapHistoryForBar").dataTable({
+	oTable=$("#tapHistoryForBar").dataTable({
 		"info": false,
 		"bProcesing" : true,
 		"bDestroy": true,
 		"bServerSide" : true,
+		"iDisplayStart" : 0,
+		"iDisplayLength" : 10,
+		"bRetrieve" : true,
+		"bSort" : true,
 		"oLanguage": {"sSearch": ""},
 		"bLengthChange": false,
 		"sAjaxSource" : basePath+"/report/ajax/bookingdata.json?startDate="+startDate+"&endDate="+endDate+"&reportType="+reportType,
@@ -121,6 +155,13 @@ function bookingReportDetails() {
 		"success" : fnCallback
 		});
 		},
+		 "fnFooterCallback": function(nRow, aaData, iStart, iEnd, aiDisplay) {
+			 console.log("iStart=="+aaData+"\t--iEnd--"+aiDisplay);
+			 startLen=iStart;
+			 limit=iEnd;
+			 display=aiDisplay;
+//			  alert(aaData);
+		 },
 		"sPaginationType" : "full_numbers"
 
 		});// dataTable
@@ -195,6 +236,19 @@ function unbookingReportDetails() {
 		"success" : fnCallback
 		});
 		},
+		  "fnDrawCallback" : function(oSettings) {
+	          	 var iTotalDisplayRecords = oTable.fnSettings().fnRecordsDisplay();
+	          	 console.log(iTotalDisplayRecords);
+
+	           },
+		 "fnFooterCallback": function(nRow, aaData, iStart, iEnd, aiDisplay) {
+			 console.log("iStart=="+aaData+"\t--iEnd--"+aiDisplay);
+			 startLen=iStart;
+			 limit=iEnd;
+//			  alert(aaData);
+			 display=aiDisplay;
+
+		 },
 		"sPaginationType" : "full_numbers"
 
 		});// dataTable

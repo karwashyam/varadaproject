@@ -1,5 +1,5 @@
-var startLen;
-
+var startLen,limit;
+var oTable;
 jQuery(document).ready(function() {
 	var today = new Date();
 	  $('#startDate')
@@ -35,12 +35,16 @@ jQuery(document).ready(function() {
 	 });
      
  	$("#btnExport").click(function(event) {
-		 var fromDate=$("#fromDate").val();
-		 var toDate=$("#toDate").val();
-		var searchString=$("#tapHistoryForBar_filter .input-group > [aria-controls='tapHistoryForBar']").val();
-		var limit=$("#tapHistoryForBar_length option:selected").val();
-		url=basePath + "/secure/users/admin/admin-dashboard/manage-users/export.json?fromDate="+startDate+"&toDate="+endDate+"&start="+startLen+"&end="+limit+"&searchString="+searchString,
-		window.open(url);
+		 var fromDate=$("#startDate").val();
+		 var toDate=$("#endDate").val();
+		 
+	var searchString=$('#tapHistoryForBar_filter .input').val();
+
+//		url=basePath + "/report/unbooking/export.json?fromDate="+startDate+"&toDate="+endDate+"&start="+startLen+"&end="+limit+"&searchString="+searchString,
+	
+		 url=basePath + "/report/unbooking/export.json?fromDate="+fromDate+"&toDate="+toDate+"&start="+startLen+"&end="+limit;
+
+	window.open(url);
 	});
 	
 	
@@ -51,11 +55,16 @@ jQuery(document).ready(function() {
 function bookingReportDetails() {
 	var startDate=$("#startDate").val();
  	var endDate=$("#endDate").val();
-	$("#tapHistoryForBar").dataTable({
+ 	oTable=$("#tapHistoryForBar").dataTable({
 		"info": false,
 		"bProcesing" : true,
 		"bDestroy": true,
 		"bServerSide" : true,
+		"iDisplayStart" : 0,
+		"iDisplayLength" : 2,
+		"bRetrieve" : true,
+		"bSort" : true,
+		"bFilter" : true,
 		"oLanguage": {"sSearch": ""},
 		"bLengthChange": false,
 		"sAjaxSource" : basePath+"/report/ajax/unbookeddata.json?startDate="+startDate+"&endDate="+endDate,
@@ -93,6 +102,18 @@ function bookingReportDetails() {
 		"success" : fnCallback
 		});
 		},
+        "fnDrawCallback" : function(oSettings) {
+          	 var iTotalDisplayRecords = oTable.fnSettings().fnRecordsDisplay();
+          	 console.log(iTotalDisplayRecords);
+
+           }
+			,
+		 "fnFooterCallback": function(nRow, aaData, iStart, iEnd, aiDisplay) {
+			 console.log("iStart=="+aaData+"\t--iEnd--"+aiDisplay);
+			 startLen=iStart;
+			 limit=iEnd;
+//			  alert(aaData);
+		 },
 		"sPaginationType" : "full_numbers"
 
 		});// dataTable
