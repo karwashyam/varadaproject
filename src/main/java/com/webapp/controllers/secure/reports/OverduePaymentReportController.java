@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fnf.utils.DateUtils;
 import com.fnf.utils.JQTableUtils;
 import com.webapp.controllers.BusinessController;
 import com.webapp.controllers.DataTablesTO;
@@ -66,15 +67,25 @@ public class OverduePaymentReportController extends BusinessController{
 
 	
 	@RequestMapping(value = "/overdue/list", produces = "application/json")
-	public @ResponseBody DataTablesTO<BookingModel> showOrders(@RequestParam int sEcho, @RequestParam String sSearch, HttpServletRequest req, HttpServletResponse res) {
-		System.out.println("\n\t\t overdue list---->");
+	public @ResponseBody DataTablesTO<BookingModel> showOrders(@RequestParam int sEcho, @RequestParam String sSearch, HttpServletRequest req, HttpServletResponse res,
+			@RequestParam("startDate") String startDate,@RequestParam("endDate") String endDate,
+			@RequestParam("memberId") String memberId,@RequestParam("franchiseeId") String franchiseeId) {
+//		System.out.println("\n\t\t overdue list---->"+memberId+" "+franchiseeId);
 		DataTablesTO<BookingModel> dt = new DataTablesTO<BookingModel>();
+		
+		long todatelong=0l,fdate=0l;
+		if(!endDate.equals("")){
+			 todatelong=DateUtils.getMilesecFromDateStr(endDate, DateUtils.SiMPLE_DATE_FORMAT, DateUtils.GMT);
+			 fdate=DateUtils.getMilesecFromDateStr(startDate, DateUtils.SiMPLE_DATE_FORMAT, DateUtils.GMT);
+			}
+		
+		
 		
 		JQTableUtils tableUtils = new JQTableUtils(req);
 		tableUtils.setSearchParams("%" + sSearch.trim() + "%");
-		List<BookingModel> accts = bookingService.fetchOverduePaymentBookingList(tableUtils);
+		List<BookingModel> accts = bookingService.fetchOverduePaymentBookingList(tableUtils,fdate,todatelong,memberId,franchiseeId);
 
-		long count =  bookingService.fetchTotalOverduePaymentBooking(tableUtils);
+		long count =  bookingService.fetchTotalOverduePaymentBooking(tableUtils,fdate,todatelong,memberId,franchiseeId);
 		dt.setAaData(accts); // this is the dataset reponse to client
 		dt.setiTotalDisplayRecords(Integer.valueOf(String.valueOf(count))); // // the total data in db
 		dt.setiTotalRecords(Integer.valueOf(String.valueOf(count))); // the total data in db for

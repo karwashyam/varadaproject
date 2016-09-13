@@ -30,8 +30,7 @@ $(document).ready(function() {
 	  
 	var startDate=$("#startDate").val();
 	var endDate=$("#endDate").val();
-	var memberId=$("#memberId").val();
-	var franchiseeId=$("#franchiseeId").val();
+	var reportType=$("#reportType").val();
 	
 	citytable();
 	 $("#btnReport").click(function(event){
@@ -47,13 +46,15 @@ function citytable() {
 	var i = 1;
 	var startDate=$("#startDate").val();
 	var endDate=$("#endDate").val();
-	var memberId=$("#memberId").val();
-	var franchiseeId=$("#franchiseeId").val();
+	var reportType=$("#reportType").val();
 
-	oTable = $("#booking-datatable").dataTable({
+	oTable = $("#customerfilter-datatable").dataTable({
 
 		"info" : false,
 		"bProcesing" : true,
+		"bPaginate" : true,
+		"iDisplayStart" : 0,
+		"iDisplayLength" : 10,
 		"bDestroy": true,
 		"oLanguage" : {
 			"sSearch" : ""
@@ -61,7 +62,7 @@ function citytable() {
 		"order" : [ [ 1, "asc" ] ],
 		"bServerSide" : true,
 		"bLengthChange" : false,
-		"sAjaxSource" : basePath + '/report/overdue/list.json?startDate='+startDate+'&endDate='+endDate+'&memberId='+memberId+'&franchiseeId='+franchiseeId,
+		"sAjaxSource" : basePath + '/report/customerfilter/list.json?startDate='+startDate+'&endDate='+endDate+'&reportType='+reportType,
 	/*	"columnDefs" : [ {
 			"mRender" : function(data, type, row) {
 				var actionsLinks = '<div style="">'; 
@@ -161,7 +162,7 @@ function handleAjaxError(xhr, textStatus, error) {
 
 function loadTable(){
 	
-	var table = $('#booking-datatable').DataTable();
+	var table = $('#customerfilter-datatable').DataTable();
 	
 	table.fnDestroy();
 	

@@ -580,13 +580,28 @@ public class BookingService {
 
 
 	public List<BookingModel> fetchOverduePaymentBookingList(
-			JQTableUtils tableUtils) {
-		return bookingDao.fetchOverduePaymentBookingList(tableUtils);
+			JQTableUtils tableUtils, long fdate, long todatelong, String memberId, String franchiseeId) {
+		return bookingDao.fetchOverduePaymentBookingList(tableUtils,fdate,todatelong,memberId,franchiseeId);
 	}
 
 
-	public long fetchTotalOverduePaymentBooking(JQTableUtils tableUtils) {
-		return bookingDao.fetchTotalOverduePaymentBooking(tableUtils);
+	public long fetchTotalOverduePaymentBooking(JQTableUtils tableUtils, long fdate, long todatelong, String memberId, String franchiseeId) {
+		return bookingDao.fetchTotalOverduePaymentBooking(tableUtils,fdate,todatelong,memberId,franchiseeId);
+	}
+
+
+	public List<BookingModel> fetchCustomerFilteredBookingList(
+			JQTableUtils tableUtils, long fdate, long todatelong,
+			String reportType) {
+		return bookingDao.fetchCustomerFilteredBookingList(tableUtils,fdate,todatelong,reportType);
+
+	}
+
+
+	public long fetchTotalCustomerFilteredBooking(JQTableUtils tableUtils,
+			long fdate, long todatelong, String reportType) {
+		return bookingDao.fetchTotalCustomerFilteredBooking(tableUtils,fdate,todatelong,reportType);
+
 	}
 
 

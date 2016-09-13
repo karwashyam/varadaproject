@@ -3,13 +3,12 @@
 <html>
 <head>
 <!-- 		<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['corechart']}]}"></script> -->
-<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['line']}]}"></script>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <%@ page session="false"%>
 <!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> -->
 <title>Reports</title>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<!--   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
 <script type="text/javascript">
 	var basePath = '${pageContext.request.contextPath}';
 </script> 
@@ -29,13 +28,26 @@
                 
            
                   <div class="x_title">
-                    <h2>Franchisee Collection Report</h2>
+                    <h2>Regular/Irregular Customer Report</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
 
                     </ul>
                     <div class="clearfix"></div>
+                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Report Type</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <select id="reportType" name="reportType" class="selectpicker" data-live-search="true" title="Select Member">
+                          <option value=""  >Select Report</option>
+                          
+                          <option value="1">Regular Customers</option>
+                          <option value="2">Irregular Customers</option>
+                          </select>
+                        </div>
+                      </div>
+                      
+                    
                       <div class="clearfix"></div>
                    
                                     
@@ -77,17 +89,18 @@
 <!--                           		<div class="tab-content"> -->
 <!-- 					  <div class="main-container"> -->
 <!-- 						<div role="tabpanel" class="tab-pane" id="tapHist"> -->
-								  <table id="franchisee-datatable" class="table table-striped table-bordered">
+								  <table id="customerfilter-datatable" class="table table-striped table-bordered">
                       <thead>
                         <tr>
                           <th>Project</th>
-                          <th>Booking Code</th>
-<!--                           <th>Plot No.</th> -->
+                          <th>Booking No.</th>
+                          <th>Plot No.</th>
                           <th>Franchisee</th>
-                          <th>Member Name</th>
-                          <th>Plot Name</th>
-                          <th>Payment Amount</th>
-                          
+                          <th>Customer</th>
+                          <th>Member Code</th>
+                          <th>Phone</th>
+                          <th>Email</th>
+                          <th>Remaining Payment</th>
 <!--                           <th>Action</th> -->
                         </tr>
                       </thead>

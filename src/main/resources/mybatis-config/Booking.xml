@@ -416,7 +416,7 @@
 
 	</select>
 	
-	<select id="fetchOverduePaymentBookingList" parameterType="JQTableUtils" resultMap="BookingMap">
+	<select id="fetchOverduePaymentBookingList" resultMap="BookingMap">
 		SELECT b.booking_id, b.booking_code, b.project_id, b.project_name, b.plot_id, 
 	       b.plot_name, b.plot_size, b.franchisee_id, b.franchisee_name, b.member_id, 
 	       b.member_name, b.nominee_name, b.nominee_father, b.nominee_address, b.nominee_relation, 
@@ -429,7 +429,16 @@
   		WHERE b.record_status!='D'
   		AND  b.remaining_payment &gt;= 0
   			
-  		<if test="JQTableUtils.searchParams!=''">
+  		<if test="startDate != 0">
+			AND b.created_at &gt; #{startDate} AND 	b.created_at &lt; #{endDate}
+		</if> 
+		<if test="memberId !=''">
+			AND b.member_id=#{memberId}
+		</if> 
+		<if test="franchiseeId !=''">
+			AND b.franchisee_id=#{franchiseeId}
+		</if> 
+  		<if test="JQTableUtils.searchParams!='%%'">
 			AND
 			(
 			b.booking_code ilike #{JQTableUtils.searchParams}
@@ -497,15 +506,23 @@
 	</select>
 	
 	
-	<select id="fetchTotalOverduePaymentBooking" parameterType="JQTableUtils" resultType="Long">
+	<select id="fetchTotalOverduePaymentBooking" resultType="Long">
 		SELECT count(booking_id)
   		FROM bookings b
   		INNER JOIN members m
   			ON m.member_id=b.member_id
   		WHERE b.record_status!='D'
   		AND  b.remaining_payment &gt;= 0
-  			
-  		<if test="JQTableUtils.searchParams!=''">
+  		<if test="startDate != 0">
+			AND b.created_at &gt; #{startDate} AND 	b.created_at &lt; #{endDate}
+		</if> 
+		<if test="memberId !=''">
+			AND b.member_id=#{memberId}
+		</if> 
+		<if test="franchiseeId !=''">
+			AND b.franchisee_id=#{franchiseeId}
+		</if> 
+  		<if test="JQTableUtils.searchParams!='%%'">
 			AND
 			(
 			b.booking_code ilike #{JQTableUtils.searchParams}
@@ -529,4 +546,138 @@
 		</if>
 	</select>
 	
+	
+	<select id="fetchCustomerFilteredBookingList" resultMap="BookingMap">
+		SELECT b.booking_id, b.booking_code, b.project_id, b.project_name, b.plot_id, 
+	       b.plot_name, b.plot_size, b.franchisee_id, b.franchisee_name, b.member_id, 
+	       b.member_name, b.nominee_name, b.nominee_father, b.nominee_address, b.nominee_relation, 
+	       b.nominee_dob, b.remarks, b.price, b.payment_made_till_now, b.emi, b.no_of_emi, 
+	       b.emi_price, b.next_emi_on,m.phone1,m.phone2,m.email,m.member_code,b.interest_rate,b.rate_per_yard,
+	       b.down_payment,b.payment_scheme_id,b.remaining_payment
+  		FROM bookings b
+  		INNER JOIN members m
+  			ON m.member_id=b.member_id
+  		WHERE b.record_status!='D'
+<!--   		AND  b.remaining_payment &gt;= 0 -->
+  			
+  		<if test="startDate != 0">
+			AND b.created_at &gt; #{startDate} AND 	b.created_at &lt; #{endDate}
+		</if> 
+		<if test="reportType !=''">
+			<if test="reportType == 1">
+  		AND  b.remaining_payment &lt;= 0
+			</if>
+			<if test="reportType ==2">
+  		AND  b.remaining_payment &gt; 0
+			</if>
+		</if> 
+  		<if test="JQTableUtils.searchParams!='%%'">
+			AND
+			(
+			b.booking_code ilike #{JQTableUtils.searchParams}
+			OR
+			b.project_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.plot_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.franchisee_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.member_name ilike #{JQTableUtils.searchParams}
+			OR
+			m.member_code  ilike #{JQTableUtils.searchParams}
+			OR
+			m.phone1 ilike #{JQTableUtils.searchParams}
+			OR 
+			m.phone2 ilike #{JQTableUtils.searchParams}
+			OR
+			m.email ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+		ORDER BY
+		<choose>
+			<when test="JQTableUtils.sortColumn == 0">
+				b.project_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 1">
+				b.booking_code
+			</when>
+			<when test="JQTableUtils.sortColumn == 2">
+				b.plot_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 3">
+				b.franchisee_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 4">
+				b.member_name
+			</when>
+			<when test="JQTableUtils.sortColumn == 5">
+				m.member_code
+			</when>
+			<when test="JQTableUtils.sortColumn == 6">
+				m.phone1
+			</when>
+			<when test="JQTableUtils.sortColumn == 7">
+				m.email
+			</when>
+			<otherwise>
+				b.created_at
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="JQTableUtils.sortingDirection == 'asc'">
+				ASC
+			</when>
+			<otherwise>
+				DESC
+			</otherwise>
+		</choose> 
+		<if test="JQTableUtils.iDisplayLength!=-1">
+			LIMIT #{JQTableUtils.iDisplayLength}
+			OFFSET #{JQTableUtils.iDisplayStart}
+		</if>
+		
+	</select>
+	
+	
+	<select id="fetchTotalCustomerFilteredBooking" resultType="Long">
+		SELECT count(booking_id)
+  		FROM bookings b
+  		INNER JOIN members m
+  			ON m.member_id=b.member_id
+  		WHERE b.record_status!='D'
+  		<if test="startDate != 0">
+			AND b.created_at &gt; #{startDate} AND 	b.created_at &lt; #{endDate}
+		</if> 
+		<if test="reportType !=''">
+			<if test="reportType =='1'">
+  		AND  b.remaining_payment &lt;= 0
+			</if>
+			<if test="reportType =='2'">
+  		AND  b.remaining_payment &gt; 0
+			</if>
+		</if> 
+		
+  		<if test="JQTableUtils.searchParams!='%%'">
+			AND
+			(
+			b.booking_code ilike #{JQTableUtils.searchParams}
+			OR
+			b.project_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.plot_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.franchisee_name ilike #{JQTableUtils.searchParams}
+			OR
+			b.member_name ilike #{JQTableUtils.searchParams}
+			OR
+			m.member_code  ilike #{JQTableUtils.searchParams}
+			OR
+			m.phone1 ilike #{JQTableUtils.searchParams}
+			OR 
+			m.phone2 ilike #{JQTableUtils.searchParams}
+			OR
+			m.email ilike #{JQTableUtils.searchParams}
+			)
+		</if>
+	</select>
 </mapper> 

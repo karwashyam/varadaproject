@@ -44,16 +44,16 @@
                     
                     <div id="line_top_x"></div>
                   </div>
-  				 <div id="graphDiv" class="col-lg-10">
+  			<!-- 	 <div id="graphDiv" class="col-lg-10">
                     		<div class="box box-info">
                                        
                                         <div class="box-body">
                                             <div id="chart" class="chart">
                                                 <canvas id="lineChart" style="width: 90%; height: 20%;"></canvas>
                                             </div>
-                                        </div><!-- /.box-body -->
-                                    </div><!-- /.box -->
-                    	</div>
+                                        </div>/.box-body
+                                    </div>/.box
+                    	</div> -->
 <!-- 						<div id="columnchart_values" style="width: 900px; height: 300px;"></div> -->
                   </div>
                 </div>

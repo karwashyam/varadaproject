@@ -32,23 +32,37 @@ $(document).ready(function() {
 	var startDate=$("#startDate").val();
 	var endDate=$("#endDate").val();
 	citytable();
+	 $("#btnReport").click(function(event){
+	 	  $('.nav-tabs li').removeClass('active'); // remove active class from tabs
+	       $(this).addClass('active');
+	       citytable();
+});
+
 	
 	
 });
 
 function citytable() {
 	var i = 1;
+	var startDate=$("#startDate").val();
+	var endDate=$("#endDate").val();
 	oTable = $("#franchisee-datatable").dataTable({
 
 		"info" : false,
 		"bProcesing" : true,
+		"bPaginate" : true,
+		"iDisplayStart" : 0,
+		"iDisplayLength" : 10,
 		"oLanguage" : {
 			"sSearch" : ""
 		},
 		"order" : [ [ 1, "asc" ] ],
+		"bDestroy": true,
+		"bRetrieve" : true,
 		"bServerSide" : true,
 		"bLengthChange" : false,
-		"sAjaxSource" : basePath + '/report/franchisee/list.json',
+		"sAjaxSource" : basePath + '/report/franchisee/list.json?startDate='+startDate+"&endDate="+endDate,
+	
 	/*	"columnDefs" : [ {
 			"mRender" : function(data, type, row) {
 				var actionsLinks = '<div style="">'; 
@@ -75,17 +89,13 @@ function citytable() {
 		{
 			"sTitle" : "Project",
 			"mData" : "projectName",
-			"sClass" : "center",
-			"bVisible" : false
+			"sClass" : "center"
 		// "sWidth" : "6%"
 		}, {
-			"mData" : "Booking No.",
+			"mData" : "Booking Code.",
 			"mData" : "bookingCode",
 			"sClass" : "center"
-		},/* {
-			"sTitle" : "Plot No.",
-			"mData" : "plotName"
-		},*/
+		},
 		{
 			"sTitle" : "Franchisee",
 			"mData" : "franchiseeName"
@@ -93,18 +103,13 @@ function citytable() {
 			"sTitle" : "Member",
 			"mData" : "memberName"
 		},{
-			"sTitle" : "Member Code",
-			"mData" : "memberCode"
+			"sTitle" : "Plot Name",
+			"mData" : "plotName"
 		},{
-			"sTitle" : "Phone",
-			"mData" : "phone1"
-		},{
-			"sTitle" : "Email",
-			"mData" : "email"
-		},{
-			"sTitle" : "Remaining Payment",
-			"mData" : "remainingPayment"
-		}],
+			"sTitle" : "Amount",
+			"mData" : "paymentAmount"
+		}
+		],
 		"fnServerData" : function(sSource, aoData, fnCallback) {
 			$.ajax({
 				"dataType" : 'json',

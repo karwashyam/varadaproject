@@ -315,20 +315,24 @@
 	</select>
 	
 	
-	<select id="fetchFranchiseePaymentList" parameterType="JQTableUtils" resultMap="paymentMap">
-		SELECT p.receipt_no,p.payment_id, p.member_id, p.franchisee_id, p.franchisee_name, p.member_name, 
-		       p.booking_id,b.project_name,b.plot_name,b.booking_code, p.emi_date, p.payment_mode, p.cheque_date, 
-		        p.cheque_number, p.bank, p.account_holder, p.transaction_number, 
-		       p.description, p.status, p.created_by, p.updated_by, p.created_at, p.updated_at, 
-		       p.record_status, p.type, sum(p.payment_amount) as p.payment_amount
+	<select id="fetchFranchiseeCollectionPayment"  resultMap="paymentMap">
+		SELECT 
+			<!-- p.receipt_no,p.member_id, p.franchisee_id, p.franchisee_name, p.member_name, 
+		    b.project_name,b.plot_name,b.booking_code, p.emi_date, -->
+<!-- 		    p.member_id, p.franchisee_id,  -->
+		    p.franchisee_name, p.member_name, 
+		    b.project_name,b.plot_name,b.booking_code, 
+		      sum(p.payment_amount) as payment_amount
   		FROM payments p
   		INNER JOIN bookings b ON b.booking_id=p.booking_id
-  		AND b.record_status='A' AND p.type='C' AND p.status='2'	
-  		<if test="JQTableUtils.searchParams!=''">
+  		AND b.record_status='A' AND p.type='C' AND p.status='2'
+  			<if test="startDate != 0">
+			AND p.created_at &gt; #{startDate} AND 	p.created_at &lt; #{endDate}
+		</if> 
+  		
+  		<if test="JQTableUtils.searchParams!='%%'">
 			AND
 			(
-			cast(p.receipt_no as character varying) ilike #{JQTableUtils.searchParams}
-			OR
 			b.project_name ilike #{JQTableUtils.searchParams}
 			OR
 			p.franchisee_name ilike #{JQTableUtils.searchParams}
@@ -342,11 +346,11 @@
 			cast(p.payment_amount as character varying) ilike #{JQTableUtils.searchParams}
 			)
 		</if>
+		GROUP BY p.project_id,p.member_id, p.franchisee_id, p.franchisee_name,
+		 p.member_name, b.project_name,b.plot_name,b.booking_code
+		 
 		ORDER BY
 		<choose>
-			<when test="JQTableUtils.sortColumn == 0">
-				p.receipt_no
-			</when>
 			<when test="JQTableUtils.sortColumn == 1">
 				b.project_name
 			</when>
@@ -365,11 +369,8 @@
 			<when test="JQTableUtils.sortColumn == 6">
 				p.payment_amount
 			</when>
-			<when test="JQTableUtils.sortColumn == 7">
-				p.emi_date
-			</when>
 			<otherwise>
-				p.receipt_no
+				p.member_name
 			</otherwise>
 		</choose>
 		<choose>
@@ -386,16 +387,17 @@
 		</if>
 	</select>
 	
-	<select id="fetchTotalFranchiseePaymentList" parameterType="JQTableUtils" resultType="long">
+	<select id="fetchTotalFranchiseeCollectionPayment"  resultType="long">
 		SELECT count(*)
   		FROM payments p
   		INNER JOIN bookings b ON b.booking_id=p.booking_id
   		AND b.record_status='A' AND p.type='C'	
-  		<if test="JQTableUtils.searchParams!=''">
+  			<if test="startDate != 0">
+			AND p.created_at &gt; #{startDate} AND 	p.created_at &lt; #{endDate}
+		</if> 
+  		<if test="JQTableUtils.searchParams!='%%'">
 			AND
 			(
-			cast(p.receipt_no as character varying) ilike #{JQTableUtils.searchParams}
-			OR
 			b.project_name ilike #{JQTableUtils.searchParams}
 			OR
 			p.franchisee_name ilike #{JQTableUtils.searchParams}

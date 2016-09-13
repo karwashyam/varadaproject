@@ -78,9 +78,12 @@
                     <ul class="nav child_menu">
                       <li><a href="${pageContext.request.contextPath}/report/booking">Booking</a></li>
                       <li><a href="${pageContext.request.contextPath}/report/cancelledbooking">Cancelled Booking</a></li>
-                         <li><a href="${pageContext.request.contextPath}/report/bookingdata">Booking Reports Details</li>
+                      <li><a href="${pageContext.request.contextPath}/report/bookingdata">Booking Reports Details</li>
                       <li><a href="${pageContext.request.contextPath}/report/unbooking">Unbooked Plots</a></li>
-                      <li><a href="${pageContext.request.contextPath}/overdue">Overdue Payments</a></li>
+                      <li><a href="${pageContext.request.contextPath}/report/overdue">Overdue Payments</a></li>
+                      <li><a href="${pageContext.request.contextPath}/report/franchisee">Franchisee Collection Report</a></li>
+                      <li><a href="${pageContext.request.contextPath}/report/customerfilter">Regular/Irregular Customer Report</a></li>
+                      
                     </ul>
                   </li>
                 </ul>

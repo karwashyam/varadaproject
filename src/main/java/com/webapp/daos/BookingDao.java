@@ -44,8 +44,15 @@ public interface BookingDao {
 
 	int changePaidPaymentForFutureEmi(@Param("list") List<PaymentModel> paymentModelList);
 
-	List<BookingModel> fetchOverduePaymentBookingList(@Param("JQTableUtils") JQTableUtils tableUtils);
+	List<BookingModel> fetchOverduePaymentBookingList(@Param("JQTableUtils") JQTableUtils tableUtils,@Param("startDate") long fdate,@Param("endDate") long todatelong,@Param("memberId") String memberId,@Param("franchiseeId") String franchiseeId);
 
-	long fetchTotalOverduePaymentBooking(@Param("JQTableUtils") JQTableUtils tableUtils);
+	long fetchTotalOverduePaymentBooking(@Param("JQTableUtils") JQTableUtils tableUtils, @Param("startDate") long fdate,@Param("endDate") long todatelong,@Param("memberId") String memberId,@Param("franchiseeId") String franchiseeId);
+
+	List<BookingModel> fetchCustomerFilteredBookingList(
+			@Param("JQTableUtils") JQTableUtils tableUtils, @Param("startDate") long fdate,@Param("endDate") long todatelong,
+			 @Param("reportType")	String reportType);
+
+	long fetchTotalCustomerFilteredBooking(@Param("JQTableUtils") JQTableUtils tableUtils, @Param("startDate") long fdate,@Param("endDate") long todatelong,
+			 @Param("reportType")	String reportType);
 
 }

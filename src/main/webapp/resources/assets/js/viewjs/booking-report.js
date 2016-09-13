@@ -15,8 +15,8 @@ jQuery(document).ready(function() {
 
 jQuery("#year").on('change',function(){
 	
-	jQuery('#lineChart').remove(); // this is my <canvas> element
-	jQuery('#chart').append('<canvas id="lineChart" style="height:250px !important"></canvas>');
+//	jQuery('#lineChart').remove(); // this is my <canvas> element
+//	jQuery('#chart').append('<canvas id="lineChart" style="height:250px !important"></canvas>');
 	handleGraphData();
 	
 });

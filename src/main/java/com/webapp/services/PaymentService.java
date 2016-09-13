@@ -97,5 +97,14 @@ public class PaymentService {
 		bookingDao.changePaidPaymentForFutureEmi(paymentModelList);
 		
 	}
+	public List<PaymentModel> fetchFranchiseeCollectionPayment(
+			JQTableUtils tableUtils, long fdate, long todatelong) {
+		return paymentDao.fetchFranchiseeCollectionPayment(tableUtils,fdate,todatelong);
+
+	}
+	public long fetchTotalFranchiseeCollectionPayment(JQTableUtils tableUtils, long fdate, long todatelong) {
+		return paymentDao.fetchTotalFranchiseeCollectionPayment(tableUtils,fdate,todatelong);
+	}
+
 
 }

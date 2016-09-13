@@ -35,6 +35,10 @@ public interface PaymentDao {
 
 	void updateFutureEmi(@Param("list") List<PaymentModel> paymentModelList);
 
+	List<PaymentModel> fetchFranchiseeCollectionPayment(@Param("JQTableUtils") JQTableUtils tableUtils,@Param("startDate") long startDate,@Param("endDate")long endDate);
+
+	long fetchTotalFranchiseeCollectionPayment(@Param("JQTableUtils") JQTableUtils tableUtils,@Param("startDate") long fdate, @Param("endDate") long todatelong);
+
 
 	
 
