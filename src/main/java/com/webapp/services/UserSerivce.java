@@ -67,4 +67,18 @@ public class UserSerivce {
 		return userModel;
 	}
 
+
+
+	public String fetchPassword(String userId) {
+		// TODO Auto-generated method stub
+		return userDao.fetchPassword(userId);
+	}
+
+
+
+	public int updatePassword(User userModel) {
+		return userDao.updatePassword(userModel);
+		
+	}
+
 }

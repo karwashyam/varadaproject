@@ -1,9 +1,19 @@
 var oTable;
 var paymentId;
+var validateRequireFields = ["tdsAmount","chequeNumber","chequeDate","bank","accountHolder"];
 $(document).ready(function() {
 	
 	chequetable();
+	$("#submit").click(function() {
+			var isValid = validateForm();
+			if (!isValid) {
+				window.stop(); //should work in all major browsers
+				document.execCommand("Stop"); //is necessary to support IE
+				return false;
+			}
+		});
 	
+	$('#tds-datatable_wrapper').prepend('<a href="'+ basePath+ '/tds/add'+ '" class="actionbtn" style="float:right;"><button type="button" class="btn btn-round btn-primary">New TDS Payment</button></a>');
 	$.ajax({
 		
 		type: "GET",

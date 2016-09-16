@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +27,7 @@ import com.fnf.utils.JQTableUtils;
 import com.webapp.controllers.BusinessController;
 import com.webapp.controllers.DataTablesTO;
 import com.webapp.dbsession.DbSession;
+import com.webapp.models.CityModel;
 import com.webapp.models.TdsModel;
 import com.webapp.services.TdsService;
 
@@ -49,6 +52,32 @@ public class TdsController extends BusinessController{
 			String url = "/login";
 			return "redirect:" + url;
 		}
+		return "tds";
+	}
+	
+	@RequestMapping(value="/add",method = RequestMethod.GET)
+	public String getAddTds(Model model, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		preprocessRequest(model, req, res);
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url = "/login";
+			return "redirect:" + url;
+		}
+		TdsModel tdsModel= new TdsModel();
+		model.addAttribute("tdsModel", tdsModel);
+		return "tds-add";
+	}
+	
+	@RequestMapping(value="/add",method = RequestMethod.POST)
+	public String addTds(Model model,@Validated TdsModel tdsModel,BindingResult result,
+			 HttpServletRequest req,HttpServletResponse res) throws ServletException, IOException {
+		preprocessRequest(model, req, res);
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url = "/login";
+			return "redirect:" + url;
+		}
+		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
+		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
+		tdsService.addTds(tdsModel,userId);
 		return "tds";
 	}
 	

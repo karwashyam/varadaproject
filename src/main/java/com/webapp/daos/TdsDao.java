@@ -17,6 +17,8 @@ public interface TdsDao {
 	Long fetchTdsDue();
 
 	Long fetchTdsCreditDue();
+
+	int addTds(TdsModel tdsModel);
 	
 
 }

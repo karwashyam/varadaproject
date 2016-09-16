@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fnf.utils.DateUtils;
 import com.fnf.utils.JQTableUtils;
+import com.fnf.utils.UUIDGenerator;
+import com.utils.constant.ProjectConstant;
 import com.webapp.daos.TdsDao;
 import com.webapp.models.TdsModel;
 
@@ -33,6 +36,20 @@ public class TdsService {
 	}
 	public Long fetchTdsCreditDue() {
 		return tdsDao.fetchTdsCreditDue();
+	}
+	public int addTds(TdsModel tdsModel, String userId) {
+		long time = DateUtils.nowAsGmtMillisec();
+		
+		tdsModel.setTdsId(UUIDGenerator.generateUUID());
+		tdsModel.setCreatedBy(userId);
+		tdsModel.setUpdatedAt(time);
+		tdsModel.setUpdatedBy(userId);
+		tdsModel.setCreatedAt(time);
+		tdsModel.setStatus(ProjectConstant.PAYMENT_TYPE_DEBIT);
+		tdsModel.setChequeDate(DateUtils.getMilesecFromDateStr(tdsModel.getChequeDateString(), "dd/mm/yyyy", "GMT"));
+		tdsModel.setPaymentMode("Cheque");
+		return tdsDao.addTds(tdsModel);
+		
 	}
 
 

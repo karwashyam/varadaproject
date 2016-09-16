@@ -29,4 +29,6 @@ public interface UserDao {
 
 	String checkLoginCredentials(User userModel);
 
+	String fetchPassword(String userId);
+
 }

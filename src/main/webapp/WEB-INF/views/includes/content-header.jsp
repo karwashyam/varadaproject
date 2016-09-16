@@ -15,7 +15,7 @@
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
-                <h2>Admin</h2>
+                <h2>User</h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -78,7 +78,7 @@
                     <ul class="nav child_menu">
                       <li><a href="${pageContext.request.contextPath}/report/booking">Booking</a></li>
                       <li><a href="${pageContext.request.contextPath}/report/cancelledbooking">Cancelled Booking</a></li>
-                      <li><a href="${pageContext.request.contextPath}/report/bookingdata">Booking Reports Details</li>
+                      <li><a href="${pageContext.request.contextPath}/report/bookingdata">Booking Reports Details</a></li>
                       <li><a href="${pageContext.request.contextPath}/report/unbooking">Unbooked Plots</a></li>
                       <li><a href="${pageContext.request.contextPath}/report/overdue">Overdue Payments</a></li>
                       <li><a href="${pageContext.request.contextPath}/report/franchisee">Franchisee Collection Report</a></li>

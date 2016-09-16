@@ -85,5 +85,16 @@
 		select sum(tds_amount) from tds where record_status='A' AND status='C'
 	</select>
 	
+	<insert id="addTds" parameterType="TdsModel">
+		INSERT INTO tds(
+            tds_id,  
+            payment_mode, tds_amount, cheque_number, bank, account_holder, 
+             status, created_by, updated_by, created_at, 
+            updated_at, record_status, cheque_date)
+    	VALUES (#{tdsId}, 
+            #{paymentMode}, #{tdsAmount}, #{chequeNumber}, #{bank}, #{accountHolder}, 
+             #{status}, #{createdBy}, #{updatedBy}, #{createdAt}, 
+            #{updatedAt}, 'A', #{chequeDate})
+	</insert>
 	
 </mapper> 
