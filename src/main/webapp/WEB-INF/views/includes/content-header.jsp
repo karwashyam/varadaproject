@@ -71,7 +71,7 @@
                   <li><a><i class="fa fa-sitemap"></i> Others <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="${pageContext.request.contextPath}/franchisee-commission">Franchisee Commission</a></li>
-                      <li><a href="${pageContext.request.contextPath}/add-franchisee-commission">Pay Franchisee Commission</a></li>
+                      <li><a href="${pageContext.request.contextPath}/franchisee-commission/add-franchisee-commission">Pay Franchisee Commission</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-bar-chart-o"></i> Reports <span class="fa fa-chevron-down"></span></a>

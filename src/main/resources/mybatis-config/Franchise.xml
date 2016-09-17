@@ -19,6 +19,8 @@
 		<result property="pan" column="pan" />
 		<result property="tds" column="tds" />
 		<result property="commissionPercentage" column="commission_percentage" />
+		<result property="commissionUnpaid" column="commission_unpaid" />
+		<result property="tds" column="tds" />
 		<result property="registeredDate" column="created_at" />
 		<result property="recordStatus" column="record_status"/>
 	</resultMap>
@@ -155,6 +157,11 @@
 		Where payment_id=#{paymentId}
 	</update>
 	
+	<update id="updateCommission">
+		update franchisee set commission_unpaid=commission_unpaid-#{amount}, commission_paid=commission_paid+#{amount},tds_paid=tds_paid+#{tdsAmount}
+		Where franchisee_id=#{franchiseeId}
+	</update>
+	
 	<insert id="addFranchiseeCommission" parameterType="FranchiseCommissionModel">
 		INSERT INTO franchisee_commission(
             franchisee_commission_id, franchisee_id, franchisee_name, booking_id, 
@@ -211,7 +218,7 @@
 	</update>
 	
 	<select id="fetchAllFranchiseList" resultMap="FranchiseMap">
-		SELECT f.franchisee_id,f.franchisee_name
+		SELECT f.franchisee_id,f.franchisee_name,f.commission_unpaid,f.tds,f.pan
   		FROM franchisee f
   		WHERE f.record_status='A'
 	</select>

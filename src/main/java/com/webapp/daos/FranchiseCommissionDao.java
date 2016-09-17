@@ -11,5 +11,7 @@ public interface FranchiseCommissionDao {
 	long fetchTotalFranchiseList();
 
 	List<FranchiseCommissionModel> fetchAllFranchiseCommissionList();
+
+	int addFranchiseCommission(FranchiseCommissionModel franchiseCommissionModel);
 	
 }

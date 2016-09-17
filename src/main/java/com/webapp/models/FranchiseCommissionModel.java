@@ -16,9 +16,9 @@ public class FranchiseCommissionModel extends AbstractModel {
 
 	private String projectId;
 
-	private String tds;
+	private long tds;
 
-	private String paymentMode;
+	private String paymentMethod;
 
 	private long chequeDate;
 
@@ -38,7 +38,7 @@ public class FranchiseCommissionModel extends AbstractModel {
 
 	private long commissionAmount;
 
-	private String tdsAmount;
+	private long tdsAmount;
 
 	private String recordStatus;
 
@@ -49,6 +49,10 @@ public class FranchiseCommissionModel extends AbstractModel {
 	private String memberName;
 
 	private String pan;
+	
+	private String chequeAmount;
+	
+	private Long commissionUnpaid;
 
 	public long getSrNo() {
 		return srNo;
@@ -106,20 +110,20 @@ public class FranchiseCommissionModel extends AbstractModel {
 		this.projectId = projectId;
 	}
 
-	public String getTds() {
+	public long getTds() {
 		return tds;
 	}
 
-	public void setTds(String tds) {
+	public void setTds(long tds) {
 		this.tds = tds;
 	}
 
-	public String getPaymentMode() {
-		return paymentMode;
+	public String getPaymentMethod() {
+		return paymentMethod;
 	}
 
-	public void setPaymentMode(String paymentMode) {
-		this.paymentMode = paymentMode;
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 
 	public long getChequeDate() {
@@ -194,11 +198,11 @@ public class FranchiseCommissionModel extends AbstractModel {
 		this.commissionAmount = commissionAmount;
 	}
 
-	public String getTdsAmount() {
+	public long getTdsAmount() {
 		return tdsAmount;
 	}
 
-	public void setTdsAmount(String tdsAmount) {
+	public void setTdsAmount(long tdsAmount) {
 		this.tdsAmount = tdsAmount;
 	}
 
@@ -240,6 +244,22 @@ public class FranchiseCommissionModel extends AbstractModel {
 
 	public void setPan(String pan) {
 		this.pan = pan;
+	}
+
+	public String getChequeAmount() {
+		return chequeAmount;
+	}
+
+	public void setChequeAmount(String chequeAmount) {
+		this.chequeAmount = chequeAmount;
+	}
+
+	public Long getCommissionUnpaid() {
+		return commissionUnpaid;
+	}
+
+	public void setCommissionUnpaid(Long commissionUnpaid) {
+		this.commissionUnpaid = commissionUnpaid;
 	}
 
 }

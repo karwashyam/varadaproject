@@ -26,11 +26,12 @@ import com.fnf.utils.JQTableUtils;
 import com.webapp.controllers.BusinessController;
 import com.webapp.controllers.DataTablesTO;
 import com.webapp.dbsession.DbSession;
+import com.webapp.dto.FranchiseDto;
 import com.webapp.models.FranchiseCommissionModel;
 import com.webapp.models.FranchiseModel;
 import com.webapp.services.FranchiseCommissionService;
 import com.webapp.services.FranchiseService;
-import com.webapp.validator.FranchiseValidator;
+import com.webapp.validator.FranchiseCommissionValidator;
 
 @Controller
 @RequestMapping("/franchisee-commission")
@@ -50,11 +51,11 @@ public class FranchiseCommissionController extends BusinessController{
 	private FranchiseCommissionService franchiseCommissionService;
 	
 	@Autowired
-	private FranchiseValidator franchiseValidator;
+	private FranchiseCommissionValidator franchiseCommissionValidator;
 	
-	@InitBinder
+	@InitBinder("franchiseCommissionModel")
 	private void initBinder(WebDataBinder binder) {
-		binder.setValidator(franchiseValidator);
+		binder.setValidator(franchiseCommissionValidator);
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
@@ -144,15 +145,13 @@ public class FranchiseCommissionController extends BusinessController{
 		}*/
 		for (FranchiseCommissionModel franchiseCommissionModel : franchiseCommissionList) {
 			franchiseCommissionModel.setSrNo((i++));
-			if(franchiseCommissionModel.getChequeDate()>0){
-				franchiseCommissionModel.setChequeDateString(DateUtils.fetchDateStrFromMilisec(franchiseCommissionModel.getChequeDate(), "IST", "dd/MM/yyyy"));
-			}
+			franchiseCommissionModel.setTdsAmount(Math.round((franchiseCommissionModel.getTds()*franchiseCommissionModel.getCommissionUnpaid())/100));
 		}
 		model.addAttribute("franchiseCommissionList",franchiseCommissionList);
 		return "/view-franchisee-commission";
 	}
-	@RequestMapping(value = "/edit-franchisee", method = RequestMethod.POST)
-	public String editStatePost(Model model, @Validated FranchiseModel franchiseModel, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	@RequestMapping(value = "/add-franchisee-commission", method = RequestMethod.POST)
+	public String editStatePost(Model model, @Validated FranchiseCommissionModel franchiseCommissionModel, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		preprocessRequest(model, req, res);
 		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
@@ -161,19 +160,39 @@ public class FranchiseCommissionController extends BusinessController{
 			return "redirect:" + url;
 		}
 		if (result.hasErrors()) {
-			model.addAttribute("franchiseModel",franchiseModel);
-			return "edit-franchisee";
+			List<FranchiseDto> franchiseeModelList= franchiseService.fetchAllFranchiseList();
+			model.addAttribute("franchiseCommissionModel",franchiseCommissionModel);
+			model.addAttribute("franchiseeModelList", franchiseeModelList);
+			return "add-franchisee-commission";
 		}
+		String franchiseValues[]= franchiseCommissionModel.getFranchiseeId().split("_");
+		franchiseCommissionModel.setFranchiseeId(franchiseValues[0]);
+		franchiseCommissionModel.setFranchiseeName(franchiseValues[1]);
+		if(franchiseCommissionModel.getChequeDateString()!=null && !"".equals(franchiseCommissionModel.getChequeDateString()))
+			franchiseCommissionModel.setChequeDate(DateUtils.getMilesecFromDateStr(franchiseCommissionModel.getChequeDateString(), "dd/MM/yyyy", "IST"));
 		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
-		franchiseModel.setUpdatedBy(userId);
-		int status =franchiseService.editFranchise(franchiseModel);
+		int status =franchiseCommissionService.addFranchiseCommission(franchiseCommissionModel,userId);
 		if(status>0){
 				model.addAttribute("msg", "Daily Update sent successfully");
 		}else{
 			model.addAttribute("msg", "Failed to send updates");
 		}
 
-		return pageRedirect("/franchisee");
+		return pageRedirect("/franchisee-commission");
+	}
+	
+	@RequestMapping(value = "/add-franchisee-commission",method = RequestMethod.GET)
+	public String addEmployee(Model model, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		preprocessRequest(model, req, res);
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url = "/login";
+			return "redirect:" + url;
+		}
+		List<FranchiseDto> franchiseeModelList= franchiseService.fetchAllFranchiseList();
+		FranchiseCommissionModel franchiseeCommissionModel= new FranchiseCommissionModel();
+		model.addAttribute("franchiseCommissionModel",franchiseeCommissionModel);
+		model.addAttribute("franchiseeModelList", franchiseeModelList);
+		return "add-franchisee-commission";
 	}
 	
 	@Override

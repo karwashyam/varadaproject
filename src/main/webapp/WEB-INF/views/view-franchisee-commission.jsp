@@ -66,8 +66,8 @@
 												<td>${FranchiseCommissionModel['srNo']}</td>
 												<td>${FranchiseCommissionModel['franchiseeName']}</td>
 												<td>${FranchiseCommissionModel['pan']}</td>
-												<td><label id="commission${FranchiseCommissionModel['srNo']}">${FranchiseCommissionModel['commissionAmount']}</label>&nbsp;${FranchiseCommissionModel['status']}</td>
-												<td><label id="tds${FranchiseCommissionModel['srNo']}" title="Click for change TDS percentage" onclick="changeTdsAmount(${FranchiseCommissionModel['srNo']},${FranchiseCommissionModel['commissionAmount']})">${FranchiseCommissionModel['tds']}</label></td>
+												<td><label id="commission${FranchiseCommissionModel['srNo']}">${FranchiseCommissionModel['commissionUnpaid']}</label></td>
+												<td><label id="tds${FranchiseCommissionModel['srNo']}" title="Click for change TDS percentage" onclick="changeTdsAmount(${FranchiseCommissionModel['srNo']},${FranchiseCommissionModel['commissionUnpaid']})">${FranchiseCommissionModel['tds']}</label></td>
 												<td><label id="tdsAmount${FranchiseCommissionModel['srNo']}">${FranchiseCommissionModel['tdsAmount']}</label></td>
 											</tr>
 										</c:forEach>

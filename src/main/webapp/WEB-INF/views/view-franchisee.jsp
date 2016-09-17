@@ -86,26 +86,27 @@
                                 <th>Sr. No.</th>
                                 <th>Booking Code</th>
                                 <th>Project Name</th>
-                                <th>Cheque No/Transaction Id</th>
+                                <th>Payment Mode</th>
+                                <th>Cheque No/Tr. Id</th>
                                 <th>Payment Date</th>
                                 <th>Bank</th>
                                 <th>Account Holder</th>
-                                <th>Entry By</th>
-                                <th>Credit</th>
-                                <th>Debit</th>
+                                <th>TDS</th>
+                                <th>Amount</th>
                               </tr>
                             </thead>
                             <tbody>
-                              	<c:forEach items="${franchiseCommissionList}" var="paymentModel" >
+                              	<c:forEach items="${franchiseCommissionList}" var="FranchiseCommissionModel" >
 									<tr>
 		                                <td>${FranchiseCommissionModel['srNo']}</td>
 		                                <td>${FranchiseCommissionModel['bookingCode']}</td>
 		                                <td>${FranchiseCommissionModel['projectName']}</td>
+		                                <td>${FranchiseCommissionModel['paymentMethod']}</td>
 		                                <td>${FranchiseCommissionModel['chequeNumber']}${paymentModel['transactionNumber']}</td>
 		                                <td>${FranchiseCommissionModel['chequeDateString']}</td>
 		                                <td>${FranchiseCommissionModel['bank']}</td>
 		                                <td>${FranchiseCommissionModel['accountHolder']}</td>
-		                                <td>${FranchiseCommissionModel['memberName']}</td>
+		                                <td>${FranchiseCommissionModel['tdsAmount']}&nbsp;${FranchiseCommissionModel['status']}</td>
 		                                <td>${FranchiseCommissionModel['commissionAmount']}&nbsp;${FranchiseCommissionModel['status']}</td>
 		                            </tr>
 								</c:forEach>
