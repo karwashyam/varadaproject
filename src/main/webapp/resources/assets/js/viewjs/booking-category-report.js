@@ -60,7 +60,7 @@ jQuery(document).ready(function() {
 	 });*/
      
  	$("#btnExport").click(function(event) {
-		 var fromDate=$("#startDate").val();
+		/* var fromDate=$("#startDate").val();
 		 var toDate=$("#endDate").val();
 			var reportType=$("#reportType").val();
 
@@ -70,12 +70,57 @@ jQuery(document).ready(function() {
 //	  var totalDisplayRecord =oTable.page.info().recordsDisplay
 	console.log("\t\t oTable totalDisplayRecord=\t\t --"+searchString);
 		 url=basePath + "/report/bookingdata/export.json?fromDate="+fromDate+"&toDate="+toDate+"&start="+startLen+"&end="+limit+"&reportType="+reportType;
-
+*/
+ 		 $(this).addClass('active');
+	       fnExcelReport();
 //	window.open(url);
 	});
 	
 	
 });
+
+function fnExcelReport()
+{
+    var tab_text = '<table border="1px" style="font-size:20px" ">';
+    var textRange; 
+    var j = 0;
+    var tab = document.getElementById('tapHistoryForBar'); // id of table
+    var lines = tab.rows.length;
+
+    // the first headline of the table
+    if (lines > 0) {
+        tab_text = tab_text + '<tr bgcolor="#DFDFDF">' + tab.rows[0].innerHTML + '</tr>';
+// Row heading can be inserted here
+    }
+
+    // table data lines, loop starting from 1
+    for (j = 1 ; j < lines; j++) {     
+        tab_text = tab_text + "<tr>" + tab.rows[j].innerHTML + "</tr>";
+// row data can be inserted here from json data
+    }
+
+    tab_text = tab_text + "</table>";
+    tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");             //remove if u want links in your table
+    tab_text = tab_text.replace(/<img[^>]*>/gi,"");                 // remove if u want images in your table
+    tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, "");    // reomves input params
+    // console.log(tab_text); // aktivate so see the result (press F12 in browser)
+
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf("MSIE "); 
+
+     // if Internet Explorer
+    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+        txtArea1.document.open("txt/html","replace");
+        txtArea1.document.write(tab_text);
+        txtArea1.document.close();
+        txtArea1.focus(); 
+        sa = txtArea1.document.execCommand("SaveAs", true, "DataTableExport.xls");
+    }  
+    else // other browser not tested on IE 11
+        sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));  
+
+    return (sa);
+}
 
 
 

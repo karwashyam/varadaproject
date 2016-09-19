@@ -265,7 +265,9 @@
         	ON p.project_id=pp.project_id
 		WHERE
         		p.record_status = 'A'
-       
+       	<if test="startDate != 0">
+			AND p.created_at &gt;= #{startDate} AND p.created_at &lt;= #{endDate}
+		</if> 
         AND
         
         pp.status='1'
@@ -300,7 +302,9 @@
         	ON p.project_id=pp.project_id
 		WHERE
         		p.record_status = 'A'
-       
+       	<if test="startDate != 0">
+			AND p.created_at &gt;= #{startDate} AND p.created_at &lt;= #{endDate}
+		</if> 
         AND
         <!-- 	 pp.project_plot_id NOT IN
         	 	<foreach item="plotId" index="index" collection="plotIdList" open="(" separator="," close=")">

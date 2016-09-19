@@ -196,8 +196,12 @@ public class ReportAjaxController extends BusinessApiController {
 		}else {
 			inputMap.put("recordStatus", "A");
 		}
-		long sDate=DateUtils.getMilesecFromDateStr(startDate, DateUtils.SiMPLE_DATE_FORMAT, DateUtils.GMT);
-		long eDate=DateUtils.getMilesecFromDateStr(endDate, DateUtils.SiMPLE_DATE_FORMAT, DateUtils.GMT);
+		long sDate=0l,eDate=0l;
+		if(!endDate.equals("")){
+			sDate=DateUtils.getMilesecFromDateStr(startDate, DateUtils.SiMPLE_DATE_FORMAT, DateUtils.GMT);
+			eDate=DateUtils.getMilesecFromDateStr(endDate, DateUtils.SiMPLE_DATE_FORMAT, DateUtils.GMT);
+			
+		}
 		inputMap.put("startDate",sDate);
 		inputMap.put("endDate", eDate);
 
@@ -252,8 +256,12 @@ public class ReportAjaxController extends BusinessApiController {
 		inputMap.put("recordStatus", "A");
 		
 		
-		long sDate=DateUtils.getMilesecFromDateStr(startDate, DateUtils.SiMPLE_DATE_FORMAT, DateUtils.GMT);
-		long eDate=DateUtils.getMilesecFromDateStr(endDate, DateUtils.SiMPLE_DATE_FORMAT, DateUtils.GMT);
+		long sDate=0l,eDate=0l;
+		if(!endDate.equals("")){
+			sDate=DateUtils.getMilesecFromDateStr(startDate, DateUtils.SiMPLE_DATE_FORMAT, DateUtils.GMT);
+			eDate=DateUtils.getMilesecFromDateStr(endDate, DateUtils.SiMPLE_DATE_FORMAT, DateUtils.GMT);
+			
+		}
 		inputMap.put("startDate",sDate);
 		inputMap.put("endDate", eDate);
 
