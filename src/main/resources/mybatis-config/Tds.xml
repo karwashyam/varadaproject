@@ -7,6 +7,7 @@
 		<result property="tdsId" column="tds_id" />
 		<result property="franchiseeId" column="franchisee_id" />
 		<result property="franchiseeName" column="franchisee_name" />
+		<result property="franchiseeCommissionId" column="franchisee_commission_id" />
 		<result property="paymentMode" column="payment_mode" />
 		<result property="chequeDate" column="cheque_date" />
 		<result property="tdsAmount" column="tds_amount" />
@@ -87,11 +88,11 @@
 	
 	<insert id="addTds" parameterType="TdsModel">
 		INSERT INTO tds(
-            tds_id,  
+            tds_id, franchisee_id,franchisee_name,franchisee_commission_id,
             payment_mode, tds_amount, cheque_number, bank, account_holder, 
              status, created_by, updated_by, created_at, 
             updated_at, record_status, cheque_date)
-    	VALUES (#{tdsId}, 
+    	VALUES (#{tdsId}, #{franchiseeId},#{franchiseeName},#{franchiseeCommissionId},
             #{paymentMode}, #{tdsAmount}, #{chequeNumber}, #{bank}, #{accountHolder}, 
              #{status}, #{createdBy}, #{updatedBy}, #{createdAt}, 
             #{updatedAt}, 'A', #{chequeDate})

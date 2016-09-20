@@ -236,10 +236,10 @@
   		members m
   		ON m.member_id=b.member_id
   		WHERE b.record_status=#{recordStatus}
-  		AND
-			b.created_at &gt;=#{startDate} 
-		AND 
-			b.created_at &lt;=#{endDate}
+  		
+  		<if test="startDate != 0">
+			AND b.created_at &gt;= #{startDate} AND b.created_at &lt;= #{endDate}
+		</if> 
 		
   		<if test="sSearch!='%%'">
 			AND
@@ -385,11 +385,9 @@
   		members m
   		ON m.member_id=b.member_id
   		WHERE b.record_status=#{recordStatus}
-  		AND
-			b.created_at &gt;=#{startDate} 
-		AND 
-			b.created_at &lt;=#{endDate}
-		
+  		<if test="startDate != 0">
+			AND b.created_at &gt;= #{startDate} AND b.created_at &lt;= #{endDate}
+		</if> 
   		<if test="sSearch!='%%'">
 			AND
 			(

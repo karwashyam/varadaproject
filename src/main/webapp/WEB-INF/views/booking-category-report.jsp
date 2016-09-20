@@ -80,13 +80,11 @@
 						<div class="form-group">
 							<div class="col-md-3 col-sm-9 col-xs-3 col-md-offset-3">
 								<button type="button" name="btnReport" id="btnReport" class="btn btn-success">Search</button>
-							</div>
-						</div>
-						  <div class="form-group">
-							<div class="col-md-3 col-sm-9 col-xs-3 col-md-offset-1">
 								<button type="button" name="btnExport" id="btnExport" disabled="disabled" class="btn btn-success">Export</button>
+							
 							</div>
 						</div>
+						 
 						  <div class="clearfix"></div>
                   </div>
                                    
@@ -121,6 +119,7 @@
            </div>
            </div>
 	
+			<iframe id="txtArea1" style="display:none"></iframe>
 	
 	
 

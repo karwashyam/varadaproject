@@ -39,6 +39,8 @@ public class FranchiseDto {
 	
 	private String recordStatus;
 	
+	private Long commissionUnpaid;
+	
 	private String action;
 
 	public String getAction() {
@@ -191,6 +193,14 @@ public class FranchiseDto {
 
 	public void setCommissionPercentage(long commissionPercentage) {
 		this.commissionPercentage = commissionPercentage;
+	}
+
+	public Long getCommissionUnpaid() {
+		return commissionUnpaid;
+	}
+
+	public void setCommissionUnpaid(Long commissionUnpaid) {
+		this.commissionUnpaid = commissionUnpaid;
 	}
 
 }
