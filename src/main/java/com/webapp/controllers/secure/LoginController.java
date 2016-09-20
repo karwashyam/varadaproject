@@ -3,7 +3,6 @@ package com.webapp.controllers.secure;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.fnf.utils.CookieUtils;
 import com.webapp.controllers.BusinessController;
 import com.webapp.dbsession.DbSession;
 import com.webapp.dto.Login;
@@ -66,30 +64,10 @@ public class LoginController extends BusinessController {
 		model.addAttribute(LOGIN, loginForm);
 
 		if (DbSession.isValidLogin(getDbSession(), sessionService)) {
-			DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 
-			String url = dbSession.getAttribute(DbSession.DASHBOARD_URL, sessionService);
-			logger.info("in login action");
-			if (url == null) {
-				url = "/error.jsp";
-			}
+			return "redirect:/home";
 
-			return "redirect:"+url;
-
-		} else {
-			Cookie rememberedCookie = CookieUtils.getCookie(rememberMeCookieName, request);
-			if (rememberedCookie != null) {
-				String userId = DbSession.getUserIdByRememberMeId(rememberedCookie.getValue(), sessionService);
-
-				if (userId != null && userId.length() > 0) {
-					User userModel = userSerivce.getUserAccountDetailsById(userId);
-					DbSession session = DbSession.createSession(userModel.getUserId(), request, response, sessionService, sessionCookieName);
-					String url = DbSession.processPostLogin(userModel, session, sessionService, defaultDashboardUrl);
-
-					return "redirect:"+url;
-				}
-			}
-		}
+		} 
 
 		return LOGIN;
 	}
@@ -102,14 +80,7 @@ public class LoginController extends BusinessController {
 		model.addAttribute(LOGIN, login);
 
 		if (DbSession.isValidLogin(getDbSession(), sessionService)) {
-			DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
-
-			String url = dbSession.getAttribute(DbSession.DASHBOARD_URL, sessionService);
-			logger.info("in login action");
-			if (url == null) {
-				url = "/error.jsp";
-			}
-			return pageRedirect(url);
+			return "redirect:/home";
 		}
 
 		if (result.hasErrors()) {

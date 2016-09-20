@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fnf.utils.EncryptionUtils;
 import com.webapp.daos.UserDao;
 import com.webapp.models.User;
 
@@ -22,10 +23,10 @@ public class UserSerivce {
 
 		userModel = userDao.getUserAccountDetailsById(userName.toLowerCase());
 
-	/*	if (userModel != null && !EncryptionUtils.isValidPassword(password, userModel.getPassword()) ) {
+		if (userModel != null && !EncryptionUtils.isValidPassword(password, userModel.getPassword()) ) {
 			userModel = null;
 			logger.debug("invalid passsword>>>>>>>>>>>>>>>");
-		}*/
+		}
 
 		return userModel;
 	}
