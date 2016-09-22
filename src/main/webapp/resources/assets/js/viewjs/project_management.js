@@ -67,7 +67,7 @@ function projectManagement() {
 										return actionsLinks;
 									},
 
-									"aTargets" : [ 4 ]
+									"aTargets" : [5 ]
 								}, ],
 
 						"aoColumns" : [
@@ -84,6 +84,13 @@ function projectManagement() {
 							"mData" : "title",
 							"sWidth" : "15%",
 							"bSortable" : true,
+							"sClass" : "center"
+						}, // userName
+						{
+							"sTitle" : "Booking Prefix",
+							"mData" : "bookingPrefix",
+							"sWidth" : "15%",
+							"bSortable" : false,
 							"sClass" : "center"
 						}, // userName
 						{

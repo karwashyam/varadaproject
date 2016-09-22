@@ -203,7 +203,7 @@ public class ProjectController extends BusinessController{
 	}
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public String editFormPost(Model model, ProjectModel projectModel, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	public String editFormPost(Model model, @Validated ProjectDto projectDto, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		preprocessRequest(model, req, res);
 
@@ -211,6 +211,24 @@ public class ProjectController extends BusinessController{
 			String url = "/access-denied.do";
 			return "redirect:" + url;
 		}*/
+
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url ="/login.do";
+			return "redirect:" + url;
+		}
+		if (result.hasErrors()) {
+			model.addAttribute("editProjectFrm", projectDto);
+			return "edit-project";
+		}
+		
+		ProjectModel projectModel=new ProjectModel();
+		projectModel.setProjectId(projectDto.getProjectId());
+		projectModel.setBookingPrefix(projectDto.getBookingPrefix());
+		projectModel.setSuperBuildupPercentage(projectDto.getSuperBuildupPercentage());
+		projectModel.setProjectOverview(projectDto.getProjectOverview());
+		projectModel.setTitle(projectDto.getTitle());
+		
+		projectModel.setProjectId(projectDto.getProjectId());
 
 		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);

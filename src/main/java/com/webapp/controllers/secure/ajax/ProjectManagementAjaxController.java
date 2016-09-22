@@ -139,10 +139,10 @@ public class ProjectManagementAjaxController extends BusinessApiController {
 		int serialNo = iDisplayStart + 1;
 		int colNo;
 		String iSortCol, columnName = null, sSortDir = null;
-		String cols[] = { "", "pp.plotName"};
+		String cols[] = { "", "pp.plot_name"};
 
 		sSearch = "%" + sSearch + "%";
-
+		
 		if (req.getParameter("sSortDir_0") != null) {
 			sSortDir = req.getParameter("sSortDir_0");
 		}
@@ -161,7 +161,7 @@ public class ProjectManagementAjaxController extends BusinessApiController {
 		DatatableModel<Map<String, Object> > dtData = new DatatableModel<Map<String, Object> >();
 		dtData.setAaData(aDData);
 		
-		int totalRecords= Integer.valueOf(projectSerivce.fetchTotalProjectPlotsListCount().toString());
+		int totalRecords= Integer.valueOf(projectSerivce.fetchTotalProjectPlotsListCount(iDisplayLength, iDisplayStart, serialNo, sSortDir, columnName, sSearch,projectId).toString());
 		dtData.setiTotalDisplayRecords(totalRecords);
 		dtData.setiTotalRecords(totalRecords);
 		dtData.setsEcho(sEcho);

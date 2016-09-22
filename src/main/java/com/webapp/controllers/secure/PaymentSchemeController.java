@@ -103,7 +103,7 @@ public class PaymentSchemeController extends BusinessController{
 			return "redirect:" + url;
 		}
 
-
+		
 		PaymentSchemeModel paymentSchemeModel = paymentSchemeSerivce.getPaymentSchemeDetailsById(paymentSchemeId);
 
 		PaymentSchemeDto projectModelDto=new PaymentSchemeDto();
@@ -112,14 +112,15 @@ public class PaymentSchemeController extends BusinessController{
 		projectModelDto.setDownPayment(paymentSchemeModel.getDownPayment());
 		projectModelDto.setInterestRate(paymentSchemeModel.getInterestRate());
 		projectModelDto.setNoOfMonths(paymentSchemeModel.getNoOfMonths());
-
-		model.addAttribute("editPaySchemeFrm", projectModelDto);
+		projectModelDto.setPrepaymentPossible(paymentSchemeModel.isPrepaymentPossible());
+		model.addAttribute("paymentSchemeDto", projectModelDto);
 		
 		model.addAttribute("title", paymentSchemeModel.getTitle());
 		model.addAttribute("paymentSchemeId", paymentSchemeModel.getPaymentSchemeId());
 		model.addAttribute("downPayment", paymentSchemeModel.getDownPayment());
 		model.addAttribute("interestRate", paymentSchemeModel.getInterestRate());
 		model.addAttribute("noOfMonths", paymentSchemeModel.getNoOfMonths());
+		model.addAttribute("prepaymentPossible", paymentSchemeModel.isPrepaymentPossible());
 
 		
 		return "edit-payment-scheme";
@@ -129,12 +130,16 @@ public class PaymentSchemeController extends BusinessController{
 	public String editFormPost(Model model,@Validated PaymentSchemeDto paymentSchemeDto, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		preprocessRequest(model, req, res);
-
-		/*if (!dbSession.checkUrlAccess(sessionService, roleAccessService, FunctionConstant.LESSONS_ADD)) {
-			String url = "/access-denied.do";
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url ="/login.do";
 			return "redirect:" + url;
 		}
-*/
+
+		System.out.println("\n\n\t result.hasErrors()--->"+result.hasErrors());
+		if (result.hasErrors()) {
+			model.addAttribute("paymentSchemeDto", paymentSchemeDto);
+			return "edit-payment-scheme";
+		}
 		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
 		PaymentSchemeModel paymentSchemeModel=new PaymentSchemeModel();

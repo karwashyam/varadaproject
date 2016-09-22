@@ -36,6 +36,7 @@
                         <tr>
                         <th>Sr. No</th>
                           <th>Project Name</th>
+                            <th>Booking Prefix</th>
                              <th>Super Build Up(%)</th>
                           <th>Total No. Of Plots</th>
                           <th>Action</th>

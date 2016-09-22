@@ -34,14 +34,16 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form:form name="paymentSchFrm" id="paymentSchFrm" class="form-horizontal form-label-left" method="POST" action="${pageContext.request.contextPath}/payment-scheme/add" commandName="paymentSchemeDto" >
+                    <form:form name="paymentSchFrm" id="paymentSchFrm" class="form-horizontal form-label-left" method="POST" action="${pageContext.request.contextPath}/payment-scheme/add" 
+                    
+                    commandName="paymentSchemeDto" >
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Payment Scheme Name</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           <form:input path="title" class="form-control" placeholder="Enter Project Heading" />
                           <form:errors path="title" class="errorMessage" />
-<%--                           <form:errors path="projectExists" class="errorMessage" /> --%>
+                          <form:errors path="paymentSchemeExists" class="errorMessage" />
                         </div>
                       </div>
                       

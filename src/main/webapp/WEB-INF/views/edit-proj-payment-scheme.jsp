@@ -90,6 +90,7 @@
 
 						</div>
 
+                                                <form:errors path="projPaymentSchemeExists" style="color: #ff0000;" />
 
 						<div class="ln_solid"></div>
 						<div class="form-group">
