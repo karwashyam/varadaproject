@@ -195,7 +195,7 @@
                       </div>
                       
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">PAN *</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">PAN</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                         	<form:input path="pancard" class="form-control" placeholder="Enter PAN Details" />
                         	<form:errors path="pancard" style="color: #ff0000;" />

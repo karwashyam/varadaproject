@@ -26,7 +26,10 @@ public class StateValidator implements Validator {
 		
 		if (!("").equals(state.getStateName()) && !("").equals(state.getStateName())) {
 
-			boolean isExists = stateSerivce.isStateNameExists(state.getStateName());
+			if(state.getStateId()==null){
+				state.setStateId("");
+			}
+			boolean isExists = stateSerivce.isStateNameExists(state.getStateName(),state.getStateId());
 
 			if (isExists) {
 				errors.rejectValue("stateExists", "valid.stateExists");

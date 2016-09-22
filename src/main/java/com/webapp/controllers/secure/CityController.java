@@ -108,7 +108,7 @@ public class CityController extends BusinessController{
 		}else{
 			model.addAttribute("msg", "Failed to send updates");
 		}
-		return "city";
+		return pageRedirect("/city");
 	}
 	
 	@RequestMapping(value = "/list", produces = "application/json")

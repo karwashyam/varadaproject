@@ -148,10 +148,10 @@ public class FranchiseValidator implements Validator {
 				}
 			}
 		}
-		else
+		/*else
 		{
 			errors.rejectValue("pan", "required.pan","PAN Number is Required");
-		}
+		}*/
 		if(model.getTds()!=0)
 		{
 			if (!((model.getTds()>0) && (model.getTds()<100))) 

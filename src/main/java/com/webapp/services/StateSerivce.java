@@ -131,9 +131,9 @@ public class StateSerivce {
 		return stateDao.fetchAllStateList();
 	}
 
-	public boolean isStateNameExists(String stateName) {
+	public boolean isStateNameExists(String stateName, String stateId) {
 		boolean isExists=false;
-		isExists=stateDao.isStateNameExists(stateName);
+		isExists=stateDao.isStateNameExists(stateName,stateId);
 		return isExists;
 	}
 
