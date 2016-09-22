@@ -103,7 +103,7 @@ public class PaymentSchemeController extends BusinessController{
 			return "redirect:" + url;
 		}
 
-
+		
 		PaymentSchemeModel paymentSchemeModel = paymentSchemeSerivce.getPaymentSchemeDetailsById(paymentSchemeId);
 
 		PaymentSchemeDto projectModelDto=new PaymentSchemeDto();
@@ -129,12 +129,16 @@ public class PaymentSchemeController extends BusinessController{
 	public String editFormPost(Model model,@Validated PaymentSchemeDto paymentSchemeDto, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		preprocessRequest(model, req, res);
-
-		/*if (!dbSession.checkUrlAccess(sessionService, roleAccessService, FunctionConstant.LESSONS_ADD)) {
-			String url = "/access-denied.do";
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url ="/login.do";
 			return "redirect:" + url;
 		}
-*/
+
+		System.out.println("\n\n\t result.hasErrors()--->"+result.hasErrors());
+		if (result.hasErrors()) {
+			model.addAttribute("editPaySchemeFrm", paymentSchemeDto);
+			return "edit-payment-scheme";
+		}
 		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
 		PaymentSchemeModel paymentSchemeModel=new PaymentSchemeModel();

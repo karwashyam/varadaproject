@@ -35,13 +35,15 @@
                   <div class="x_content">
                     <br />
                     <form:form name="editPaySchemeFrm" id="editPaySchemeFrm" class="form-horizontal form-label-left" method="POST" action="${pageContext.request.contextPath}/payment-scheme/edit" commandName="editPaySchemeFrm" >
-			<form:hidden path="paymentSchemeId" name="paymentSchemeId" id="paymentSchemeId"/>
+					<form:hidden path="paymentSchemeId" name="paymentSchemeId" id="paymentSchemeId"/>
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Payment Scheme Name</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           <form:input path="title" class="form-control" placeholder="Enter Payment scheme" />
                           <form:errors path="title" class="errorMessage" />
+                         <form:errors path="paymentSchemeExists" class="errorMessage"  /> 			
+                          
 <%--                           <form:errors path="projectExists" class="errorMessage" /> --%>
                         </div>
                       </div>
@@ -87,7 +89,7 @@
 						<div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                          <button type="submit" class="btn btn-success">Save</button>
+                          <button type="submit" class="btn btn-success">Update</button>
                         </div>
                       </div>
 

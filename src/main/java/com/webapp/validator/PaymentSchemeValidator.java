@@ -20,6 +20,7 @@ public class PaymentSchemeValidator implements Validator {
 		return PaymentSchemeDto.class.isAssignableFrom(clazz);
 	}
 
+	
 	public void validate(Object obj, Errors errors) {
 
 		
@@ -28,7 +29,7 @@ public class PaymentSchemeValidator implements Validator {
 		if (!("").equals(project.getTitle()) && !("").equals(project.getTitle())) {
 
 			boolean isExists = paymentSchemeSerivce.isPaymentSchemeExists(project.getTitle());
-
+			System.out.println("\t\t\t isExists==>"+isExists);
 			if (isExists) {
 				errors.rejectValue("paymentSchemeExists", "valid.paymentSchemeExists");
 			}

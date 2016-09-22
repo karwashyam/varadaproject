@@ -200,7 +200,6 @@ function projectPlotsManagement(projectId) {
 					    },
                         "fnDrawCallback" : function(oSettings) {
                         	var iTotalDisplayRecords = oTable.fnSettings().fnRecordsDisplay();
-
                        	 if (iTotalDisplayRecords == 0) {
                        		 $('#projectPlotsDatatable_info').css("visibility","hidden");
                        		 $('.dataTables_paginate').css("visibility","hidden");

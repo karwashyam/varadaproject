@@ -41,7 +41,7 @@
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           <form:input path="title" class="form-control" placeholder="Enter Project Heading" />
                           <form:errors path="title" class="errorMessage" />
-<%--                           <form:errors path="projectExists" class="errorMessage" /> --%>
+                          <form:errors path="paymentSchemeExists" class="errorMessage" />
                         </div>
                       </div>
                       

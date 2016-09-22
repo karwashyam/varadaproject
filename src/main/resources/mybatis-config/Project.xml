@@ -131,7 +131,7 @@
 	   UPDATE 
 			projects
   	   SET 
-  		 	 title=#{title}, updated_by=#{updatedBy}, updated_at=#{updatedAt}
+  		 	 title=#{title}, total_plots=#{totalPlots},booking_prefix=#{bookingPrefix},super_buildup_percentage=#{superBuildupPercentage}, updated_by=#{updatedBy}, updated_at=#{updatedAt}
        WHERE 
       		project_id=#{projectId}
 		AND 
@@ -197,19 +197,22 @@
 	
 	
 	<select id="fetchTotalProjectPlotsListCount" resultType="Long">
-		 SELECT 
-				 count(pp.project_plot_id)
-			 FROM 
-				projects p
-		INNER JOIN 
+       SELECT 
+			count( pp.project_plot_id)
+	    FROM
+                projects p
+        INNER JOIN 
         		project_plots pp
-        ON 		p.project_id=pp.project_id
-		WHERE 
-				pp.plot_name=#{plotName}
-		AND
-        		pp.record_status = 'A'
-       AND
+        	ON p.project_id=pp.project_id
+		WHERE
         		p.record_status = 'A'
+        AND
+        	p.project_id=#{projectId}
+        	
+       <if test="sSearch!='%%'">
+       	AND pp.plot_name iLIKE #{sSearch}
+       </if>  		
+      
 	</select>
 	
 	<select id="fetchProjects" resultMap="projectPlotListResultMap">

@@ -28,6 +28,14 @@ public class PaymentModel extends AbstractModel{
     private String projectName;
     private String plotName;
     private String bookingCode;
+    private String paymentSchemeExists;
+    
+	public String getPaymentSchemeExists() {
+		return paymentSchemeExists;
+	}
+	public void setPaymentSchemeExists(String paymentSchemeExists) {
+		this.paymentSchemeExists = paymentSchemeExists;
+	}
 	public String getBookingId() {
 		return bookingId;
 	}

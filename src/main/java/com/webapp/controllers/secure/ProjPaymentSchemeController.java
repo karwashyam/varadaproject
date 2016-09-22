@@ -131,6 +131,16 @@ public class ProjPaymentSchemeController extends BusinessController{
 			}
 			if (result.hasErrors()) {
 				model.addAttribute("projectPaymentSchemeDto", projectPaymentSchemeDto);
+
+				List<ProjectModel> projectsList = new ArrayList<ProjectModel>();
+				projectsList = projectSerivce.fetchProjects();
+				model.addAttribute("projectsList", projectsList);
+
+
+				List<PaymentSchemeModel> paymentSchemeList = new ArrayList<PaymentSchemeModel>();
+				paymentSchemeList = paymentSchemeSerivce.fetchPaymentScheme();
+				model.addAttribute("paymentSchemeList", paymentSchemeList);
+
 				return "add-proj-payment-scheme";
 			}
 			DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
@@ -195,16 +205,30 @@ public class ProjPaymentSchemeController extends BusinessController{
 	}
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public String editFormPost(Model model, ProjectPaymentSchemeDto projectPaymentSchemeDto, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	public String editFormPost(Model model,@Validated ProjectPaymentSchemeDto projectPaymentSchemeDto, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		System.out.println("\n\t\t ----edit===>"+projectPaymentSchemeDto.getProjectPaymentSchemeId());
 		preprocessRequest(model, req, res);
 
-		/*if (!dbSession.checkUrlAccess(sessionService, roleAccessService, FunctionConstant.LESSONS_ADD)) {
-			String url = "/access-denied.do";
+		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
+			String url ="/login.do";
 			return "redirect:" + url;
 		}
-*/
+
+		if (result.hasErrors()) {
+			model.addAttribute("projectPaymentSchemeDto", projectPaymentSchemeDto);
+
+			List<ProjectModel> projectsList = new ArrayList<ProjectModel>();
+			projectsList = projectSerivce.fetchProjects();
+			model.addAttribute("projectsList", projectsList);
+
+
+			List<PaymentSchemeModel> paymentSchemeList = new ArrayList<PaymentSchemeModel>();
+			paymentSchemeList = paymentSchemeSerivce.fetchPaymentScheme();
+			model.addAttribute("paymentSchemeList", paymentSchemeList);
+
+			return "edit-proj-payment-scheme";
+		}
 		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
 		ProjectPaymentSchemeModel paymentSchemeModel=new ProjectPaymentSchemeModel();

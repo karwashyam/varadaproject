@@ -211,7 +211,7 @@ public class ProjectController extends BusinessController{
 			String url = "/access-denied.do";
 			return "redirect:" + url;
 		}*/
-
+System.out.println("\t projectModel.getSuperBuildupPercentage()"+projectModel.getSuperBuildupPercentage());
 		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
 
