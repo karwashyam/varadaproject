@@ -112,7 +112,7 @@ public class PaymentSchemeController extends BusinessController{
 		projectModelDto.setDownPayment(paymentSchemeModel.getDownPayment());
 		projectModelDto.setInterestRate(paymentSchemeModel.getInterestRate());
 		projectModelDto.setNoOfMonths(paymentSchemeModel.getNoOfMonths());
-
+		projectModelDto.setPrepaymentPossible(paymentSchemeModel.isPrepaymentPossible());
 		model.addAttribute("paymentSchemeDto", projectModelDto);
 		
 		model.addAttribute("title", paymentSchemeModel.getTitle());
@@ -120,6 +120,7 @@ public class PaymentSchemeController extends BusinessController{
 		model.addAttribute("downPayment", paymentSchemeModel.getDownPayment());
 		model.addAttribute("interestRate", paymentSchemeModel.getInterestRate());
 		model.addAttribute("noOfMonths", paymentSchemeModel.getNoOfMonths());
+		model.addAttribute("prepaymentPossible", paymentSchemeModel.isPrepaymentPossible());
 
 		
 		return "edit-payment-scheme";
