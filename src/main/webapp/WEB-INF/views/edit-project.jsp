@@ -75,14 +75,14 @@
 						</div>
 
 
-						<div class="form-group">
+						<%-- <div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12">Overview</label>
 							<div class="col-md-3 col-sm-3 col-xs-12">
 								<form:input path="projectOverview" class="form-control"
 									placeholder="Enter Overview" />
 								<form:errors path="projectOverview" class="errorMessage" />
 							</div>
-						</div>
+						</div> --%>
 
 
 						<div class="form-group">
@@ -95,7 +95,7 @@
 									class="errorMessage" />
 							</div>
 						</div>
-						<div class="form-group">
+						<%-- <div class="form-group">
 							<label class="col-xs-3 control-label">Completion Date</label>
 							<div class="col-xs-3 date">
 								<div class="input-group input-append date" id="datePicker">
@@ -107,7 +107,7 @@
 								</div>
 							</div>
 						</div>
-
+ --%>
 						<%-- 	<div class="form-group">
 							<label class="col-xs-3 control-label">Select File</label>
 							<div class="col-xs-4">

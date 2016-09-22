@@ -87,10 +87,10 @@ function projectManagement() {
 							"sClass" : "center"
 						}, // userName
 						{
-							"sTitle" : "Overview",
-							"mData" : "projectOverview",
+							"sTitle" : "Super Build Up(%)",
+							"mData" : "superBuildupPercentage",
 							"sWidth" : "15%",
-							"bSortable" : true,
+							"bSortable" : false,
 							"sClass" : "center"
 						}, // userName
 						
@@ -98,7 +98,7 @@ function projectManagement() {
 							"sTitle" : "Total No. Of Plots",
 							"mData" : "totalPlots",
 							"sWidth" : "15%",
-							"bSortable" : true,
+							"bSortable" : false,
 							"sClass" : "center"
 						}, // userName
 						

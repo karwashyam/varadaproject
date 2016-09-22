@@ -34,9 +34,9 @@
                     <table id="projectDatatable" class="table table-striped table-bordered">
                       <thead>
                         <tr>
-                        <th>Project Id</th>
+                        <th>Sr. No</th>
                           <th>Project Name</th>
-                             <th>Overview</th>
+                             <th>Super Build Up(%)</th>
                           <th>Total No. Of Plots</th>
                           <th>Action</th>
                         </tr>

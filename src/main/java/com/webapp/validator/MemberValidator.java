@@ -75,7 +75,7 @@ public class MemberValidator implements Validator {
 			else
 			{
 				if(memberService.fetchMemberByEmail(model)){
-					errors.rejectValue("email", "email.incorrect","Email is already Exist");
+					errors.rejectValue("email", "email.incorrect","Email already Exist");
 				}
 			}
 		}

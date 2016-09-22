@@ -62,7 +62,7 @@ public class FranchiseValidator implements Validator {
 			else
 			{
 				if(franchiseService.fetchFranByEmail(model)){
-					errors.rejectValue("email", "email.incorrect","Email is already Exist");
+					errors.rejectValue("email", "email.incorrect","Email already Exist");
 				}
 			}
 		}

@@ -14,17 +14,8 @@ $(document).ready(function(){
 	var arr=[];
 	
 	
-//	addTable() ;
-/*    
-	if($("#stateId").val() != ""){
-		
-		$('#instruType').attr('disabled', true);
-		
-	}
-	*/
 	projectId=$('#projectId').val();
 	
-	console.log("\n\n\t =========projectId===>"+projectId);
 	  $('#completionDate')
       .datepicker({
     	  autoclose: true,  
@@ -56,26 +47,18 @@ $(document).ready(function(){
         },
        rules: {
     	   title: {
-                required: true,
-                maxlength:50
+                required: true
             },
             bookingPrefix: {
-                required: true,
-                maxlength:50
+                required: true
             },
             totalPlots: {
-                required: true,
-                maxlength:4
+                required: true
             },
-            projectOverview: {
+            excelFile: {
                 required: true,
-                maxlength:50
-            },
-            completionDate:{
-            	required: true,
-            	 date : true
-            	
             }
+            
             
         },
         messages: {
@@ -89,14 +72,8 @@ $(document).ready(function(){
             totalPlots: {
                 required: 'Please enter Total No.of Plots'
             },
-            projectOverview: {
-                required: 'Please enter Project Overview'
-            },
-            completionDate: {
-            	
-                required: 'Please select Completion date',
-               	 date : "Please enter valid date"
-
+            excelFile: {
+            	requires: 'Please select plot excel file'
             }
       
         }
@@ -122,55 +99,10 @@ $(document).ready(function(){
 
 	
 	
-/*	 editor = new $.fn.dataTable.Editor( {
-	        ajax:basePath
-			+ "/ajax/projectplots.json?projectId="+projectId,
-	        table: "#projectPlotsDatatable",
-	        fields: [ {
-	                label: "Plot No",
-	                name: "plotName"
-	            }, {
-	                label: "Plot Size",
-	                name: "plotSize"
-	            }, {
-	                label: "Plot Id:",
-	                name: "projectPlotId"
-	            }
-	        ]
-	    } );*/
-	 
 	 
 	var form = $('#plotprojectFrm').html();
 
-	 /*   $('#projectPlotsDatatable tbody').on( 'click', 'tr', function () {
-	        if ( $(this).hasClass('selected') ) {
-	            $(this).removeClass('selected');
-	        }
-	        else {
-	        	alert(" select row ");
-	        	
-
-	        	BootstrapDialog.show({
-	        		 message: form,
-	        		 buttons: [{
-	        		        label: 'Cancel',
-	        		        action: function(dialog) {
-	        		          typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(false);
-	        		          dialog.close();
-	        		        }
-	        		      }, {
-	        		        label: 'OK',
-	        		        cssClass: 'btn-primary',
-	        		        action: function(dialog) {
-	        		          typeof dialog.getData('callback') === 'function' && dialog.getData('callback')(true);
-	        		          dialog.close();
-	        		        }
-	        		      }]
-	        	});
-	        	oTable.$('tr.selected').removeClass('selected');
-	            $(this).addClass('selected');
-	        }
-	    } );*/
+	
 	 
 });
 
@@ -267,7 +199,7 @@ function projectPlotsManagement(projectId) {
 					        "sInfo": "Got a total of _TOTAL_ entries to show (_START_ to _END_)"
 					    },
                         "fnDrawCallback" : function(oSettings) {
-                       	 var iTotalDisplayRecords = oTable.fnSettings().fnRecordsDisplay();
+                        	var iTotalDisplayRecords = oTable.fnSettings().fnRecordsDisplay();
 
                        	 if (iTotalDisplayRecords == 0) {
                        		 $('#projectPlotsDatatable_info').css("visibility","hidden");
