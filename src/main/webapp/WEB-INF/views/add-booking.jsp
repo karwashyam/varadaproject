@@ -89,7 +89,7 @@
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Rate Per Yard* (INR)</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
-                          <form:input path="ratePerYard" class="form-control" placeholder="" />
+                          <form:input path="ratePerYard" class="form-control" placeholder=""  onkeypress="return isNumber(event)"/>
                           <form:errors path="ratePerYard" class="errorMessage" />
                         </div>
                       </div>
@@ -112,7 +112,7 @@
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Down Payment* (INR)</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
-                        	<form:input id="downPayment" path="downPayment" class="form-control" placeholder="" />
+                        	<form:input id="downPayment" path="downPayment" class="form-control" placeholder=""  onkeypress="return isNumber(event)"/>
                           	<form:errors path="downPayment" class="errorMessage" />
                         </div>
                       </div>
