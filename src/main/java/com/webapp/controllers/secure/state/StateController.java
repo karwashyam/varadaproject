@@ -93,16 +93,13 @@ public class StateController extends BusinessController{
 			String url ="/login.do";
 			return "redirect:" + url;
 		}
-
-
-		State stateModel = stateService.getStateDetailsById(stateId);
-
 		
+		State stateModel = stateService.getStateDetailsById(stateId);
 		
 		StateDto stateDto=new StateDto();
 		stateDto.setStateName(stateModel.getStateName());
 		stateDto.setStateId(stateModel.getStateId());
-		model.addAttribute("editstateFrm", stateDto);
+		model.addAttribute("stateDto", stateDto);
 		
 		model.addAttribute("stateName", stateDto.getStateName());
 		model.addAttribute("stateId", stateDto.getStateId());
@@ -111,7 +108,7 @@ public class StateController extends BusinessController{
 	}
 	
 	@RequestMapping(value = "/edit-state", method = RequestMethod.POST)
-	public String editStatePost(Model model, StateDto stateDto, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	public String editStatePost(Model model,@Validated StateDto stateDto, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		preprocessRequest(model, req, res);
 
@@ -119,6 +116,10 @@ public class StateController extends BusinessController{
 			String url = "/access-denied.do";
 			return "redirect:" + url;
 		}*/
+		if (result.hasErrors()) {
+			model.addAttribute("stateDto", stateDto);
+			return "/secure/master/edit-state";
+		}
 
 		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 		String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);

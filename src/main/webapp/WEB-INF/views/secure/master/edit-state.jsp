@@ -29,14 +29,15 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form:form name="editstateFrm" modelAttribute="state" commandName="editstateFrm" id="editstateFrm" class="form-horizontal form-label-left" action="${pageContext.request.contextPath}/edit-state.do"  method="POST" >
+                    <form:form name="editstate" modelAttribute="state" commandName="stateDto" id="editstateFrm" class="form-horizontal form-label-left" action="${pageContext.request.contextPath}/edit-state.do"  method="POST" >
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">State Name <span class="required">*</span>
                         </label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                          <form:input path="stateName"  class="form-control border-radius" id="stateName" name="stateName"  style="font-size: 15px;"  maxlength="50"/>
-            	 	<form:errors path="stateName" cssclass="errorMessage"/>
+                         <form:errors path="stateName" cssclass="errorMessage"/>
+            	 		 <form:errors path="stateExists" class="errorMessage"  />
                         </div>
                       </div>
                     

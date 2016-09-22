@@ -170,10 +170,10 @@ public class MemberValidator implements Validator {
 				}
 			}
 		}
-		else
+		/*else
 		{
 			errors.rejectValue("pancard", "required.pancard","PAN Number is Required");
-		}
+		}*/
 		if(model.getDob()!=null && !model.getDob().equals("")){
 			if(!validateDate(model.getDob()))
 				errors.rejectValue("dob", "dob,error","Enter Valid Date");

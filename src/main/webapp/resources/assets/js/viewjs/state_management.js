@@ -5,7 +5,7 @@ var isDeleteAccess;
 jQuery(document).ready(function() {
 	
 	var isAddAccess = jQuery("#isAddAccess").val();
-	isEdiisAddAccesstAccess = jQuery("#isEditAccess").val();
+	isEditAccess = jQuery("#isEditAccess").val();
 	isDeleteAccess = jQuery("#isDeleteAccess").val();
 	
 //	if(isAddAccess !== "true"){

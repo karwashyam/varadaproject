@@ -3,6 +3,8 @@ package com.webapp.daos;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.webapp.models.State;
 
 public interface StateDao {
@@ -22,6 +24,6 @@ public interface StateDao {
 	
 	List<State> fetchAllStateList();
 
-	boolean isStateNameExists(String stateName);
+	boolean isStateNameExists(@Param("stateName") String stateName, @Param("stateId") String stateId);
 
 }

@@ -137,20 +137,25 @@ $(document).ready(function() {
 		var numberOfMonths = $("#months").text();
 		var rateOfInterest = $("#interestRate").text();
 		var monthlyInterestRatio = (rateOfInterest/100)/12;
-			
-		var top = Math.pow((1+monthlyInterestRatio),numberOfMonths);
-		var bottom = top -1;
-		var sp = top / bottom;
-		var emi = ((loanAmount * monthlyInterestRatio) * sp);
-		var full = numberOfMonths * emi;
-		var interest = full - loanAmount;
+		var emi;
+		var full;
+		if(rateOfInterest<=0){
+			full=loanAmount;
+			emi=full/numberOfMonths;
+		}else{
+			var top = Math.pow((1+monthlyInterestRatio),numberOfMonths);
+			var bottom = top -1;
+			var sp = top / bottom;
+			emi = ((loanAmount * monthlyInterestRatio) * sp);
+			full = numberOfMonths * emi;
+			var interest = full - loanAmount;
+		}
 		emi=Math.ceil(emi);
 		full=Math.ceil(full);
 		$("#emi").text(emi);
 		$("#emi1").val(emi);
 		$("#totalAmount").text(full);
 		$("#price").val(full);
-		console.log(interest);
 	});
 	
 	$("#downPayment").change(function() {
@@ -161,12 +166,19 @@ $(document).ready(function() {
 		var rateOfInterest = $("#interestRate").text();
 		var monthlyInterestRatio = (rateOfInterest/100)/12;
 			
-		var top = Math.pow((1+monthlyInterestRatio),numberOfMonths);
-		var bottom = top -1;
-		var sp = top / bottom;
-		var emi = ((loanAmount * monthlyInterestRatio) * sp);
-		var full = numberOfMonths * emi;
-		var interest = full - loanAmount;
+		var emi;
+		var full;
+		if(rateOfInterest<=0){
+			full=loanAmount;
+			emi=full/numberOfMonths;
+		}else{
+			var top = Math.pow((1+monthlyInterestRatio),numberOfMonths);
+			var bottom = top -1;
+			var sp = top / bottom;
+			emi = ((loanAmount * monthlyInterestRatio) * sp);
+			full = numberOfMonths * emi;
+			var interest = full - loanAmount;
+		}
 		emi=Math.ceil(emi);
 		full=Math.ceil(full);
 		$("#emi").text(emi);
