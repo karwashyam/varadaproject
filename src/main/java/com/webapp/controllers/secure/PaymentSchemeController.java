@@ -91,7 +91,7 @@ public class PaymentSchemeController extends BusinessController{
 			paymentSchemeModel.setPrepaymentPossible(paymentSchemeDto.isPrepaymentPossible());
 			paymentSchemeSerivce.addPaymentScheme(paymentSchemeModel, userId);
 
-		return pageRedirect("/payment-scheme.do");
+		return pageRedirect("/payment-scheme");
 	}
 	
 	@RequestMapping(value = "/edit/{paymentSchemeId}", method = RequestMethod.GET)
