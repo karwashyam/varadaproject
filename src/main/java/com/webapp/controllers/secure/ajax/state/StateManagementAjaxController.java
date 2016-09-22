@@ -70,8 +70,7 @@ public class StateManagementAjaxController extends BusinessApiController {
 		dtData.setAaData(aDData);
 		
 		int totalRecords= Integer.valueOf(stateSerivce.fetchTotalStatesListCount(iDisplayLength, iDisplayStart, serialNo, sSortDir, columnName, sSearch).toString());
-		
-		System.out.println("\n\t State totalRecords===>"+totalRecords);
+
 		dtData.setiTotalDisplayRecords(totalRecords);
 		dtData.setiTotalRecords(totalRecords);
 		dtData.setsEcho(sEcho);
