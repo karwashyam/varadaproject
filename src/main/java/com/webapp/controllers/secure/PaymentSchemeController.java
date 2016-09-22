@@ -113,7 +113,7 @@ public class PaymentSchemeController extends BusinessController{
 		projectModelDto.setInterestRate(paymentSchemeModel.getInterestRate());
 		projectModelDto.setNoOfMonths(paymentSchemeModel.getNoOfMonths());
 
-		model.addAttribute("editPaySchemeFrm", projectModelDto);
+		model.addAttribute("paymentSchemeDto", projectModelDto);
 		
 		model.addAttribute("title", paymentSchemeModel.getTitle());
 		model.addAttribute("paymentSchemeId", paymentSchemeModel.getPaymentSchemeId());
@@ -136,7 +136,7 @@ public class PaymentSchemeController extends BusinessController{
 
 		System.out.println("\n\n\t result.hasErrors()--->"+result.hasErrors());
 		if (result.hasErrors()) {
-			model.addAttribute("editPaySchemeFrm", paymentSchemeDto);
+			model.addAttribute("paymentSchemeDto", paymentSchemeDto);
 			return "edit-payment-scheme";
 		}
 		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);

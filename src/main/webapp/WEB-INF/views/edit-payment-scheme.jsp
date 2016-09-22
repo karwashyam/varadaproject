@@ -34,7 +34,8 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form:form name="editPaySchemeFrm" id="editPaySchemeFrm" class="form-horizontal form-label-left" method="POST" action="${pageContext.request.contextPath}/payment-scheme/edit" commandName="editPaySchemeFrm" >
+                    <form:form name="editPaySchemeFrm" id="editPaySchemeFrm" class="form-horizontal form-label-left" method="POST" action="${pageContext.request.contextPath}/payment-scheme/edit" 
+                    commandName="paymentSchemeDto" >
 					<form:hidden path="paymentSchemeId" name="paymentSchemeId" id="paymentSchemeId"/>
 
                       <div class="form-group">
@@ -42,7 +43,7 @@
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           <form:input path="title" class="form-control" placeholder="Enter Payment scheme" />
                           <form:errors path="title" class="errorMessage" />
-                         <form:errors path="paymentSchemeExists" class="errorMessage"  /> 			
+                          <form:errors path="paymentSchemeExists" class="errorMessage" />
                           
 <%--                           <form:errors path="projectExists" class="errorMessage" /> --%>
                         </div>
