@@ -58,7 +58,7 @@ public class ProjectController extends BusinessController{
 	@Autowired
 	ProjectSerivce projectSerivce;
 	
-	@InitBinder
+	@InitBinder("projectDto")
 	private void initBinder(WebDataBinder binder) {
 		binder.setValidator(projectValidator);
 	}
@@ -70,38 +70,38 @@ public class ProjectController extends BusinessController{
 			return "redirect:" + url;
 		}
 //		ProjectModel projectModel=new ProjectModel();
-		ProjectDto projectModel=new ProjectDto();
-		model.addAttribute("projectModel", projectModel);
+		ProjectDto projectDto=new ProjectDto();
+		model.addAttribute("projectDto", projectDto);
 		return "add-projects";
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addProject(Model model,@Validated ProjectDto projectModel, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	public String addProject(Model model,@Validated ProjectDto projectDto, BindingResult result, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		preprocessRequest(model, req, res);
 		ProjectModel projectModel1=new ProjectModel();
 		long currentTime = new Date().getTime();
 
-		long completeDate = DateUtils.getMilesecFromDateStr(projectModel.getCompletionDate(), DateUtils.SiMPLE_DATE_FORMAT, DateUtils.GMT);
+		long completeDate = DateUtils.getMilesecFromDateStr(projectDto.getCompletionDate(), DateUtils.SiMPLE_DATE_FORMAT, DateUtils.GMT);
 
 			if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
 				String url ="/login.do";
 				return "redirect:" + url;
 			}
 			if (result.hasErrors()) {
-				model.addAttribute("projectModel", projectModel);
+				model.addAttribute("projectModel", projectDto);
 				return "add-projects";
 			}
 			DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
 			String userId = dbSession.getAttribute(DbSession.USER_ID, sessionService);
 
-			model.addAttribute("projectModel",projectModel);
+			model.addAttribute("projectModel",projectDto);
 			String projectId = UUIDGenerator.generateUUID();
 
-			MultipartFile f = projectModel.getExcelFile();
+			MultipartFile f = projectDto.getExcelFile();
 			String tempDirectory = req.getSession().getServletContext().getRealPath(tempDirName);
 
-			File excelFile = new File(tempDirectory, projectModel.getExcelFile().getOriginalFilename());
+			File excelFile = new File(tempDirectory, projectDto.getExcelFile().getOriginalFilename());
 			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(excelFile));
 			stream.write(f.getBytes());
 			stream.close();
@@ -146,12 +146,12 @@ public class ProjectController extends BusinessController{
 			}
 			projectModel1.setProjectId(projectId);
 			projectModel1.setCompletionDate(completeDate);
-			projectModel1.setBookingPrefix(projectModel.getBookingPrefix());
-			projectModel1.setTitle(projectModel.getTitle());
+			projectModel1.setBookingPrefix(projectDto.getBookingPrefix());
+			projectModel1.setTitle(projectDto.getTitle());
 //			projectModel1.setPlotSize(projectModel.getPlotSize());
-			projectModel1.setProjectOverview(projectModel.getProjectOverview());
-			projectModel1.setTotalPlots(projectModel.getTotalPlots());
-			projectModel1.setSuperBuildupPercentage(projectModel.getSuperBuildupPercentage());
+			projectModel1.setProjectOverview(projectDto.getProjectOverview());
+			projectModel1.setTotalPlots(projectDto.getTotalPlots());
+			projectModel1.setSuperBuildupPercentage(projectDto.getSuperBuildupPercentage());
 			
 	
 	
@@ -228,13 +228,11 @@ public class ProjectController extends BusinessController{
 			String url ="/login.do";
 			return "redirect:" + url;
 		}
-		System.out.println("\n\t projectId=="+projectId);
 
 
 		ProjectModel projectModel = projectSerivce.getProjectDetailsById(projectId);
 
 		List<ProjectPlotsModel> projPlotsList=projectSerivce.fetchProjectPlots(projectId);
-		System.out.println("\n\t projPlotsList=="+projPlotsList.size());
 		ProjectDto projectModelDto=new ProjectDto();
 		projectModelDto.setProjectId(projectId);
 		
@@ -250,7 +248,7 @@ public class ProjectController extends BusinessController{
 	@Override
 	protected String[] requiredJs() {
 		return new String[] {"js/vendor/jquery.validation.min.js", "js/vendor/addition-medthods-min.js","js/bootstrap/bootstrap-dialog.js", "js/viewjs/add-project.js","js/vendor/bootstrap-filestyle.min.js",
-				"js/vendor/dataTables.editor.min.js","dataTables.select.min.js"};
+				"js/vendor/dataTables.select.min.js"};
 	}
 
 

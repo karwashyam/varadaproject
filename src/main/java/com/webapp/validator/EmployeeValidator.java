@@ -63,7 +63,7 @@ public class EmployeeValidator implements Validator {
 			else
 			{
 				if(employeeSerivce.fetchEmpByEmail(model)){
-					errors.rejectValue("email", "email.incorrect","Email is already Exist");
+					errors.rejectValue("email", "email.incorrect","Email already Exist");
 				}
 			}
 		}

@@ -34,7 +34,7 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form:form name="projectFrm" id="projectFrm" class="form-horizontal form-label-left" method="POST" action="${pageContext.request.contextPath}/project/add" commandName="projectModel" enctype="multipart/form-data">
+                    <form:form name="projectFrm" id="projectFrm" class="form-horizontal form-label-left" method="POST" action="${pageContext.request.contextPath}/project/add" commandName="projectDto" enctype="multipart/form-data">
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Project Name</label>
@@ -57,29 +57,29 @@
                         <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Total No. Of Plots</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
-                          <form:input path="totalPlots" class="form-control" placeholder="Enter number of plots" />
+                          <form:input path="totalPlots" class="form-control" placeholder="Enter number of plots" onkeypress="return isNumber(event)"/>
                           <form:errors path="totalPlots" class="errorMessage" />
                         </div>
                       </div>
                       
                       
-                        <div class="form-group">
+                      <%--   <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Overview</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           <form:input path="projectOverview" class="form-control" placeholder="Enter Overview" />
                           <form:errors path="projectOverview" class="errorMessage" />
                         </div>
                       </div>
-
+ --%>
 					
                         	<div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Build Up Percentage</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
-                          <form:input path="superBuildupPercentage" class="form-control" placeholder="Enter Build up percentage" />
+                          <form:input path="superBuildupPercentage" class="form-control" placeholder="Enter Build up percentage" onkeypress="return isNumber(event)"/>
                           <form:errors path="superBuildupPercentage" class="errorMessage" />
                         </div>
                       </div>
-						<div class="form-group">
+						<%-- <div class="form-group">
 							<label class="col-xs-3 control-label">Completion Date</label>
 							<div class="col-xs-3 date">
 								<div class="input-group input-append date" id="datePicker">
@@ -89,7 +89,7 @@
 								</div>
 							</div>
 						</div>
-
+ --%>
 						<div class="form-group">
 							<label class="col-xs-3 control-label">Select File</label>
 							<div class="col-xs-4">

@@ -198,7 +198,7 @@
 	
 	<select id="fetchTotalProjectPlotsListCount" resultType="Long">
 		 SELECT 
-				 pp.project_plot_id
+				 count(pp.project_plot_id)
 			 FROM 
 				projects p
 		INNER JOIN 

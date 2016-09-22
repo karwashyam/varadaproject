@@ -136,7 +136,6 @@ public class ProjectManagementAjaxController extends BusinessApiController {
 
 
 		
-		System.out.println("\n\t\t ===========projectId======="+projectId);
 		int serialNo = iDisplayStart + 1;
 		int colNo;
 		String iSortCol, columnName = null, sSortDir = null;
@@ -162,9 +161,9 @@ public class ProjectManagementAjaxController extends BusinessApiController {
 		DatatableModel<Map<String, Object> > dtData = new DatatableModel<Map<String, Object> >();
 		dtData.setAaData(aDData);
 		
-//		int totalRecords= Integer.valueOf(projectSerivce.fetchTotalProjectPlotsListCount().toString());
-		dtData.setiTotalDisplayRecords(0);
-		dtData.setiTotalRecords(0);
+		int totalRecords= Integer.valueOf(projectSerivce.fetchTotalProjectPlotsListCount().toString());
+		dtData.setiTotalDisplayRecords(totalRecords);
+		dtData.setiTotalRecords(totalRecords);
 		dtData.setsEcho(sEcho);
 		return dtData;
 	}
