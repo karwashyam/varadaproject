@@ -1,5 +1,6 @@
 package com.webapp.services;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -14,6 +15,8 @@ import com.utils.constant.ProjectConstant;
 import com.webapp.daos.CityDao;
 import com.webapp.dto.CityDto;
 import com.webapp.models.CityModel;
+import com.webapp.models.PaymentSchemeModel;
+import com.webapp.models.ProjectPlotsModel;
 
 @Service("cityService")
 public class CityService {
@@ -64,5 +67,19 @@ public class CityService {
 		long time = DateUtils.nowAsGmtMillisec();
 		cityModel.setUpdatedAt(time);
 		return cityDao.deleteCityById(cityModel);
+	}
+	
+	@Transactional
+	public HashMap<String, Object> fetchCityFromStateId(String stateId) {
+		List<CityDto> cityList=cityDao.fetchCityFromStateId(stateId);
+		HashMap<String, Object> outputMap = new HashMap<String, Object>();
+		outputMap.put("cityList", cityList);
+		return outputMap;
+	}
+	
+	@Transactional
+	public List<CityDto> fetchCityListFromStateId(String stateId) {
+		List<CityDto> cityList=cityDao.fetchCityFromStateId(stateId);
+		return cityList;
 	}
 }

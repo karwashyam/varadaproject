@@ -62,20 +62,39 @@
                       </div>
                       
                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Select State</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <select name="state" id="stateId" class="selectpicker" data-live-search="true" title="Select State">
+                            <c:forEach items="${stateModel}" var="state" >
+							<option value="${state['stateId']}">${state['stateName']}</option></c:forEach>
+                          </select>
+                          <form:errors path="state" class="errorMessage" />
+                        </div>
+                      </div>
+                      
+                     <%--  <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">City</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                         	<form:input path="city" class="form-control" placeholder="Enter City" />
                         	<form:errors path="city" style="color: #ff0000;" />
                         </div>
-                      </div>
+                      </div> --%>
                       
                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">City</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <select id="cityId" name="city" class="selectpicker" data-live-search="true" title="Select City">
+                          </select>
+                          <form:errors path="city" class="errorMessage" />
+                        </div>
+                      </div>
+                      <%-- <div class="form-group">
                       	<label class="control-label col-md-3 col-sm-3 col-xs-12">State</label>
                       	<div class="col-md-3 col-sm-3 col-xs-12">
                       		<form:input path="state" class="form-control" placeholder="Enter State" />
                       		<form:errors path="state" style="color: #ff0000;" />
                       	</div>
-                      </div>
+                      </div> --%>
                       
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Pincode</label>
@@ -163,9 +182,28 @@
               </div>
            </div>
         </div>
-	
-	
-	
-
 <%@ include file="/WEB-INF/views/includes/footer.jsp"%>
+<script type="text/javascript">
+$("#stateId").change(function() {
+	var stateId=$("#stateId").val();
+	  $.ajax({
+            type: "GET",
+            url:basePath+"/franchisee/fetch/"+stateId+".json",
+            async: false,
+            success: function (data) {
+            	$('#cityId').selectpicker('refresh');
+            	   $("#cityId").empty();
+            	   $("#cityId").append($("<option> "+                                                 
+                "</option>").val("NONE").html("Select City"));
+            	for ( var i in data.cityList) {
+            		var id = data.cityList[i].cityId;
+            		var name = data.cityList[i].cityName;
+            		  $("#cityId").append($("<option> "+                                                 
+                       "</option>").val(id).html(name));
+            	}
+            	$('#cityId').selectpicker('refresh');
+            }
+	  });
+  });
+</script>
 </html>

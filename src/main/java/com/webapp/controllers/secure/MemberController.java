@@ -26,10 +26,14 @@ import com.fnf.utils.JQTableUtils;
 import com.webapp.controllers.BusinessController;
 import com.webapp.controllers.DataTablesTO;
 import com.webapp.dbsession.DbSession;
+import com.webapp.dto.CityDto;
 import com.webapp.dto.FranchiseDto;
 import com.webapp.models.MemberModel;
+import com.webapp.models.State;
+import com.webapp.services.CityService;
 import com.webapp.services.FranchiseService;
 import com.webapp.services.MemberService;
+import com.webapp.services.StateSerivce;
 import com.webapp.validator.MemberValidator;
 
 @Controller
@@ -48,6 +52,12 @@ public class MemberController extends BusinessController{
 	
 	@Autowired 
 	private FranchiseService franchiseService;
+	
+	@Autowired
+	private CityService cityService;
+	
+	@Autowired
+	private StateSerivce stateService;
 		
 	@Autowired
 	private MemberValidator memberValidator;
@@ -111,6 +121,8 @@ public class MemberController extends BusinessController{
 		MemberModel memberModel= new MemberModel();
 		model.addAttribute("memberModel",memberModel);
 		List<FranchiseDto> franchiseList = franchiseService.fetchAllFranchiseList();
+		List<State> stateList = stateService.fetchAllStateList();
+		model.addAttribute("stateModel", stateList);
 		model.addAttribute("franchiseList", franchiseList);
 		return "add-member";
 	}
@@ -131,6 +143,8 @@ public class MemberController extends BusinessController{
 			model.addAttribute("memberModel",memberModel);
 			List<FranchiseDto> franchiseList = franchiseService.fetchAllFranchiseList();
 			model.addAttribute("franchiseList", franchiseList);
+			List<State> stateList = stateService.fetchAllStateList();
+			model.addAttribute("stateModel", stateList);
 			return "add-member";
 		}
 		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
@@ -165,6 +179,16 @@ public class MemberController extends BusinessController{
 		model.addAttribute("franchiseeId", memberModel.getFranchiseeId());
 		if(memberModel.getDobForDb()!= 0)
 			memberModel.setDob(DateUtils.dbTimeStampToSesionDate(memberModel.getDobForDb(), "IST", "dd/MM/yyyy") );
+		List<State> stateList = stateService.fetchAllStateList();
+		model.addAttribute("stateModel", stateList);
+		model.addAttribute("stateId1",memberModel.getState1());
+		model.addAttribute("stateId2",memberModel.getState2());
+		model.addAttribute("cityId1", memberModel.getCity1());
+		model.addAttribute("cityId2", memberModel.getCity2());
+		List<CityDto> cityDto1 =  cityService.fetchCityListFromStateId(memberModel.getState1());
+		model.addAttribute("cityModel1",cityDto1);
+		List<CityDto> cityDto2 =  cityService.fetchCityListFromStateId(memberModel.getState2());
+		model.addAttribute("cityModel2",cityDto2);
 		return "/edit-member";
 	}
 	
@@ -186,6 +210,16 @@ public class MemberController extends BusinessController{
 			List<FranchiseDto> franchiseList = franchiseService.fetchAllFranchiseList();
 			model.addAttribute("franchiseList", franchiseList);
 			model.addAttribute("franchiseeId", memberModel.getFranchiseeId());
+			List<State> stateList = stateService.fetchAllStateList();
+			model.addAttribute("stateModel", stateList);
+			model.addAttribute("stateId1",memberModel.getState1());
+			model.addAttribute("stateId2",memberModel.getState2());
+			model.addAttribute("cityId1", memberModel.getCity1());
+			model.addAttribute("cityId2", memberModel.getCity2());
+			List<CityDto> cityDto1 =  cityService.fetchCityListFromStateId(memberModel.getState1());
+			model.addAttribute("cityModel1",cityDto1);
+			List<CityDto> cityDto2 =  cityService.fetchCityListFromStateId(memberModel.getState2());
+			model.addAttribute("cityModel2",cityDto2);
 			if(memberModel.getDobForDb()!= 0)
 				memberModel.setDob(DateUtils.dbTimeStampToSesionDate(memberModel.getDobForDb(), "IST", "dd/MM/yyyy") );
 			return "edit-member";
