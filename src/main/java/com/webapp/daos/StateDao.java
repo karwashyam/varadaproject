@@ -11,6 +11,8 @@ public interface StateDao {
 
 
 	State getStateDetailsById(String stateId);
+	
+	String getStateNameById(String stateId);
 
 	int addState(State stateModel);
 

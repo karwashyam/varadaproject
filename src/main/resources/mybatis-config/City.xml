@@ -116,6 +116,14 @@
 				WHERE city_id=#{cityId} and record_status = 'A'		
 	</select>
 	
+	<select id="fetchCityNameById" parameterType="String" resultType="String">
+		SELECT city_name
+				FROM cities
+				WHERE city_id=#{cityId} and record_status = 'A'		
+	</select>
+	
+	
+	
 	<update id="editCity" parameterType="CityModel">
 		UPDATE cities
 			SET city_name=#{cityName},state_id=#{stateId}, updated_by=#{updatedBy}, updated_at=#{updatedAt}

@@ -32,6 +32,11 @@
 		SELECT * FROM states
 		WHERE state_id = #{stateId} AND record_status = 'A'
 	</select>
+	
+	<select id="getStateNameById" parameterType="String"	resultType="String">
+		SELECT state_name FROM states
+		WHERE state_id = #{stateId} AND record_status = 'A'
+	</select>
 			
 			
 	<select id="fetchStatesList" parameterType="Map" resultMap="statesResultListMap">

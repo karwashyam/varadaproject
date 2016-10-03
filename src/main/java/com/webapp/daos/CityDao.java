@@ -21,6 +21,8 @@ public interface CityDao {
 	
 	CityModel fetchCityDetailsById(String cityId);
 	
+	String fetchCityNameById(String cityId);
+	
 	void editCity(CityModel cityModel);
 	
 	int deleteCityById(CityModel cityModel);

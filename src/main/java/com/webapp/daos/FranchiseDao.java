@@ -40,4 +40,7 @@ public interface FranchiseDao {
 
 	int updateCommission(@Param("amount") long amount,@Param("tdsAmount") long tdsAmount, @Param("franchiseeId") String franchiseeId);
 	
+	int updateUnpaidCommission(@Param("amount") long amount, @Param("franchiseeId") String franchiseeId);
+
+	
 }

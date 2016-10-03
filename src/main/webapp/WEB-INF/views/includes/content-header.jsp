@@ -76,8 +76,8 @@
                   </li>
                   <li><a><i class="fa fa-bar-chart-o"></i> Reports <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="${pageContext.request.contextPath}/report/booking">Booking</a></li>
-                      <li><a href="${pageContext.request.contextPath}/report/cancelledbooking">Cancelled Booking</a></li>
+                      <%-- <li><a href="${pageContext.request.contextPath}/report/booking">Booking</a></li>
+                      <li><a href="${pageContext.request.contextPath}/report/cancelledbooking">Cancelled Booking</a></li> --%>
                       <li><a href="${pageContext.request.contextPath}/report/bookingdata">Booking Reports Details</a></li>
                       <li><a href="${pageContext.request.contextPath}/report/unbooking">Unbooked Plots</a></li>
                       <li><a href="${pageContext.request.contextPath}/report/overdue">Overdue Payments</a></li>

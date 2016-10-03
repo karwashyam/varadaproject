@@ -243,7 +243,7 @@ public class BookingService {
 			paymentModel.setCreatedAt(DateUtils.nowAsGmtMillisec());
 			paymentModel.setEmiDate(DateUtils.getGmtMillisecAfterMonths(i+1));
 			paymentModel.setDescription("EMI "+(i+1));
-			paymentModel.setPaymentAmount(bookingModel.getDownPayment());
+			paymentModel.setPaymentAmount(bookingModel.getEmi());
 			paymentModel.setType(ProjectConstant.PAYMENT_TYPE_DEBIT);
 			paymentModel.setStatus(ProjectConstant.PAYMENT_STATUS_FUTURE_EMI);
 			paymentModelList.add(paymentModel);
@@ -251,10 +251,11 @@ public class BookingService {
 		int status=paymentDao.addPayments(paymentModelList);
 		if(franchiseCommissionModel!=null){
 			franchiseDao.addFranchiseeCommission(franchiseCommissionModel);
+			franchiseDao.updateUnpaidCommission(franchiseCommissionModel.getCommissionAmount(), franchiseCommissionModel.getFranchiseeId());
 		}
 		return status;
 	}
-
+	
 
 	public BookingModel getBookingDetailsById(String bookingId) {
 		return bookingDao.getBookingDetailsById(bookingId);
@@ -464,8 +465,10 @@ public class BookingService {
 		paymentModel.setFranchiseeName(bookingModel1.getFranchiseeName());
 		paymentModelList.add(paymentModel);
 		paymentDao.addPayments(paymentModelList);
-		if(franchiseCommissionModel!=null)
-		franchiseDao.addFranchiseeCommission(franchiseCommissionModel);
+		if(franchiseCommissionModel!=null){
+			franchiseDao.addFranchiseeCommission(franchiseCommissionModel);
+			franchiseDao.updateUnpaidCommission(franchiseCommissionModel.getCommissionAmount(), franchiseCommissionModel.getFranchiseeId());
+		}
 	}
 
 	@Transactional

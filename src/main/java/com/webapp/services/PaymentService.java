@@ -77,6 +77,7 @@ public class PaymentService {
 		franchiseCommissionModel.setCreatedAt(time);
 		
 		franchiseDao.addFranchiseeCommission(franchiseCommissionModel);
+		franchiseDao.updateUnpaidCommission(franchiseCommissionModel.getCommissionAmount(), franchiseCommissionModel.getFranchiseeId());
 		return status;
 	}
 	

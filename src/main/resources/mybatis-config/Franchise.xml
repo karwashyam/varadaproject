@@ -162,6 +162,11 @@
 		Where franchisee_id=#{franchiseeId}
 	</update>
 	
+	<update id="updateUnpaidCommission">
+		update franchisee set commission_unpaid=commission_unpaid+#{amount}
+		Where franchisee_id=#{franchiseeId} AND record_status='A'
+	</update>
+	
 	<insert id="addFranchiseeCommission" parameterType="FranchiseCommissionModel">
 		INSERT INTO franchisee_commission(
             franchisee_commission_id, franchisee_id, franchisee_name, booking_id, 
@@ -170,7 +175,7 @@
             updated_by, created_at, updated_at, record_status, commission_amount, 
             tds_amount, cheque_date)
     	VALUES (#{franchiseeCommissionId}, #{franchiseeId}, #{franchiseeName}, #{bookingId}, 
-            #{paymentId}, #{projectId}, #{tds}, #{paymentMode}, #{paymentAmount}, #{chequeNumber}, 
+            #{paymentId}, #{projectId}, #{tds}, #{paymentMethod}, #{paymentAmount}, #{chequeNumber}, 
             #{bank}, #{accountHolder}, #{transactionNumber}, #{status}, #{createdBy}, 
             #{updatedBy}, #{createdAt}, #{updatedAt}, 'A', #{commissionAmount}, 
             #{tdsAmount}, #{chequeDate})

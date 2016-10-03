@@ -12,6 +12,8 @@ public interface MemberDao {
 	public List<MemberModel> fetchMembersList();
 	
 	public MemberModel fetchMemberById(@Param("memberId") String memberId);
+	
+	public String fetchMemberIdByName(@Param("memberName")String memberName);
 
 	public List<MemberModel> fetchTotalMemberList(@Param("JQTableUtils")JQTableUtils tableUtils);
 

@@ -59,6 +59,16 @@
   		AND member_id=#{memberId}
 	</select>
 	
+	<select id="fetchMemberIdByName" parameterType="String" resultType="String">
+		SELECT member_id
+  		FROM members 
+  		Where record_status = 'A'	
+  		AND member_name=#{memberName}
+  		LIMIT 1
+	</select>
+	
+	
+	
 	<select id="fetchAllMemberList" parameterType="JQTableUtils" resultMap="memberMap">
 		SELECT m.member_id, m.member_name, m.phone1, m.email, m.franchisee_name, m.ref_member_code, m.record_status
   		FROM members m
