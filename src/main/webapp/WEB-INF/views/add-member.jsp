@@ -94,20 +94,40 @@
                       </div>
                       
                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">State</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <select name="state1" id="stateId1" class="selectpicker" data-live-search="true" title="Select State">
+                            <c:forEach items="${stateModel}" var="state" >
+							<option value="${state['stateId']}">${state['stateName']}</option></c:forEach>
+                          </select>
+                          <form:errors path="state1" class="errorMessage" />
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">City</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <select id="cityId1" name="city1" class="selectpicker" data-live-search="true" title="Select City">
+                          </select>
+                          <form:errors path="city1" class="errorMessage" />
+                        </div>
+                      </div>
+                      
+                      <%-- <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">City</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                         	<form:input path="city1" class="form-control" placeholder="Enter City" />
                         	<form:errors path="city1" style="color: #ff0000;" />
                         </div>
-                      </div>
+                      </div> --%>
                       
-                      <div class="form-group">
+                      <%-- <div class="form-group">
                       	<label class="control-label col-md-3 col-sm-3 col-xs-12">State</label>
                       	<div class="col-md-3 col-sm-3 col-xs-12">
                       		<form:input path="state1" class="form-control" placeholder="Enter State" />
                       		<form:errors path="state1" style="color: #ff0000;" />
                       	</div>
-                      </div>
+                      </div> --%>
                       
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Pincode</label>
@@ -128,21 +148,41 @@
                         </div>
                       </div>
                       
-                      <div class="form-group">
+                      <%-- <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">City</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                         	<form:input path="city2" class="form-control" placeholder="Enter City" />
                         	<form:errors path="city2" style="color: #ff0000;" />
                         </div>
+                      </div> --%>
+                      
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">State</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <select name="state2" id="stateId2" class="selectpicker" data-live-search="true" title="Select State">
+                            <c:forEach items="${stateModel}" var="state" >
+							<option value="${state['stateId']}">${state['stateName']}</option></c:forEach>
+                          </select>
+                          <form:errors path="state2" class="errorMessage" />
+                        </div>
                       </div>
                       
                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">City</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <select id="cityId2" name="city2" class="selectpicker" data-live-search="true" title="Select City">
+                          </select>
+                          <form:errors path="city2" class="errorMessage" />
+                        </div>
+                      </div>
+                      
+                      <%-- <div class="form-group">
                       	<label class="control-label col-md-3 col-sm-3 col-xs-12">State</label>
                       	<div class="col-md-3 col-sm-3 col-xs-12">
                       		<form:input path="state2" class="form-control" placeholder="Enter State" />
                       		<form:errors path="state2" style="color: #ff0000;" />
                       	</div>
-                      </div>
+                      </div> --%>
                       
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Pincode</label>
@@ -237,14 +277,36 @@
 function handleClick(cb) {
 	  if(cb.checked){
 		  $("#address2").val($("#address1").val());
-		  $("#city2").val($("#city1").val());
-		  $("#state2").val($("#state1").val());
+		  $("#stateId2").val($("#stateId1").val());
+		  $('#stateId2').selectpicker('refresh');
+		  $.ajax({
+	            type: "GET",
+	            url:basePath+"/franchisee/fetch/"+$("#stateId1").val()+".json",
+	            async: false,
+	            success: function (data) {
+	            	$('#cityId2').selectpicker('refresh');
+	            	   $("#cityId2").empty();
+	            	   $("#cityId2").append($("<option> "+                                                 
+	                "</option>").val("NONE").html("Select City"));
+	            	for ( var i in data.cityList) {
+	            		var id = data.cityList[i].cityId;
+	            		var name = data.cityList[i].cityName;
+	            		  $("#cityId2").append($("<option> "+                                                 
+	                       "</option>").val(id).html(name));
+	            	}
+	            	$('#cityId2').selectpicker('refresh');
+	            }
+		  });
+		  $("#cityId2").val($("#cityId1").val());
+		  $('#cityId2').selectpicker('refresh');
 		  $("#pincode2").val($("#pincode1").val());
 	  }
 	  else {
 		  $("#address2").val("");
-		  $("#city2").val("");
-		  $("#state2").val("");
+		  $("#stateId2").val("");
+		  $('#stateId2').selectpicker('refresh');
+		  $("#cityId2").empty();
+		  $('#cityId2').selectpicker('refresh');
 		  $("#pincode2").val("");
 	  }
 	}
@@ -257,5 +319,47 @@ $( function() {
 		yearRange: "-100:+0"
 	});	
   } );
+$("#stateId1").change(function() {
+	var stateId=$("#stateId1").val();
+	  $.ajax({
+            type: "GET",
+            url:basePath+"/franchisee/fetch/"+stateId+".json",
+            async: false,
+            success: function (data) {
+            	$('#cityId1').selectpicker('refresh');
+            	   $("#cityId1").empty();
+            	   $("#cityId1").append($("<option> "+                                                 
+                "</option>").val("NONE").html("Select City"));
+            	for ( var i in data.cityList) {
+            		var id = data.cityList[i].cityId;
+            		var name = data.cityList[i].cityName;
+            		  $("#cityId1").append($("<option> "+                                                 
+                       "</option>").val(id).html(name));
+            	}
+            	$('#cityId1').selectpicker('refresh');
+            }
+	  });
+  });
+$("#stateId2").change(function() {
+	var stateId=$("#stateId2").val();
+	  $.ajax({
+            type: "GET",
+            url:basePath+"/franchisee/fetch/"+stateId+".json",
+            async: false,
+            success: function (data) {
+            	$('#cityId2').selectpicker('refresh');
+            	   $("#cityId2").empty();
+            	   $("#cityId2").append($("<option> "+                                                 
+                "</option>").val("NONE").html("Select City"));
+            	for ( var i in data.cityList) {
+            		var id = data.cityList[i].cityId;
+            		var name = data.cityList[i].cityName;
+            		  $("#cityId2").append($("<option> "+                                                 
+                       "</option>").val(id).html(name));
+            	}
+            	$('#cityId2').selectpicker('refresh');
+            }
+	  });
+  });
 </script>
 </html>

@@ -138,4 +138,9 @@
 				AND record_status = 'A'
 	</update>
 	
+	<select id="fetchCityFromStateId" parameterType="String" resultMap="CityMap">
+		select city_id, city_name from cities 
+		where state_id = #{stateId} AND
+		record_status = 'A'
+	</select>
 </mapper> 

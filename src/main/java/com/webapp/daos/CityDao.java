@@ -26,5 +26,7 @@ public interface CityDao {
 	void editCity(CityModel cityModel);
 	
 	int deleteCityById(CityModel cityModel);
+
+	List<CityDto> fetchCityFromStateId(@Param("stateId") String stateId);
 	
 }

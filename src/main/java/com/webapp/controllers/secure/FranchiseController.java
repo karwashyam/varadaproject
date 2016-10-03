@@ -1,6 +1,7 @@
 package com.webapp.controllers.secure;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -21,23 +22,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fnf.utils.DateUtils;
-import com.fnf.utils.EncryptionUtils;
 import com.fnf.utils.JQTableUtils;
 import com.webapp.controllers.BusinessController;
 import com.webapp.controllers.DataTablesTO;
 import com.webapp.dbsession.DbSession;
-import com.webapp.dto.EmployeeDto;
+import com.webapp.dto.CityDto;
 import com.webapp.dto.FranchiseDto;
 import com.webapp.models.CityModel;
-import com.webapp.models.EmployeeModel;
 import com.webapp.models.FranchiseModel;
 import com.webapp.models.State;
 import com.webapp.services.CityService;
-import com.webapp.services.EmployeeService;
 import com.webapp.services.FranchiseService;
 import com.webapp.services.StateSerivce;
-import com.webapp.validator.EmployeeValidator;
 import com.webapp.validator.FranchiseValidator;
 
 @Controller
@@ -53,6 +49,12 @@ public class FranchiseController extends BusinessController{
 
 	@Autowired
 	private FranchiseService franchiseService;
+	
+	@Autowired
+	private StateSerivce stateService;
+	
+	@Autowired
+	private CityService cityService;
 		
 	@Autowired
 	private FranchiseValidator franchiseValidator;
@@ -114,6 +116,8 @@ public class FranchiseController extends BusinessController{
 		}
 		FranchiseModel employeeModel= new FranchiseModel();
 		model.addAttribute("franchiseModel",employeeModel);
+		List<State> stateList = stateService.fetchAllStateList();
+		model.addAttribute("stateModel", stateList);
 		return "add-franchisee";
 	}
 	
@@ -129,6 +133,8 @@ public class FranchiseController extends BusinessController{
 		
 		if (result.hasErrors()) {
 			model.addAttribute("franchiseModel",franchiseModel);
+			List<State> stateList = stateService.fetchAllStateList();
+			model.addAttribute("stateModel", stateList);
 			return "add-franchisee";
 		}
 		DbSession dbSession = DbSession.getSession(req, res, sessionService, sessionCookieName, false);
@@ -143,6 +149,11 @@ public class FranchiseController extends BusinessController{
 		return pageRedirect("/franchisee");
 	}
 	
+	@RequestMapping(value = "/fetch/{stateId}", produces = "application/json")
+	public @ResponseBody HashMap<String, Object> fetchCityFromStateId(@PathVariable("stateId") String stateId, HttpServletRequest req, HttpServletResponse res) {
+		return cityService.fetchCityFromStateId(stateId);
+	}
+	
 	@RequestMapping(value = "/edit-franchisee/{franchiseeId}", method = RequestMethod.GET)
 	public String editEmployee(Model model, @PathVariable("franchiseeId") String franchiseeId, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -152,8 +163,13 @@ public class FranchiseController extends BusinessController{
 			String url ="/login.do";
 			return "redirect:" + url;
 		}
-
 		FranchiseModel franchiseeModel = franchiseService.fetchFranchiseDetail(franchiseeId);
+		List<State> stateList = stateService.fetchAllStateList();
+		model.addAttribute("stateModel", stateList);
+		model.addAttribute("stateId",franchiseeModel.getState());
+		model.addAttribute("cityId", franchiseeModel.getCity());
+		List<CityDto> cityDto =  cityService.fetchCityListFromStateId(franchiseeModel.getState());
+		model.addAttribute("cityModel",cityDto);
 		model.addAttribute("franchiseModel", franchiseeModel);
 		return "/edit-franchisee";
 	}
@@ -168,6 +184,12 @@ public class FranchiseController extends BusinessController{
 			return "redirect:" + url;
 		}
 		if (result.hasErrors()) {
+			List<State> stateList = stateService.fetchAllStateList();
+			model.addAttribute("stateModel", stateList);
+			model.addAttribute("stateId",franchiseModel.getState());
+			model.addAttribute("cityId", franchiseModel.getCity());
+			List<CityDto> cityDto =  cityService.fetchCityListFromStateId(franchiseModel.getState());
+			model.addAttribute("cityModel",cityDto);
 			model.addAttribute("franchiseModel",franchiseModel);
 			return "edit-franchisee";
 		}
