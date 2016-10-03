@@ -35,7 +35,7 @@
                       </li>
 
                     </ul>
-                   
+                   <!-- 
                              <div class="clearfix"></div>
                              
                               <div class="form-group">
@@ -59,11 +59,11 @@
 								</span>
 								</div>
 							</div>
-						</div>
+						</div> -->
   <div class="clearfix"></div>
 						<div class="form-group">
 							<div class="col-md-3 col-sm-9 col-xs-3 col-md-offset-3">
-								<button type="button" name="btnReport" id="btnReport" class="btn btn-success">Search</button>
+<!-- 								<button type="button" name="btnReport" id="btnReport" class="btn btn-success">Search</button> -->
 						
 														<button type="button" name="btnExport" id="btnExport" class="btn btn-success">Export</button>
 						

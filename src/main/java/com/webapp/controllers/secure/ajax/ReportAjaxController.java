@@ -51,7 +51,6 @@ public class ReportAjaxController extends BusinessApiController {
 	@RequestMapping(value = "/monthly/bookings", method = RequestMethod.GET)
 	public @ResponseBody ModelAndView getLineChartDataMonthly(@RequestParam("year") String year, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		
-		System.out.println("\n\t\t book--year----------"+year);
 
 		Map<String, Object> outputMap = new HashMap<String, Object>();
 
@@ -80,7 +79,6 @@ public class ReportAjaxController extends BusinessApiController {
 		Map<String,Object> newRequestMap = new HashMap<String,Object>();
 		newRequestMap.put("startDate", startDate);
 		newRequestMap.put("endDate", endDate);
-		System.out.println("\n\n\n\t startDate=="+startDate+"\t\t endDate=="+endDate);
 
 		
 		newRequestMap.put("recordStatus", ProjectConstant.ACTIVE_RECORD_STATUS);
@@ -88,16 +86,13 @@ public class ReportAjaxController extends BusinessApiController {
 
 		List<BookingModel> musicModelList= bookingService.fetchBookingListByCurrentYear(newRequestMap);
 		long musicCount [];
-			System.out.println("musicModelList=="+musicModelList.size());
 		if(musicModelList.size()>0) {
-			System.out.println("musicModelList.get(musicModelList.size()-1).getMonth()=="+musicModelList.get(musicModelList.size()-1).getMonth());
 
 			int musicSize=(musicModelList.get(musicModelList.size()-1).getMonth());
 			musicCount=new long [musicSize];
 
 			for(BookingModel musicModel: musicModelList) {
 				
-				System.out.println("\t musicModel.getMonth-1=====>"+((musicModel.getMonth())-1));
 				musicCount[(musicModel.getMonth())-1]=musicModel.getBookingCount();
 			}
 		}else {
@@ -116,7 +111,6 @@ public class ReportAjaxController extends BusinessApiController {
 	@RequestMapping(value = "/monthly/canbookings", method = RequestMethod.GET)
 	public @ResponseBody ModelAndView getCancelledLineChartDataMonthly(@RequestParam("year") String year, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		
-		System.out.println("\n\t\t book--year----------"+year);
 
 		Map<String, Object> outputMap = new HashMap<String, Object>();
 
@@ -145,7 +139,6 @@ public class ReportAjaxController extends BusinessApiController {
 		Map<String,Object> newRequestMap = new HashMap<String,Object>();
 		newRequestMap.put("startDate", startDate);
 		newRequestMap.put("endDate", endDate);
-		System.out.println("\n\n\n\t startDate=="+startDate+"\t\t endDate=="+endDate);
 
 		
 		newRequestMap.put("recordStatus", "D");
@@ -153,16 +146,13 @@ public class ReportAjaxController extends BusinessApiController {
 
 		List<BookingModel> musicModelList= bookingService.fetchBookingListByCurrentYear(newRequestMap);
 		long musicCount [];
-			System.out.println("musicModelList=="+musicModelList.size());
 		if(musicModelList.size()>0) {
-			System.out.println("musicModelList.get(musicModelList.size()-1).getMonth()=="+musicModelList.get(musicModelList.size()-1).getMonth());
 
 			int musicSize=(musicModelList.get(musicModelList.size()-1).getMonth());
 			musicCount=new long [musicSize];
 
 			for(BookingModel musicModel: musicModelList) {
 				
-				System.out.println("\t musicModel.getMonth-1=====>"+((musicModel.getMonth())-1));
 				musicCount[(musicModel.getMonth())-1]=musicModel.getBookingCount();
 			}
 		}else {
@@ -189,7 +179,6 @@ public class ReportAjaxController extends BusinessApiController {
 		Map<String,Object> inputMap=new HashMap<String, Object>();
 		inputMap.put("recordStatus", "A");
 		
-		System.out.println("\n\t ====reprtType=>"+reportType+"\t -sdate=>"+startDate);
 		
 		if("2".equals(reportType)){
 			inputMap.put("recordStatus", "C");
@@ -244,7 +233,8 @@ public class ReportAjaxController extends BusinessApiController {
 	
 	
 	@RequestMapping(value = "/unbookeddata", produces = "application/json")
-	public @ResponseBody DataTablesTO<Map<String, Object>> unbookingReport(@QueryParam("startDate") String startDate,@QueryParam("endDate") String endDate,
+	public @ResponseBody DataTablesTO<Map<String, Object>> unbookingReport(
+//			@QueryParam("startDate") String startDate,@QueryParam("endDate") String endDate,
 			@RequestParam int iDisplayStart,
             @RequestParam int iDisplayLength,
             @RequestParam int sEcho,
@@ -257,11 +247,11 @@ public class ReportAjaxController extends BusinessApiController {
 		
 		
 		long sDate=0l,eDate=0l;
-		if(!endDate.equals("")){
+	/*	if(!endDate.equals("")){
 			sDate=DateUtils.getMilesecFromDateStr(startDate, DateUtils.SiMPLE_DATE_FORMAT, DateUtils.GMT);
 			eDate=DateUtils.getMilesecFromDateStr(endDate, DateUtils.SiMPLE_DATE_FORMAT, DateUtils.GMT);
 			
-		}
+		}*/
 		inputMap.put("startDate",sDate);
 		inputMap.put("endDate", eDate);
 

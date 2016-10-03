@@ -27,7 +27,8 @@ jQuery(document).ready(function() {
 	var startDate=$("#startDate").val();
  	var endDate=$("#endDate").val();
 //	var reportType=$("#reportType").val();
-	 
+    bookingReportDetails();
+
 	 $("#btnReport").click(function(event){
 		 	  $('.nav-tabs li').removeClass('active'); // remove active class from tabs
 		       $(this).addClass('active');
@@ -102,7 +103,7 @@ function bookingReportDetails() {
 		"bFilter" : true,
 		"oLanguage": {"sSearch": ""},
 		"bLengthChange": false,
-		"sAjaxSource" : basePath+"/report/ajax/unbookeddata.json?startDate="+startDate+"&endDate="+endDate,
+		"sAjaxSource" : basePath+"/report/ajax/unbookeddata.json",//?startDate="+startDate+"&endDate="+endDate,
 		
 		"aoColumns" : [
 		               

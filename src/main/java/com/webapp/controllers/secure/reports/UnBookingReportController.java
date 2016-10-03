@@ -37,7 +37,6 @@ public class UnBookingReportController extends BusinessController{
 	@RequestMapping(value="/unbooking", method = RequestMethod.GET)
 	public String unbookingReport(Model model, HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		preprocessRequest(model, req, res);
-		System.out.println("\n\t\t bookingdata------------");
 		if (!DbSession.isValidLogin(getDbSession(), sessionService)) {
 			String url = "/login.do";
 			return "redirect:" + url;
